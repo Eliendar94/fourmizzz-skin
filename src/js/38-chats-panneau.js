@@ -30,9 +30,7 @@
       if (!m) return;
       const [r, g, b] = m.map(Number);
       if ((0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 >= 0.5) return;
-      const R = r / 255, G = g / 255, B = b / 255, mx = Math.max(R, G, B), mn = Math.min(R, G, B), d = mx - mn;
-      let h = 0, l = (mx + mn) / 2, sat = d ? d / (1 - Math.abs(2 * l - 1)) : 0;
-      if (d) { h = mx === R ? ((G - B) / d) % 6 : mx === G ? (B - R) / d + 2 : (R - G) / d + 4; h *= 60; if (h < 0) h += 360; }
+      const [h, sat, l] = rgbToHsl(r, g, b);
       e.style.setProperty('color', `hsl(${Math.round(h)},${Math.round(Math.min(sat, 1) * 100)}%,${Math.round(Math.max(l, .72) * 100)}%)`, 'important');
     });
   }

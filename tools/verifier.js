@@ -7,6 +7,8 @@
 //   5. (option) comparaison octet par octet avec une version de référence : node tools/verifier.js --ref <fichier.user.js>
 //   6. (option, si Playwright est installé) rendu identique sur les pages de test de tools/fixtures/ :
 //      node tools/verifier.js --ref <fichier.user.js> --rendu
+//      v1.62 : comparé à trois largeurs (1200, 800 et 390 px) : capture, DOM (texte des <style> mis à part, puisque le CSS
+//      livré est allégé) et styles calculés de chaque élément (::before / ::after compris). LARGEURS=1200,390 pour choisir.
 'use strict';
 const fs = require('fs');
 const path = require('path');
@@ -63,7 +65,8 @@ if (refPath) {
   else {
     let i = 0; while (refC[i] === embC[i]) i++;
     const line = refH.split('\n').length + refC.slice(0, i).split('\n').length - 1;
-    ko(`code différent à partir de la ligne ${line} (taille réf. ${refC.length}, construit ${embC.length})`);
+    // v1.62 : une refonte change le code ; c'est alors le rendu (--rendu) qui doit rester identique
+    (args.includes('--rendu') ? ok : ko)(`code différent à partir de la ligne ${line} (taille réf. ${refC.length}, construit ${embC.length})${args.includes('--rendu') ? ' : rendu comparé ci-dessous' : ''}`);
   }
   const a = refH.split('\n'), b = embH.split('\n');
   const hd = [...b.filter((l) => !a.includes(l)).map((l) => '+ ' + l), ...a.filter((l) => !b.includes(l)).map((l) => '- ' + l)];
@@ -83,12 +86,13 @@ if (refPath) {
       const variants = [['embarqué', embed], ['@resource', leger]];
       if (refPath) variants.unshift(['référence', fs.readFileSync(refPath, 'utf8')]);
       const browser = await chromium.launch();
-      const fx = path.join(__dirname, 'fixtures');
-      for (const page of fs.readdirSync(fx).filter((f) => f.endsWith('.html'))) {
+      const fx = process.env.FIXTURES || path.join(__dirname, 'fixtures');
+      const widths = (process.env.LARGEURS || '1200,800,390').split(',').map(Number);
+      for (const page of fs.readdirSync(fx).filter((f) => f.endsWith('.html'))) for (const width of widths) {
         const url = 'https://s1.fourmizzz.fr/' + page.replace(/\.html$/, '');
         const shots = [];
         for (const [name, code] of variants) {
-          const ctx = await browser.newContext({ viewport: { width: 1200, height: 900 } });
+          const ctx = await browser.newContext({ viewport: { width, height: 900 } });
           await ctx.route('**/*', (r) => r.request().url() === url ? r.fulfill({ contentType: 'text/html', body: fs.readFileSync(path.join(fx, page)) }) : r.abort());
           await ctx.addInitScript(({ assets }) => {
             window.GM_getValue = (k, d) => d; window.GM_setValue = () => {};
@@ -99,16 +103,33 @@ if (refPath) {
           await ctx.addInitScript({ content: `(() => { const run = () => { ${code}\n}; if (document.documentElement) run(); else new MutationObserver((m, o) => { if (document.documentElement) { o.disconnect(); run(); } }).observe(document, { childList: true }); })();` });
           const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message));
           await p.goto(url); await p.waitForTimeout(2500);
-          if (process.env.CAPTURES) { fs.mkdirSync(process.env.CAPTURES, { recursive: true }); await p.screenshot({ fullPage: true, path: path.join(process.env.CAPTURES, `${page}.${name.replace(/\W/g, '')}.png`) }); }
+          if (process.env.CAPTURES) { fs.mkdirSync(process.env.CAPTURES, { recursive: true }); await p.screenshot({ fullPage: true, path: path.join(process.env.CAPTURES, `${page}.${width}.${name.replace(/\W/g, '')}.png`) }); }
           if (errs.length) ko(`${page} (${name}) : erreur JS « ${errs[0]} »`);
-          shots.push([name, await p.evaluate(() => document.documentElement.outerHTML), await p.screenshot({ fullPage: true })]);
+          const etat = await p.evaluate(() => {
+            const html = document.documentElement.cloneNode(true);
+            html.querySelectorAll('style').forEach((s) => { s.textContent = ''; });
+            const st = [];
+            for (const el of document.querySelectorAll('*')) for (const ps of [null, '::before', '::after']) {
+              // l'ordre des propriétés personnalisées (--fz-…) dépend du moment où le script les pose : on trie
+              const cs = getComputedStyle(el, ps), t = [];
+              for (let i = 0; i < cs.length; i++) t.push(cs[i] + ':' + cs.getPropertyValue(cs[i]));
+              st.push(t.sort().join(';'));
+            }
+            return html.outerHTML + '\n' + st.join('\n');
+          });
+          shots.push([name, etat, await p.screenshot({ fullPage: true })]);
           await ctx.close();
         }
         const [n0, h0, s0] = shots[0];
-        const diff = shots.slice(1).filter(([, h, s]) => h !== h0 || !s.equals(s0)).map(([n]) => n);
+        const diff = shots.slice(1).filter(([, h, s]) => h !== h0 || !s.equals(s0)).map(([n, h, s]) => {
+          if (h === h0) return n + ' : capture';
+          const a = h0.split('\n'), b = h.split('\n'); const k = a.findIndex((l, i) => l !== b[i]);
+          if (process.env.DEBUG) { const x = a[k].split(';'), y = b[k].split(';'); console.log('élément', k, x.filter((v, i) => v !== y[i]).slice(0, 5), y.filter((v, i) => v !== x[i]).slice(0, 5)); }
+          return `${n} : ${k === 0 ? 'DOM' : 'styles'}${s.equals(s0) ? '' : ' + capture'}`;
+        });
         const touched = /fz-/.test(h0);
         if (!touched) ko(`${page} : le skin ne s'est pas appliqué`);
-        else diff.length ? ko(`${page} : rendu différent (${diff.join(', ')} ≠ ${n0})`) : ok(`${page} : DOM et capture identiques (${shots.map(([n]) => n).join(' = ')})`);
+        else diff.length ? ko(`${page} à ${width} px : rendu différent (${diff.join(', ')} ≠ ${n0})`) : ok(`${page} à ${width} px : DOM, styles et capture identiques (${shots.map(([n]) => n).join(' = ')})`);
       }
       await browser.close();
     }
