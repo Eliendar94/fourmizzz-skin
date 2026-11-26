@@ -1,0 +1,4 @@
+/* v1.12 : page Reine, nom des unités à pondre : ouvrière en jaune orangé, unités militaires en rouge */
+html body #centre tr.ligneAmelioration.fz-u-ouv h2{color:#ffb020!important;text-shadow:0 0 calc(8px*var(--fz-glow)) rgba(255,176,32,.7)!important;}
+html body #centre tr.ligneAmelioration.fz-u-mil h2{color:#ff4d5e!important;text-shadow:0 0 calc(8px*var(--fz-glow)) rgba(255,77,94,.7)!important;}
+/* v1.13 : bouton de destination de ponte : TdC rouge, Dôme jaune orangé, Loge vert */

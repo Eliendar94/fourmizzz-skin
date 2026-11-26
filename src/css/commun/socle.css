@@ -1,0 +1,28 @@
+html,body{background:var(--fz-bg)!important;}
+body,#centre,#centre td,#centre th,#centre p,#centre span,#centre div{font-family:var(--fz-font)!important;}
+/* Décors latéraux assombris */
+#gauche,#droite{filter:brightness(var(--fz-side-dim)) saturate(.7);}
+/* Zone centrale */
+#centre{color:var(--fz-text)!important;}
+#centre h2,#centre h3,#centre h4{color:var(--fz-accent)!important;letter-spacing:.03em;}
+#centre a{color:var(--fz-link)!important;}
+#centre a:hover{color:var(--fz-accent)!important;}
+/* Menu du haut */
+#menu{background:var(--fz-panel2)!important;border-bottom:2px solid var(--fz-accent);border-radius:0 0 var(--fz-radius) var(--fz-radius);}
+#menu a{color:var(--fz-text)!important;}
+#menu a:hover{color:var(--fz-accent)!important;}
+/* Blocs d'unités / bâtiments / recherches */
+.ligneAmelioration{background:var(--fz-panel)!important;color:var(--fz-text)!important;border:1px solid var(--fz-border)!important;border-radius:var(--fz-radius);box-shadow:0 2px 8px rgba(0,0,0,.35);}
+.ligneAmelioration td,.ligneAmelioration div{color:var(--fz-text)!important;}
+.photo_unite img{border-radius:8px;}
+.separateur{border-color:var(--fz-border)!important;background:transparent!important;}
+.verificationNonOK,.verificationNonOK *{color:var(--fz-danger)!important;}
+.verificationOK,.verificationOK *{color:var(--fz-link)!important;}
+/* Tableaux */
+#centre table{color:var(--fz-text)!important;border-color:var(--fz-border)!important;}
+#centre table.tableau_leger,#centre table.tab_stat{background:var(--fz-panel)!important;border-radius:var(--fz-radius);}
+#centre th{background:var(--fz-panel2)!important;color:var(--fz-accent)!important;}
+#centre tr:nth-child(even) td{background:rgba(255,255,255,.03);}
+/* Boîtes de gauche (compte, infos) */
+#boiteInfo,#boiteComptePlus,#data{border-radius:var(--fz-radius);}
+#boiteInfo,#boiteComptePlus{background:rgba(22,24,26,.85)!important;border:1px solid var(--fz-border);}

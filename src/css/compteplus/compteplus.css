@@ -1,0 +1,22 @@
+/* v0.99 : page Compte+ */
+/* le jeu y ajoute un second <div id="menu"> vide sous <body> : avec les règles #menu du skin il passait par-dessus la barre de navigation et bloquait les clics */
+body > div#menu{display:none!important;}
+#centre:has(#paiementBlock) > div:not([id]):has(> p > strong){background:linear-gradient(135deg,rgba(14,30,52,.85),rgba(8,14,28,.92))!important;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;border-radius:0!important;box-shadow:0 0 calc(18px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 18%,transparent),inset 0 0 calc(22px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 6%,transparent)!important;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));padding:12px 22px 14px!important;margin:8px 0 16px!important;box-sizing:border-box;}
+#centre:has(#paiementBlock) > div:not([id]):has(> p > strong) > p:first-of-type strong{color:var(--fz-accent)!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:14px;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 0 calc(8px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 60%,transparent);}
+#centre:has(#paiementBlock) > div:not([id]):has(> p > strong) > p:nth-of-type(2) strong{color:#fff!important;}
+#centre:has(#paiementBlock) > div:not([id]):has(> p > strong) > div{line-height:1.65!important;color:var(--fz-text)!important;padding-left:6px;border-left:2px solid color-mix(in srgb,var(--fz-accent) 35%,transparent);}
+#centre #paiementBlock{background:linear-gradient(135deg,rgba(14,30,52,.85),rgba(8,14,28,.92))!important;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;border-radius:0!important;box-shadow:0 0 calc(18px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 18%,transparent),inset 0 0 calc(22px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 6%,transparent)!important;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));padding:12px 20px 18px!important;margin:0 0 14px!important;box-sizing:border-box;}
+#centre #paiementBlock > h1{color:#ffd25a!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:20px!important;text-transform:uppercase;letter-spacing:.1em;text-align:center!important;margin:4px 0 14px!important;text-shadow:0 0 calc(10px*var(--fz-glow)) rgba(255,170,40,.6)!important;}
+#centre #paiementBlock #acceptationCgv{margin:0 auto 16px!important;padding:8px 14px;background:color-mix(in srgb,var(--fz-accent) 6%,transparent);border:1px solid color-mix(in srgb,var(--fz-accent) 22%,transparent);box-sizing:border-box;}
+#centre #paiementBlock #acceptationCgv input[type=checkbox]{accent-color:var(--fz-accent);vertical-align:middle;margin-right:6px;}
+#centre #containerPaiement{display:flex!important;justify-content:center;gap:18px;flex-wrap:wrap;}
+#centre #containerPaiement .priceItem{float:none!important;width:245px!important;padding:12px 10px 14px!important;box-sizing:border-box;background:color-mix(in srgb,var(--fz-accent) 7%,transparent)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);text-align:center;transition:background .15s;}
+#centre #containerPaiement .priceItem:hover{background:color-mix(in srgb,var(--fz-accent) 14%,transparent)!important;}
+#centre #containerPaiement .priceItem .title{color:var(--fz-accent)!important;font-weight:700;margin:0 0 6px!important;}
+#centre #containerPaiement .priceItem .price{color:#fff!important;font-size:18px!important;font-weight:700;margin:0 0 2px!important;}
+#centre #containerPaiement .priceItem .globalPrice{color:#7f97ad!important;margin:0 0 10px!important;}
+/* v1.00 : affiche de propagande Compte+ à droite du premier panneau (clic = descend vers l'achat) */
+#centre:has(#paiementBlock) > div:not([id]):has(> p > strong){display:flow-root;}
+#centre .fz-poster{float:right;width:230px;margin:2px 0 10px 22px;cursor:pointer;border:1px solid color-mix(in srgb,var(--fz-accent) 55%,transparent);box-shadow:0 0 calc(16px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 45%,transparent),0 6px 14px rgba(0,0,0,.55);transform:rotate(1.2deg);transition:transform .25s,box-shadow .25s;}
+#centre .fz-poster img{display:block;width:100%;height:auto;}
+#centre .fz-poster:hover{transform:rotate(0) scale(1.03);box-shadow:0 0 calc(26px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 70%,transparent),0 8px 18px rgba(0,0,0,.6);}

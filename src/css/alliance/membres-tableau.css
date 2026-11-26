@@ -1,0 +1,15 @@
+#centre #tabMembresAlliance tr:nth-child(even) > td{background:color-mix(in srgb,var(--fz-accent) 6%,transparent)!important;}
+#centre #tabMembresAlliance tr:hover > td{background:color-mix(in srgb,var(--fz-accent) 12%,transparent)!important;}
+#centre #tabMembresAlliance td.fmz-mem-arr.up{color:#4ade80!important;}
+#centre #tabMembresAlliance td.fmz-mem-arr.down{color:#ff5a5a!important;}
+#centre #tabMembresAlliance td.fz-traj{white-space:nowrap;font-variant-numeric:tabular-nums;}
+#centre #tabMembresAlliance td.fz-atk-src,#centre #tabMembresAlliance td.fz-def-src{width:0!important;padding:0!important;}
+#centre #tabMembresAlliance tr > td:nth-child(9){text-align:center!important;white-space:nowrap;padding:0 4px!important;}
+#centre #tabMembresAlliance img.fz-def,#centre #tabMembresAlliance a.fz-atk{float:none!important;display:inline-block!important;width:18px;vertical-align:middle;margin:0!important;}
+#centre #tabMembresAlliance .fz-tdcv{display:inline-block;width:72px;text-align:center;vertical-align:middle;}
+#centre #tabMembresAlliance tr > td:nth-child(9):not(:has(img.fz-def))::before,#centre #tabMembresAlliance tr > td:nth-child(9):not(:has(a.fz-atk))::after{content:"";display:inline-block;width:18px;}
+#centre #tabMembresAlliance tr > td:nth-child(9){white-space:nowrap;}
+#centre #tabMembresAlliance tr:first-child th,#centre #tabMembresAlliance tr:first-child th *{color:var(--fz-accent)!important;font-family:"Exo 2","Segoe UI",sans-serif!important;font-variant:normal!important;font-size:12.5px!important;font-weight:700!important;letter-spacing:.03em!important;text-decoration:none!important;white-space:nowrap;}
+#centre #tabMembresAlliance tr:first-child th{background:color-mix(in srgb,var(--fz-accent) 16%,transparent)!important;border-top:1px solid color-mix(in srgb,var(--fz-accent) 60%,transparent)!important;border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 60%,transparent)!important;padding:6px!important;}
+#centre #tabMembresAlliance tr:first-child th a:hover{color:#fff!important;}
+#centre:has(#tabMembresAlliance) table.ligne_paire{display:none!important;} /* légende des états en haut à droite */

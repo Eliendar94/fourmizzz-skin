@@ -1,0 +1,6 @@
+/* File de ponte (Reine) : titre et tableau centrés, espacés */
+#centre > h4:has(+ table.tableau_leger){text-align:center!important;margin:14px 0 10px!important;display:block!important;}
+#centre > h4 + table.tableau_leger{margin:0 auto 16px!important;}
+#centre > h4 + table.tableau_leger{border:1px solid color-mix(in srgb,var(--fz-accent) 70%,transparent)!important;box-shadow:0 0 calc(10px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;}
+#centre > h4 + table.tableau_leger :is(td,th){border:1px solid color-mix(in srgb,var(--fz-accent) 45%,transparent)!important;padding:3px 10px!important;}
+#centre > h4 + table.tableau_leger tr:first-child td{border-bottom-color:color-mix(in srgb,var(--fz-accent) 80%,transparent)!important;color:var(--fz-accent)!important;}

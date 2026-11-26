@@ -1,0 +1,6 @@
+
+#centre .boite_amelioration img{vertical-align:middle!important;}
+#centre .boite_amelioration img[src*="icone_pomme."],#centre .boite_amelioration img[src*="icone_bois."]{position:relative;top:-1px;margin:0 3px;}
+#centre #boite_ouvriere table table td{vertical-align:middle!important;padding:3px 4px!important;}
+#centre #boite_ouvriere input[type=radio]{vertical-align:middle!important;margin:0 2px 0 6px!important;}
+#centre #boite_ouvriere img[src*="favicon."]{width:18px!important;height:18px!important;margin:0 3px!important;position:relative;top:-1px;object-fit:contain;}

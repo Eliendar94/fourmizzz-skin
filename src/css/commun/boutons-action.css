@@ -1,0 +1,22 @@
+/* Boutons d'action « proxy » (v0.89-0.90) : même style métallisé, déclenchent le bouton d'origine du jeu (caché)
+   Convoi = bleu, Attaquer = rouge, Lancer les floods (OptiFlood) = vert (couleur de base) */
+#centre .fz-build-wrap.fz-act-wrap{display:inline-block;min-width:240px;margin:6px 0 2px;vertical-align:middle;}
+#centre .fz-build-wrap.fz-act-wrap > a.fz-build-btn{white-space:nowrap;line-height:normal!important;}
+#centre .fz-build-wrap.fz-convoi-wrap:not(.fz-off){filter:drop-shadow(0 0 calc(6px*var(--fz-glow)) rgba(56,140,255,.6));}
+#centre a.fz-build-btn.fz-convoi{background:linear-gradient(180deg,#5aa8ff 0%,#2a6fe0 55%,#1747a8 100%)!important;border-color:#9cc9ff!important;color:#eef6ff!important;text-shadow:0 0 calc(5px*var(--fz-glow)) rgba(190,220,255,.8)!important;}
+#centre .fz-build-wrap.fz-attack-wrap:not(.fz-off){filter:drop-shadow(0 0 calc(6px*var(--fz-glow)) rgba(255,60,80,.6));}
+#centre a.fz-build-btn.fz-attack{background:linear-gradient(180deg,#ff6b78 0%,#d42a3a 55%,#8e1220 100%)!important;border-color:#ffa3ab!important;color:#fff0f0!important;text-shadow:0 0 calc(5px*var(--fz-glow)) rgba(255,200,205,.8)!important;}
+#centre a.fz-build-btn.fz-disabled{background:linear-gradient(180deg,#3a434d,#232a31)!important;border-color:#56616d!important;color:#8994a0!important;text-shadow:none!important;cursor:not-allowed;}
+#centre a.fz-build-btn.fz-disabled::before{display:none;}
+#centre .fz-build-wrap.fz-hidden{display:none!important;}
+#centre input.fz-hidden-input:not(#fz-none):not(#fz-none2){display:none!important;}
+#centre form td:has(> input.fz-hidden-input){filter:none!important;}
+/* v1.01-1.02 : bouton « Fight ! » des simulateurs → « Simuler combat » (rouge) / « Simuler chasse » (vert) */
+#centre .fz-build-wrap.fz-sim-wrap{min-width:180px;}
+/* v1.02 : combat en rouge (classes fz-attack), chasse en vert (style de base) ; pas de surbrillance de la ligne autour du bouton */
+#centre table.simulateur tr:has(.fz-sim-wrap):hover > td,#centre table.simulateur tr:has(input[type=submit][value^="Fight"]):hover > td{background:transparent!important;}
+/* v1.04 : bouton « Récolter » (page Ressources) : jaune-orangé, plus compact */
+#centre .fz-build-wrap.fz-act-wrap.fz-recolte-wrap{min-width:140px;margin:8px 0 2px;}
+#centre .fz-build-wrap.fz-recolte-wrap:not(.fz-off){filter:drop-shadow(0 0 calc(6px*var(--fz-glow)) rgba(255,180,40,.6));}
+#centre a.fz-build-btn.fz-recolte{padding:6px 14px!important;font-size:11px!important;letter-spacing:.14em!important;background:linear-gradient(180deg,#ffe066 0%,#ffb020 55%,#d97a06 100%)!important;border-color:#fff0a8!important;color:#2a1600!important;text-shadow:0 1px 0 rgba(255,240,200,.55)!important;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)!important;}
+@keyframes fz-sweep{0%{left:-60%}55%,100%{left:130%}}

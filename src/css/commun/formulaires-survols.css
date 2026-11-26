@@ -1,0 +1,16 @@
+/* Champs et boutons */
+#centre input:not([type=image]):not([type=hidden]):not([type=submit]):not([type=button]),#centre select,#centre textarea,#requete{background:var(--fz-panel2)!important;color:var(--fz-text)!important;border:1px solid var(--fz-border)!important;border-radius:6px;}
+#centre input[type=submit],#centre button{background:var(--fz-accent)!important;color:#1b1b1b!important;font-weight:600;cursor:pointer;}
+/* Sliders jQuery UI */
+.ui-slider{background:var(--fz-panel2)!important;border-color:var(--fz-border)!important;}
+.ui-slider-range{background:var(--fz-accent)!important;}
+.ui-slider-handle{background:var(--fz-text)!important;border-radius:50%!important;}
+/* Survols et menus déroulants aux couleurs du skin */
+ul.menu_colonne{background:color-mix(in srgb,var(--fz-panel) 96%,transparent)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 45%,transparent)!important;box-shadow:0 8px 24px rgba(0,0,0,.6),0 0 16px color-mix(in srgb,var(--fz-accent) 25%,transparent)!important;backdrop-filter:blur(6px);}
+ul.menu_colonne li{transition:background .15s,box-shadow .15s;}
+ul.menu_colonne li:hover,.lien_rapide a:hover,#lienPseudo:hover{background:color-mix(in srgb,var(--fz-accent) 18%,transparent)!important;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--fz-accent) 55%,transparent),0 0 10px color-mix(in srgb,var(--fz-accent) 30%,transparent);}
+ul.menu_colonne li:hover a,.lien_rapide a:hover{color:#fff!important;text-shadow:0 0 calc(5px*var(--fz-glow)) var(--fz-accent);}
+.lien:hover,.lien:hover td,tr.lien:hover>td{background:color-mix(in srgb,var(--fz-accent) 16%,transparent)!important;}
+.lien:hover *{color:#fff!important;}
+.cliquable3:hover,.bouton_graphique:hover,.option_gestion:hover,.dossier_messagerie:hover,.td_gestion:hover,.choix_option:hover{background:color-mix(in srgb,var(--fz-accent) 16%,transparent)!important;color:#fff!important;}
+#centre table.tableau_leger tr:hover>td,#centre table.tab_stat tr:hover>td{background:color-mix(in srgb,var(--fz-accent) 8%,transparent);}

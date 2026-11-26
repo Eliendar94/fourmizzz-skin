@@ -1,0 +1,2 @@
+/* v1.25 : page Attaque — la grande case du panneau était prise pour une ligne d'en-tête (fond accent permanent) */
+html body #centre table.simulateur tr.fz-thead > td:has(#formulaireChoixArmee){background:transparent!important;border-top:0!important;border-bottom:0!important;}

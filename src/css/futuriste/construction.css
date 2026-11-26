@@ -1,0 +1,9 @@
+/* Page Construction / Laboratoire */
+#centre .rouge,#centre .rouge *{color:var(--fz-danger)!important;text-shadow:0 0 calc(4px*var(--fz-glow)) color-mix(in srgb,var(--fz-danger) 40%,transparent);}
+#centre .niveau_amelioration{color:var(--fz-muted,#8aa)!important;font-family:"Exo 2",sans-serif!important;text-transform:none!important;letter-spacing:0!important;text-shadow:none!important;}
+#centre .icone_construction,#centre .icone_recherche{filter:hue-rotate(170deg) saturate(1.6) brightness(1.15) drop-shadow(0 0 calc(5px*var(--fz-glow)) var(--fz-accent));}
+#centre .bouton_gris,#centre .bouton_gris .icone_construction{filter:grayscale(1) brightness(.5)!important;}
+#centre > strong{display:inline-block;margin:6px 0;padding:6px 12px;color:var(--fz-accent)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 45%,transparent);background:color-mix(in srgb,var(--fz-accent) 8%,transparent);box-shadow:0 0 12px color-mix(in srgb,var(--fz-accent) 20%,transparent);}
+#centre > small{color:var(--fz-text)!important;opacity:.7;}
+html.fz-has-bg,html.fz-has-bg body{background:linear-gradient(rgba(5,7,13,var(--fz-bg-veil)),rgba(5,7,13,var(--fz-bg-veil))),var(--fz-bg-img) center/cover fixed no-repeat,#05070d!important;}
+

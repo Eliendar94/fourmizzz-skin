@@ -1,0 +1,12 @@
+
+  #fz-skin-btn{position:fixed;left:12px;bottom:12px;z-index:99999;width:38px;height:38px;border-radius:50%;border:none;background:#e0a84a;color:#1b1b1b;font-size:20px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.5)}
+  #fz-skin-panel{position:fixed;left:12px;bottom:60px;z-index:99999;width:260px;padding:14px;border-radius:12px;background:#1e2125;color:#eee;font:13px system-ui,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.6);display:none}
+  #fz-skin-panel h3{margin:0 0 10px;font-size:14px;color:#e0a84a}
+  #fz-skin-panel label{display:flex;justify-content:space-between;align-items:center;margin:5px 0}
+  #fz-skin-panel input[type=color]{width:42px;height:24px;border:none;background:none;padding:0;cursor:pointer}
+  #fz-skin-panel select,#fz-skin-panel input[type=range],#fz-skin-panel input[type=text]{width:130px}
+  #fz-skin-panel input[type=text]{background:#2f343a;color:#eee;border:1px solid #444;border-radius:4px;padding:2px 4px}
+  #fz-skin-panel{max-height:80vh;overflow:auto}
+  #fz-skin-panel .row{display:flex;gap:6px;margin-top:10px}
+  #fz-skin-panel button{flex:1;padding:6px;border:none;border-radius:6px;cursor:pointer;background:#2f343a;color:#eee}
+  #fz-skin-panel button.primary{background:#e0a84a;color:#1b1b1b;font-weight:600}

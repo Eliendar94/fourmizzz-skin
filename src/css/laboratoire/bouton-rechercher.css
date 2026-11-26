@@ -1,0 +1,5 @@
+/* Bouton « Rechercher » (Laboratoire) : même style, en violet */
+#centre .fz-build-wrap.fz-research-wrap:not(.fz-off){filter:drop-shadow(0 0 calc(6px*var(--fz-glow)) rgba(168,85,247,.6));}
+#centre a.fz-build-btn.fz-research{background:linear-gradient(180deg,#b57cff 0%,#8b3fe6 55%,#5f1fb0 100%)!important;border-color:#d8b4ff!important;color:#f6eeff!important;text-shadow:0 0 calc(5px*var(--fz-glow)) rgba(230,210,255,.8)!important;}
+#centre .fz-build-wrap{position:relative;}
+#centre .fz-build-wrap[data-tip]:hover::after{content:attr(data-tip);position:absolute;top:50%;right:calc(100% + 10px);transform:translateY(-50%);z-index:60;white-space:nowrap;padding:6px 10px;font:600 11px "Exo 2","Segoe UI",sans-serif;letter-spacing:.03em;text-transform:none;color:var(--fz-text);background:linear-gradient(160deg,var(--fz-panel),var(--fz-bg));border:1px solid color-mix(in srgb,var(--fz-accent) 55%,transparent);border-left:3px solid var(--fz-danger);box-shadow:0 6px 18px rgba(0,0,0,.6),0 0 12px color-mix(in srgb,var(--fz-accent) 25%,transparent);pointer-events:none;}

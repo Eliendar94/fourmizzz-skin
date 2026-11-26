@@ -1,0 +1,39 @@
+/* Classements (joueurs / alliances) et page Ennemis : alternance des lignes comme dans le jeu */
+#centre table.tab_triable tr > td,#centre #tabEnnemie tr > td{background:transparent!important;}
+#centre table.tab_triable tr.alt > td,#centre #tabEnnemie tr:nth-child(even) > td{background:color-mix(in srgb,var(--fz-accent) 8%,transparent)!important;}
+#centre table.tab_triable tr:hover > td,#centre #tabEnnemie tr:hover > td{background:color-mix(in srgb,var(--fz-accent) 16%,transparent)!important;}
+#centre table.tab_triable tr.monAlliance > td,#centre table.tab_triable tr.monAlliance a{color:#4ade80!important;font-weight:700;}
+#centre table.tab_triable tr[class*="pacte_"] > td,#centre table.tab_triable tr[class*="pacte_"] a{color:#7ab8ff!important;}
+#centre table.tab_triable tr.guerre > td,#centre table.tab_triable tr.guerre a{color:#ff5a5a!important;}
+/* v0.86-0.87 : Classements joueurs / alliances (membres, moi-même, mon alliance) + espace sous le titre */
+
+/* Espace entre le titre de page et le panneau principal (toutes les pages, pour rester cohérent) */
+#centre > h2{margin-bottom:18px!important;}
+
+/* Le tableau .tab_triable est imbriqué dans table.simulateur : la règle
+   "#centre table.simulateur tr:first-child td" (couleur accent) écrasait les couleurs
+   des lignes. On remonte la spécificité avec "table.simulateur table.tab_triable". */
+
+/* Classements : membres de mon alliance = texte vert, fond d'origine (alternance conservée) */
+#centre table.simulateur table.tab_triable tr.monAlliance > td{color:#4ade80!important;font-weight:700;}
+#centre table.simulateur table.tab_triable tr.monAlliance a{color:#4ade80!important;}
+
+/* Ma ligne (tr#ancre posé par le jeu) : moi-même dans le classement joueurs,
+   mon alliance dans le classement alliances -> ligne entière surlignée en vert */
+#centre table.simulateur table.tab_triable tr#ancre > td{
+  color:#4ade80!important;font-weight:700;
+  background:color-mix(in srgb,#4ade80 16%,transparent)!important;
+  border-top:1px solid color-mix(in srgb,#4ade80 60%,transparent)!important;
+  border-bottom:1px solid color-mix(in srgb,#4ade80 60%,transparent)!important;
+  text-shadow:0 0 6px color-mix(in srgb,#4ade80 55%,transparent);
+}
+#centre table.simulateur table.tab_triable tr#ancre > td:first-child{border-left:3px solid #4ade80!important;}
+#centre table.simulateur table.tab_triable tr#ancre > td:last-child{border-right:1px solid color-mix(in srgb,#4ade80 60%,transparent)!important;}
+#centre table.simulateur table.tab_triable tr#ancre:hover > td{background:color-mix(in srgb,#4ade80 26%,transparent)!important;}
+#centre table.simulateur table.tab_triable tr#ancre a{color:#4ade80!important;}
+
+/* Même bug pour les pactes (bleu) et les guerres (rouge) : on rétablit leurs couleurs */
+#centre table.simulateur table.tab_triable tr[class*="pacte_"] > td,
+#centre table.simulateur table.tab_triable tr[class*="pacte_"] a{color:#7ab8ff!important;}
+#centre table.simulateur table.tab_triable tr.guerre > td,
+#centre table.simulateur table.tab_triable tr.guerre a{color:#ff5a5a!important;}

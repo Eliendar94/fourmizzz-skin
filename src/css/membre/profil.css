@@ -1,0 +1,41 @@
+/* v0.93 : Page Membre (profil joueur) : encadrés au style des panneaux du skin */
+#centre .boite_membre{background:linear-gradient(135deg,rgba(14,30,52,.85),rgba(8,14,28,.92))!important;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;border-radius:0!important;box-shadow:0 0 calc(18px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 18%,transparent),inset 0 0 calc(22px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 6%,transparent)!important;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));color:var(--fz-text)!important;margin:0 0 14px!important;padding:10px 16px 14px!important;box-sizing:border-box;}
+#centre .boite_membre > h4{color:var(--fz-accent)!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:14px!important;text-transform:uppercase;letter-spacing:.1em;margin:0 0 10px!important;padding:0 0 6px!important;background:transparent!important;border:none!important;border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 25%,transparent)!important;text-shadow:0 0 calc(8px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 70%,transparent);}
+#centre .boite_membre table,#centre .boite_membre tr,#centre .boite_membre td,#centre .boite_membre th{background:transparent!important;color:var(--fz-text)!important;border-color:color-mix(in srgb,var(--fz-accent) 20%,transparent)!important;}
+#centre .boite_membre td[style*="right"]{color:color-mix(in srgb,var(--fz-text) 65%,transparent)!important;padding-right:8px!important;}
+#centre .boite_membre td{padding-top:2px!important;padding-bottom:2px!important;}
+/* tableau des scores */
+#centre .boite_membre table.tableau_score{border:1px solid color-mix(in srgb,var(--fz-accent) 30%,transparent)!important;border-collapse:collapse!important;}
+#centre .boite_membre table.tableau_score th{background:color-mix(in srgb,var(--fz-accent) 12%,transparent)!important;color:var(--fz-accent)!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:11px!important;text-transform:uppercase;letter-spacing:.06em;padding:4px 10px!important;}
+#centre .boite_membre table.tableau_score td{border-top:1px solid color-mix(in srgb,var(--fz-accent) 12%,transparent)!important;padding:3px 10px!important;font-variant-numeric:tabular-nums;}
+#centre .boite_membre table.tableau_score tr:nth-child(odd):not(:first-child) > td{background:color-mix(in srgb,var(--fz-accent) 6%,transparent)!important;}
+#centre .boite_membre table.tableau_score td:first-child{text-align:left!important;color:color-mix(in srgb,var(--fz-text) 70%,transparent)!important;}
+/* tag d'alliance : orange par défaut (comme les classements), vert pour mon alliance */
+#centre .boite_membre a[href*="classementAlliance"]{color:#e3a15f!important;font-weight:700;}
+#centre .boite_membre a[href*="classementAlliance"]:hover{color:#f5c99a!important;}
+#centre .boite_membre tr.monAlliance a[href*="classementAlliance"]{color:#4ade80!important;text-shadow:0 0 calc(5px*var(--fz-glow)) rgba(74,222,128,.5);}
+#centre .boite_membre tr.monAlliance > td:first-child{color:color-mix(in srgb,var(--fz-text) 65%,transparent)!important;}
+/* liens d'action (convoi, message, amis) */
+#centre .boite_membre td:has(> a[href*="commerce"]){font-size:0!important;text-align:left!important;}
+#centre .boite_membre a[href*="commerce"],#centre .boite_membre a[href*="messagerie"],#centre .boite_membre a[href*="amis"]{display:block;font-size:13px!important;padding:2px 0;color:var(--fz-link)!important;text-decoration:none!important;}
+#centre .boite_membre a[href*="commerce"]::before,#centre .boite_membre a[href*="messagerie"]::before,#centre .boite_membre a[href*="amis"]::before{content:"› ";color:var(--fz-accent);font-weight:700;}
+#centre .boite_membre a[href*="commerce"]:hover,#centre .boite_membre a[href*="messagerie"]:hover,#centre .boite_membre a[href*="amis"]:hover{color:#fff!important;}
+/* contenu libre du profil : léger fond sombre, couleurs choisies par le joueur conservées */
+#centre .boite_membre .contenuJoueur{background:rgba(0,0,0,.22)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 12%,transparent);padding:10px!important;box-sizing:border-box;}
+/* outils du script « Profil joueur » (VA / retours) centrés */
+#centre .boite_membre .fmz-profil-va > div{justify-content:center!important;text-align:center!important;}
+/* v0.94 : en-têtes des panneaux du profil en bandeau lumineux, texte centré */
+#centre .boite_membre > h4{display:flex!important;align-items:center;justify-content:center;gap:12px;margin:-10px -16px 12px!important;padding:8px 16px!important;min-height:20px;text-align:center!important;font-size:15px!important;letter-spacing:.16em!important;color:#eafaff!important;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--fz-accent) 22%,transparent) 30%,color-mix(in srgb,var(--fz-accent) 22%,transparent) 70%,transparent)!important;border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 55%,transparent)!important;text-shadow:0 0 calc(10px*var(--fz-glow)) var(--fz-accent),0 0 2px var(--fz-accent)!important;}
+#centre .boite_membre > h4::before,#centre .boite_membre > h4::after{content:"";flex:0 0 40px;height:1px;background:linear-gradient(90deg,transparent,var(--fz-accent));}
+#centre .boite_membre > h4::after{background:linear-gradient(90deg,var(--fz-accent),transparent);}
+/* encart « Attaquer : » (profil d'un autre joueur) */
+#centre .boite_membre div.tableau_score{background:color-mix(in srgb,var(--fz-accent) 6%,transparent)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 30%,transparent)!important;padding:6px 14px!important;}
+#centre .boite_membre div.tableau_score strong{color:var(--fz-accent)!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:11px;text-transform:uppercase;letter-spacing:.08em;}
+#centre .boite_membre div.tableau_score li::marker{color:var(--fz-accent);}
+/* temps de trajet : couleur calculée par le script (vert < 1h -> rouge > 10h) */
+#centre .boite_membre td.fz-trajet{font-weight:700;}
+/* v0.95 : easter egg, carte de XaTaK sur son profil */
+#centre .fz-egg{text-align:center;margin:8px 0 16px;}
+#centre .fz-egg img{display:inline-block;width:240px;height:auto;filter:drop-shadow(0 0 calc(14px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 55%,transparent)) drop-shadow(0 6px 12px rgba(0,0,0,.6));transition:transform .3s ease;animation:fz-egg-in .6s ease-out;}
+#centre .fz-egg img:hover{transform:scale(1.04) rotate(-1deg);}
+@keyframes fz-egg-in{from{opacity:0;transform:translateY(-8px) scale(.96);}to{opacity:1;transform:none;}}

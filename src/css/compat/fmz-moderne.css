@@ -1,0 +1,22 @@
+/* ===== Compatibilité avec le script « fmz-moderne » (sans effet s'il est absent) ===== */
+/* Ses icônes emoji (::before) cèdent la place aux icônes néon du skin */
+#menu span::before,#boiteComptePlus [class^="mini_icone_"]::before,#boiteComptePlus a > span::before{content:none!important;display:none!important;}
+/* Voile des décors latéraux inutile avec le fond étoilé */
+#gauche::before,#droite::before{display:none!important;}
+/* Encadrés de gauche : espacement avec l'encadré ressources agrandi */
+#boiteComptePlus{margin-top:var(--fz-cp-mt,22px)!important;}
+#cixyHorloge{display:block!important;margin:0 0 6px!important;padding:0!important;width:100%!important;box-sizing:border-box;text-align:center!important;letter-spacing:.12em!important;text-indent:.12em;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:14px!important;color:var(--fz-text)!important;}
+html.fz-fmz #boiteComptePlus:has(#fmzOeuf) .titre_colonne_cliquable{padding-left:52px!important;padding-right:34px!important;}
+html body #boiteComptePlus .titre_colonne_cliquable,html body #boiteInfo .titre_colonne_cliquable{box-sizing:border-box!important;width:222px!important;text-align:center!important;}
+html body #boiteComptePlus .titre_colonne_cliquable,html body #boiteInfo .titre_colonne_cliquable{display:flex!important;align-items:center!important;justify-content:center!important;gap:6px;padding-top:0!important;padding-bottom:0!important;height:26px!important;line-height:1!important;}
+html body #boiteInfo .titre_colonne_cliquable img{display:block;}
+#fmzOeuf{font:600 11px/28px "Exo 2","Segoe UI",sans-serif!important;color:var(--fz-text)!important;text-shadow:none!important;letter-spacing:.03em;}
+#fmzLoupeT{filter:drop-shadow(0 0 calc(3px*var(--fz-glow)) var(--fz-accent))!important;}
+/* Zone ajoutée (alertes, raccourcis, joueurs suivis) */
+#fmz-cplus-zone{background:linear-gradient(135deg,rgba(14,30,52,.85),rgba(8,14,28,.92))!important;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;border-radius:0!important;box-shadow:0 0 calc(18px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 15%,transparent)!important;clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);}
+#fmz-incoming{background:linear-gradient(135deg,rgba(70,12,22,.9),rgba(40,6,14,.92))!important;border:1px solid color-mix(in srgb,var(--fz-danger) 70%,transparent)!important;border-left:3px solid var(--fz-danger)!important;border-radius:2px!important;box-shadow:0 0 calc(12px*var(--fz-glow)) color-mix(in srgb,var(--fz-danger) 35%,transparent)!important;font-family:"Exo 2","Segoe UI",sans-serif!important;}
+#fmz-incoming *{color:#ffe3e6!important;}
+/* Petit bouton à côté du nom des bâtiments */
+#centre .ligneAmelioration h2 ~ button{background:color-mix(in srgb,var(--fz-accent) 10%,transparent)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 55%,transparent)!important;border-radius:3px!important;cursor:pointer;vertical-align:middle;}
+#centre .ligneAmelioration h2 ~ button:hover{background:color-mix(in srgb,var(--fz-accent) 22%,transparent)!important;}
+html body #boiteComptePlus .titre_colonne_cliquable,html body #boiteInfo .titre_colonne_cliquable{color:var(--fz-accent)!important;}

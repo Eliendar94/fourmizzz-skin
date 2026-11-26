@@ -1,0 +1,23 @@
+/* v0.98 : page Statistiques (graphiques Highcharts) en version sombre, lisible */
+#centre div[id^="graph_"]{margin:0 0 14px!important;background:linear-gradient(135deg,rgba(14,30,52,.85),rgba(8,14,28,.92))!important;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;box-shadow:0 0 calc(18px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 18%,transparent),inset 0 0 calc(22px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 6%,transparent)!important;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));}
+#centre div[id^="graph_"] + center{margin:-4px 0 12px;}
+#centre .highcharts-container{--highcharts-background-color:#0b1626;--highcharts-neutral-color-100:#ffffff;--highcharts-neutral-color-80:#e2f1ff;--highcharts-neutral-color-60:#b6cbe0;--highcharts-neutral-color-40:#7f97ad;--highcharts-neutral-color-20:#3e5266;--highcharts-neutral-color-10:color-mix(in srgb,var(--fz-accent) 16%,transparent);--highcharts-neutral-color-5:color-mix(in srgb,var(--fz-accent) 8%,transparent);--highcharts-neutral-color-3:color-mix(in srgb,var(--fz-accent) 5%,transparent);}
+#centre .highcharts-background{fill:transparent!important;}
+#centre .highcharts-plot-background{fill:rgba(0,0,0,.18)!important;}
+#centre .highcharts-title,#centre .highcharts-title tspan{fill:var(--fz-accent)!important;color:var(--fz-accent)!important;}
+#centre .highcharts-axis-labels text{fill:#b6cbe0!important;color:#b6cbe0!important;}
+#centre .highcharts-grid-line{stroke:color-mix(in srgb,var(--fz-accent) 16%,transparent)!important;}
+#centre .highcharts-axis-line,#centre .highcharts-tick{stroke:color-mix(in srgb,var(--fz-accent) 40%,transparent)!important;}
+#centre .highcharts-legend-box{fill:rgba(6,14,26,.75)!important;stroke:color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;}
+#centre .highcharts-legend-item text,#centre .highcharts-legend foreignObject div,#centre .highcharts-legend foreignObject span,#centre .highcharts-legend-item span{fill:#e2f1ff!important;color:#e2f1ff!important;}
+#centre .highcharts-legend-item-hidden text,#centre .highcharts-legend-item-hidden foreignObject div,#centre .highcharts-legend-item-hidden span{fill:#5d6f82!important;color:#5d6f82!important;}
+#centre .highcharts-legend-title text,#centre .highcharts-legend-title foreignObject div,#centre .highcharts-legend-title span{fill:var(--fz-accent)!important;color:var(--fz-accent)!important;}
+#centre .highcharts-button-box{fill:transparent!important;stroke:color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;}
+#centre .highcharts-button-symbol{stroke:var(--fz-accent)!important;fill:var(--fz-accent)!important;}
+#centre .highcharts-tooltip-box{fill:rgba(6,14,26,.95)!important;stroke:var(--fz-accent)!important;}
+#centre .highcharts-tooltip text,#centre .highcharts-tooltip span{fill:#e2f1ff!important;color:#e2f1ff!important;}
+#centre .highcharts-series-group{filter:brightness(1.15) saturate(1.15);}
+/* onglets sous les graphiques (Nombre d'unités, Vie… / Total, Reçus, Envoyés) ; l'onglet actif est repéré par la couleur que le jeu lui pose */
+#centre span.bouton_graphique{display:inline-flex!important;align-items:center;gap:5px;margin:4px 3px!important;padding:4px 11px!important;background:color-mix(in srgb,var(--fz-accent) 8%,transparent)!important;color:var(--fz-text)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 40%,transparent)!important;border-radius:2px!important;font-size:12px!important;cursor:pointer;transition:background .15s,box-shadow .15s;}
+#centre span.bouton_graphique:hover{background:color-mix(in srgb,var(--fz-accent) 18%,transparent)!important;color:#fff!important;}
+#centre span.bouton_graphique:is([style*="215, 195, 132"],[style*="d7c384" i]){background:color-mix(in srgb,var(--fz-accent) 30%,transparent)!important;color:#fff!important;border-color:var(--fz-accent)!important;box-shadow:0 0 calc(8px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 45%,transparent),inset 0 -2px 0 var(--fz-accent)!important;}

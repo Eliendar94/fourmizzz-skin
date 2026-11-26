@@ -1,0 +1,25 @@
+/* v1.30 : page Reine — vignette « armée » sur la photo de chaque unité */
+#centre .photo_unite{position:relative!important;}
+/* v1.42 : vignette d'armée au format du bandeau de niveau (coin haut droit), couleurs sobres */
+/* v1.43 : photo d'unité calée en haut à gauche de son panneau (au lieu d'être centrée en hauteur) */
+html body #centre tr.ligneAmelioration > td:has(> .photo_unite){vertical-align:top!important;padding:0!important;}
+html body #centre tr.ligneAmelioration .photo_unite{margin:0!important;}
+#centre .photo_unite[data-fz-unit]{filter:none!important;}
+/* v1.44 : bouton « Copier mon armée » entre le tableau de ponte et les unités */
+#centre .fz-copy-army-wrap{text-align:center;margin:4px 0 14px;}
+#centre a.fz-copy-army{display:inline-flex;align-items:center;gap:8px;padding:5px 14px 5px 5px;border:1px solid color-mix(in srgb,var(--fz-accent) 60%,transparent);background:color-mix(in srgb,var(--fz-accent) 10%,transparent);color:var(--fz-accent)!important;font-family:"Orbitron","Segoe UI",sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none!important;border-radius:2px;box-shadow:0 0 calc(6px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 30%,transparent);transition:background .15s,color .15s;}
+#centre a.fz-copy-army:hover{background:color-mix(in srgb,var(--fz-accent) 24%,transparent);color:#fff!important;}
+#centre a.fz-copy-army .fz-plus{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;background:var(--fz-accent);color:#04121f;font-size:14px;font-weight:900;line-height:1;border-radius:2px;}
+#centre a.fz-copy-army.fz-ok{border-color:#4ade80;color:#4ade80!important;background:rgba(74,222,128,.12);}
+#centre a.fz-copy-army.fz-ok .fz-plus{background:#4ade80;}
+#centre .photo_unite[data-fz-unit]::after{display:none!important;}
+#centre .photo_unite .fz-army-badge{position:absolute;top:0;right:0;z-index:2;display:block;padding:4px 10px 5px 16px;background:linear-gradient(180deg,rgba(10,16,26,.68),rgba(8,12,20,.62));backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);text-shadow:0 1px 2px rgba(0,0,0,.9);box-shadow:inset 2px 0 0 #7f9fb8,inset 0 -2px 0 #7f9fb8;clip-path:polygon(0 0,100% 0,100% 100%,10px 100%,0 calc(100% - 10px));filter:drop-shadow(0 2px 4px rgba(0,0,0,.7));font-family:"Orbitron","Segoe UI",sans-serif;font-size:12px;line-height:16px;letter-spacing:.05em;color:#e3e9ef;white-space:nowrap;}
+#centre .photo_unite .fz-army-badge b{font-weight:700;color:#e3e9ef;}
+#centre .photo_unite .fz-army-badge i{font-style:normal;font-weight:700;margin-left:3px;}
+#centre .photo_unite .fz-army-badge em{font-style:normal;color:#9ccfa8;font-size:11px;margin-left:3px;}
+#centre tr.fz-u-ouv .photo_unite .fz-army-badge i{color:#d8b26e;}
+#centre tr.fz-u-mil .photo_unite .fz-army-badge i{color:#d98a8a;}
+#centre .ppApres.fz-pp-hidden{display:none!important;}
+/* v1.30 : tableau « Pontes en cours » — sans coins coupés, en-têtes de colonnes au format du tableau Statistiques (page Armée) */
+#centre > h4 + table.tableau_leger{clip-path:none!important;}
+#centre > h4 + table.tableau_leger tr:first-child > :is(td,th){color:var(--fz-accent)!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:11px!important;font-weight:700!important;letter-spacing:.08em;text-transform:uppercase;background:color-mix(in srgb,var(--fz-accent) 10%,transparent)!important;border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 40%,transparent)!important;padding:4px 8px!important;white-space:nowrap;}

@@ -1,0 +1,11 @@
+/* v1.21 : attente avant lancement — une seule ligne : horloge, temps d'attente, date/heure de lancement */
+#centre td.cout_amelioration > div.fz-dup-wait{display:none!important;}
+#centre td.cout_amelioration tr.fz-hidden-row{display:none!important;}
+#centre td.fz-wait-cell span[data-fmz-hour]{display:none!important;}
+#centre td.fz-wait-cell{font-weight:700;white-space:nowrap;}
+#centre td.fz-wait-cell .fz-when{margin-left:6px;font-weight:400;color:color-mix(in srgb,var(--fz-text) 70%,transparent);}
+/* v1.20 : coût supérieur au stock (le jeu le met en rouge en ligne, ex. Laboratoire) : rouge du skin, comme sur la page Construction */
+html body #centre .ligneAmelioration td.cout_amelioration :is(div,span)[style*="c5130f" i],html body #centre .ligneAmelioration td.cout_amelioration :is(div,span)[style*="197, 19, 15"],html body #centre .ligneAmelioration td.cout_amelioration :is(div,span)[style*="color: red" i],html body #centre .ligneAmelioration td.cout_amelioration :is(div,span)[style*="color:red" i]{color:var(--fz-danger)!important;text-shadow:0 0 calc(4px*var(--fz-glow)) color-mix(in srgb,var(--fz-danger) 40%,transparent);}
+html body #centre tr.ligneAmelioration > td.cout_amelioration:has(> .fz-build-wrap){vertical-align:top!important;padding-top:19px!important;}
+html body #centre .ligneAmelioration h2 ~ button{display:inline-flex!important;align-items:center;justify-content:center;box-sizing:border-box!important;height:26px!important;min-width:36px!important;padding:0 8px!important;font-size:17px!important;line-height:1!important;vertical-align:baseline!important;position:relative!important;top:-3px!important;margin:0 0 0 2px!important;}
+#centre :is(.photo_batiment,.photo_recherche){position:relative!important;}

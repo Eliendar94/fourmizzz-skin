@@ -1,0 +1,10 @@
+
+#messagerie .fz-tag{display:inline-block;box-sizing:border-box;min-width:72px;margin-right:8px;padding:1px 6px;border:1px solid var(--tag);border-radius:2px;background:transparent;color:var(--tag)!important;font:700 9.5px/14px "Orbitron","Segoe UI",sans-serif;letter-spacing:.08em;text-transform:uppercase;text-align:center;vertical-align:middle;box-shadow:0 0 calc(5px*var(--fz-glow)) color-mix(in srgb,var(--tag) 45%,transparent),inset 0 0 calc(4px*var(--fz-glow)) color-mix(in srgb,var(--tag) 25%,transparent);}
+#messagerie .fz-tag-arrow{margin-left:5px;font-size:9px;text-shadow:0 0 calc(4px*var(--fz-glow)) currentColor;}
+#messagerie span.nbr_mess_non_lus_conv{display:none!important;}
+#messagerie .fz-new{display:inline-block;margin:0 8px 0 0;padding:1px 7px;border:1px solid #fff;border-radius:2px;color:#fff!important;font:700 9.5px/14px "Orbitron","Segoe UI",sans-serif;letter-spacing:.08em;text-transform:uppercase;vertical-align:middle;box-shadow:0 0 calc(8px*var(--fz-glow)) rgba(255,255,255,.55);animation:fz-pulse 1.8s ease-in-out infinite;}
+@keyframes fz-pulse{50%{box-shadow:0 0 calc(14px*var(--fz-glow)) rgba(255,255,255,.85)}}
+#centre #messagerie tr.fz-unread a.intitule_message{font-weight:700!important;color:#fff!important;}
+#centre #messagerie tr.fz-unread > td:first-child{box-shadow:inset 3px 0 0 var(--fz-accent);}
+/* Message ouvert : date et heure dans la couleur du texte du message */
+#centre #messagerie tr.contenu_conversation td.expe,#centre #messagerie tr.contenu_conversation td.expe *,#centre #messagerie .message_non_lu{color:var(--fz-text)!important;}

@@ -1,0 +1,30 @@
+/* Page Messagerie */
+#centre #messagerie{background:linear-gradient(135deg,rgba(14,30,52,.85),rgba(8,14,28,.92))!important;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;border-radius:0!important;box-shadow:0 0 calc(18px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 18%,transparent)!important;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));}
+#centre #messagerie h2{font-family:"Orbitron","Segoe UI",sans-serif!important;font-style:normal!important;text-transform:uppercase;letter-spacing:.1em;}
+/* boutons ⚙ et ? en haut à droite */
+#centre #messagerie .bouton_messagerie{background:color-mix(in srgb,var(--fz-accent) 10%,transparent)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 50%,transparent)!important;border-radius:2px!important;}
+#centre #messagerie .bouton_messagerie:hover{background:color-mix(in srgb,var(--fz-accent) 25%,transparent)!important;border-color:var(--fz-accent)!important;}
+/* barre d'outils (Nouveau, déplacer, supprimer…) */
+#centre #messagerie .groupe_options_gestion,#centre #messagerie .choix_supplementaires_option,#centre #messagerie .choix_supplementaires_option div{background:rgba(5,12,24,.85)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 40%,transparent)!important;border-radius:2px!important;}
+#centre #messagerie .option_gestion{border-radius:2px;}
+#centre #messagerie .option_gestion:hover{background:color-mix(in srgb,var(--fz-accent) 20%,transparent)!important;}
+
+#centre #messagerie input[type=text],#centre #messagerie input[type=search],#centre #messagerie #creer_categorie{background:var(--fz-panel2)!important;color:var(--fz-text)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 40%,transparent)!important;border-radius:2px!important;}
+/* onglets de dossiers (Boîte de réception, Messages envoyés, Archives…) */
+#centre #messagerie tr.tr_gestion,#centre #messagerie tr.tr_gestion > *{background:color-mix(in srgb,var(--fz-accent) 12%,transparent)!important;}
+#centre #messagerie tr.tr_gestion{border-top:1px solid color-mix(in srgb,var(--fz-accent) 55%,transparent);border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 55%,transparent);}
+
+/* liste des messages */
+#centre #messagerie tr,#centre #messagerie tr.en_tete_message{background:transparent!important;}
+#centre #messagerie tr.en_tete_message > td{border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 12%,transparent)!important;padding-top:3px!important;padding-bottom:3px!important;}
+#centre #messagerie tr.en_tete_message:nth-of-type(even) > td{background:rgba(255,255,255,.025)!important;}
+#centre #messagerie tr.en_tete_message:hover > td{background:color-mix(in srgb,var(--fz-accent) 12%,transparent)!important;}
+#centre #messagerie td.td_par,#centre #messagerie td.td_participants{color:color-mix(in srgb,var(--fz-text) 75%,transparent)!important;}
+#centre #messagerie td.td_objet a{color:var(--fz-text)!important;}
+#centre #messagerie td.td_objet a:hover{color:var(--fz-accent)!important;}
+#centre #messagerie td.td_save,#centre #messagerie td.td_date{color:color-mix(in srgb,var(--fz-text) 65%,transparent)!important;font-variant-numeric:tabular-nums;}
+#centre #messagerie input[type=checkbox]{accent-color:var(--fz-accent);}
+#centre #messagerie textarea{background:var(--fz-panel2)!important;color:var(--fz-text)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;}
+#centre #ChangeRessource{margin:10px 12px 4px 4px!important;}
+#centre #boite_tdc input[type=submit]{margin-left:10px!important;}
+#centre #boite_tdc input[type=text],#centre #boite_tdc input[type=tel]{margin-right:4px!important;}

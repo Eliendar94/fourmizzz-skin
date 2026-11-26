@@ -1,0 +1,21 @@
+/* v1.26 : page Carte — légendes en panneaux du skin, carte encadrée */
+#centre :is(table.tableau_detail_carte,table.tableau_diplomatie_carte,table.tableau_fourmiliere_carte){background:linear-gradient(135deg,rgba(14,30,52,.88),rgba(8,14,28,.94))!important;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;border-radius:0!important;box-shadow:0 0 calc(14px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 16%,transparent)!important;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));color:var(--fz-text)!important;margin-bottom:10px!important;border-collapse:separate!important;border-spacing:0!important;}
+#centre :is(table.tableau_detail_carte,table.tableau_diplomatie_carte,table.tableau_fourmiliere_carte) td{background:transparent!important;color:var(--fz-text)!important;padding:3px 10px!important;vertical-align:middle!important;}
+/* titres « Diplomatie » / « Fourmilière » en bandeau */
+#centre :is(table.tableau_diplomatie_carte,table.tableau_fourmiliere_carte) tr:first-child > td{background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--fz-accent) 22%,transparent) 30%,color-mix(in srgb,var(--fz-accent) 22%,transparent) 70%,transparent)!important;border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 55%,transparent)!important;color:#eafaff!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:12px!important;letter-spacing:.14em;text-transform:uppercase;text-align:center!important;padding:6px 10px!important;text-shadow:0 0 calc(8px*var(--fz-glow)) var(--fz-accent);}
+/* fiche du joueur survolé : intitulés atténués, valeurs en clair */
+#centre table.tableau_detail_carte tr > td:first-child{color:color-mix(in srgb,var(--fz-text) 65%,transparent)!important;text-align:right!important;width:50%;}
+#centre table.tableau_detail_carte tr > td:last-child{color:#fff!important;font-weight:700;text-align:left!important;}
+#centre table.tableau_detail_carte #legende_alliance{color:#e3a15f!important;}
+/* intitulés de la légende (Allié, En paix, En guerre, Trop faible…) */
+#centre table.tableau_diplomatie_carte tr:not(:first-child) > td:last-child,#centre table.tableau_fourmiliere_carte tr:not(:first-child) > td:last-child{font-weight:600;}
+#centre table.tableau_diplomatie_carte tr:nth-child(2) > td:last-child{color:#4ade80!important;}
+#centre table.tableau_diplomatie_carte tr:nth-child(3) > td:last-child{color:#7ab8ff!important;}
+#centre table.tableau_diplomatie_carte tr:nth-child(4) > td:last-child{color:#ff5a5a!important;}
+#centre table.tableau_fourmiliere_carte tr:nth-child(2) > td:last-child{color:#8aa0b5!important;}
+#centre table.tableau_fourmiliere_carte tr:nth-child(3) > td:last-child{color:#4ade80!important;}
+#centre table.tableau_fourmiliere_carte tr:nth-child(4) > td:last-child{color:#ff5a5a!important;}
+/* carte : cadre néon discret, coordonnées lisibles */
+#centre div:has(> .fond_de_carte){background:radial-gradient(ellipse at 50% 45%,rgba(57,208,255,.07),rgba(8,14,28,.55) 70%)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 30%,transparent)!important;box-shadow:0 0 calc(14px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 14%,transparent),inset 0 0 30px rgba(0,0,0,.35)!important;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));}
+#centre .fond_de_carte > div[id^="mx"],#centre .fond_de_carte > div[id^="my"]{color:var(--fz-accent)!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:9px!important;font-weight:700;text-shadow:0 0 4px rgba(0,0,0,.9),0 0 calc(4px*var(--fz-glow)) var(--fz-accent);}
+#centre form.carte_loupe{color:var(--fz-text)!important;}

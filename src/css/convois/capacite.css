@@ -1,0 +1,34 @@
+/* v1.50 : page Convois — panneau « Capacité de convoi » */
+#centre table.simulateur.fz-convoi-info{margin-top:14px!important;}
+#centre table.simulateur.fz-convoi-info > tbody > tr > th,#centre table.simulateur.fz-convoi-info > tbody > tr > td{padding:6px 14px!important;border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 12%,transparent);}
+#centre table.simulateur.fz-convoi-info > tbody > tr > th{text-align:left!important;font-weight:400;color:color-mix(in srgb,var(--fz-text) 85%,transparent)!important;}
+#centre table.simulateur.fz-convoi-info th small{opacity:.6;font-size:11px;}
+#centre table.simulateur.fz-convoi-info a.fz-ci-fill{color:inherit!important;text-decoration:none!important;cursor:pointer;border-bottom:1px dashed currentColor;padding:0 2px;transition:background .15s;}
+#centre table.simulateur.fz-convoi-info a.fz-ci-fill:hover{background:color-mix(in srgb,currentColor 15%,transparent);}
+#centre table.simulateur.fz-convoi-info a.fz-ci-fill.fz-ci-done{background:rgba(74,222,128,.3);}
+#centre table.simulateur.fz-convoi-info th img{width:18px!important;height:18px!important;vertical-align:-4px;margin-right:6px;}
+#centre table.simulateur.fz-convoi-info > tbody > tr > td{text-align:right!important;font-family:"Orbitron","Segoe UI",sans-serif;font-weight:700;font-size:15px;color:#fff!important;font-variant-numeric:tabular-nums;}
+#centre table.simulateur.fz-convoi-info > tbody > tr:nth-child(2) > td{color:var(--fz-accent)!important;}
+#centre table.simulateur.fz-convoi-info > tbody > tr:nth-child(3) > td{color:#4ade80!important;}
+#centre table.simulateur.fz-convoi-info > tbody > tr:nth-child(4) > td{color:#ffb020!important;}
+#centre table.simulateur.fz-convoi-info tr.fz-ci-note td{font-family:inherit;font-size:11px;font-weight:400;text-align:center!important;color:color-mix(in srgb,var(--fz-text) 55%,transparent)!important;border-bottom:0;}
+#centre table.simulateur.fz-convoi-info > tbody > tr:first-child > td{border-bottom:0;}
+#centre table.simulateur.fz-convoi-info tr:hover > :is(td,th){background:transparent!important;}
+/* v1.51 : simulation selon le niveau de l'Étable à pucerons */
+#centre table.simulateur.fz-convoi-info > tbody > tr.fz-ci-simhead > td{text-align:left!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:11px!important;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fz-accent)!important;background:color-mix(in srgb,var(--fz-accent) 10%,transparent)!important;border-top:1px solid color-mix(in srgb,var(--fz-accent) 40%,transparent);display:table-cell;}
+#centre table.simulateur.fz-convoi-info tr.fz-ci-simhead td{position:relative;}
+#centre table.simulateur.fz-convoi-info .fz-ci-ctl{float:right;display:inline-flex;align-items:center;gap:4px;}
+#centre table.simulateur.fz-convoi-info .fz-ci-ctl button{width:22px;height:22px;padding:0;border:1px solid color-mix(in srgb,var(--fz-accent) 60%,transparent);background:color-mix(in srgb,var(--fz-accent) 12%,transparent)!important;color:var(--fz-accent)!important;font-weight:900;font-size:14px;line-height:1;cursor:pointer;border-radius:2px;box-shadow:none!important;text-transform:none;}
+#centre table.simulateur.fz-convoi-info .fz-ci-ctl button:hover{background:color-mix(in srgb,var(--fz-accent) 26%,transparent)!important;color:#fff!important;}
+#centre table.simulateur.fz-convoi-info .fz-ci-lvl{width:52px!important;height:22px;box-sizing:border-box;text-align:center!important;font-family:"Orbitron","Segoe UI",sans-serif;font-weight:700;font-size:12px;-moz-appearance:textfield;}
+#centre table.simulateur.fz-convoi-info .fz-ci-lvl::-webkit-inner-spin-button{display:none;}
+#centre table.simulateur.fz-convoi-info tr.fz-ci-sim > td{padding:4px 8px 8px!important;font-family:inherit;font-size:13px;font-weight:400;border-bottom:0;}
+#centre table.fz-ci-simt{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;}
+#centre table.fz-ci-simt th{font-family:"Orbitron","Segoe UI",sans-serif;font-size:10px!important;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:color-mix(in srgb,var(--fz-text) 65%,transparent)!important;text-align:right!important;padding:4px 8px!important;border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 25%,transparent)!important;}
+#centre table.fz-ci-simt td{padding:4px 8px!important;text-align:right!important;font-family:"Exo 2","Segoe UI",sans-serif!important;font-size:13px!important;font-weight:700;color:#eafaff!important;border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 10%,transparent)!important;}
+#centre table.fz-ci-simt td:first-child{text-align:left!important;font-weight:400;color:color-mix(in srgb,var(--fz-text) 80%,transparent)!important;}
+#centre table.fz-ci-simt td:nth-child(3){color:var(--fz-accent)!important;}
+#centre table.fz-ci-simt em{font-style:normal;color:color-mix(in srgb,var(--fz-text) 60%,transparent);}
+#centre table.fz-ci-simt em.up{color:#4ade80;}
+#centre table.fz-ci-simt em.down{color:#ff5a5a;}
+html body #centre tr.ligneAmelioration > td{background:transparent!important;}

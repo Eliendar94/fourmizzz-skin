@@ -1,0 +1,4 @@
+/* v0.88 : Panneaux principaux sans surbrillance globale au survol */
+#centre table.simulateur tr:has(> td > h2):hover > td,
+#centre table.simulateur tr:has(> td table):hover > td{background:transparent!important;}
+

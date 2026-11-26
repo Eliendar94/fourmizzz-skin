@@ -1,0 +1,11 @@
+/* Panneau « Recherche ou ponte ? » (script tiers, page Laboratoire) */
+#centre .flr{background:linear-gradient(135deg,rgba(14,30,52,.85),rgba(8,14,28,.92))!important;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;border-radius:2px!important;box-shadow:0 0 calc(14px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 15%,transparent)!important;}
+#centre .flr,#centre .flr-head,#centre .flr-body,#centre .flr-info,#centre .flr-chk,#centre .flr-card,#centre .flr-card-h,#centre .flr b{color:var(--fz-text)!important;}
+#centre .flr-head{background:color-mix(in srgb,var(--fz-accent) 10%,transparent)!important;border-radius:0!important;color:var(--fz-accent)!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:11px!important;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;}
+#centre .flr-card{background:rgba(255,255,255,.03)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 25%,transparent)!important;border-radius:2px!important;}
+#centre .flr-info{opacity:.8;}
+#centre .flr-badge.ok{background:rgba(46,180,90,.18)!important;border:1px solid #4ade80!important;color:#7dff9a!important;}
+#centre .flr-grid td{background:transparent!important;}
+/* Lignes ajoutées sous une description (ex. bilan de la Champignonnière) : compactes pour garder la hauteur des blocs */
+#centre .ligneAmelioration .pas_sur_telephone > div{margin-top:2px!important;padding:1px 8px!important;line-height:1.22!important;font-size:12px!important;background:color-mix(in srgb,var(--fz-accent) 6%,transparent);border-left:2px solid color-mix(in srgb,var(--fz-accent) 50%,transparent);}
+#centre .ligneAmelioration .pas_sur_telephone > div ~ br{display:none!important;}

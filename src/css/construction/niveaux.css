@@ -1,0 +1,7 @@
+/* v1.15-1.16 : niveau des bâtiments / recherches en vignette, à la hauteur du titre (grise = niveau actuel, verte « Niv. N-1 › N » = amélioration en cours) */
+#centre span.niveau_amelioration.fz-lvl-src{display:none!important;}
+#centre .fz-lvls{display:inline-flex;align-items:center;margin:0 6px 0 12px;vertical-align:baseline;position:relative;top:-3px;}
+#centre .fz-lvl{display:inline-block;padding:2px 10px;border:1px solid rgba(214,226,238,.6);border-radius:3px;background:transparent;color:#dbe6f0;font-family:"Orbitron","Segoe UI",sans-serif;font-size:15px;font-weight:700;letter-spacing:.06em;line-height:20px;white-space:nowrap;}
+/* v1.17 : bouton « Demander à l'alliance les ressources » à la hauteur de la vignette et aligné avec elle */
+/* v1.18 : boutons Construire / Rechercher à la même distance du haut de leur panneau sur les deux pages */
+/* v1.19 : panneaux Construction / Laboratoire identiques (la règle de lignes alternées éclaircissait une ligne sur deux) */

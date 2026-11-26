@@ -1,0 +1,7 @@
+/* Bulles d'info (jQuery UI tooltip) aux couleurs du skin */
+.ui-tooltip,.ui-tooltip.ui-widget-content,.ui-tooltip.warning-tooltip{background:linear-gradient(160deg,color-mix(in srgb,var(--fz-panel) 97%,transparent),color-mix(in srgb,var(--fz-bg) 97%,transparent))!important;color:var(--fz-text)!important;border:1px solid color-mix(in srgb,var(--fz-accent) 55%,transparent)!important;border-left:3px solid var(--fz-accent)!important;border-radius:2px!important;box-shadow:0 8px 24px rgba(0,0,0,.65),0 0 14px color-mix(in srgb,var(--fz-accent) 30%,transparent)!important;backdrop-filter:blur(6px);padding:8px 10px!important;font-family:"Exo 2","Segoe UI",sans-serif!important;font-size:12px!important;}
+.ui-tooltip *{color:var(--fz-text)!important;background-color:transparent!important;border-color:color-mix(in srgb,var(--fz-accent) 25%,transparent)!important;font-family:inherit!important;}
+.ui-tooltip b,.ui-tooltip strong,.ui-tooltip th,.ui-tooltip .titre{color:var(--fz-accent)!important;}
+.ui-tooltip tr+tr td{border-top:1px solid color-mix(in srgb,var(--fz-accent) 12%,transparent)!important;}
+.ui-tooltip .rouge,.ui-tooltip .rouge *{color:var(--fz-danger)!important;}
+.ui-tooltip .vert,.ui-tooltip .verificationOK,.ui-tooltip .verificationOK *{color:var(--fz-link)!important;}

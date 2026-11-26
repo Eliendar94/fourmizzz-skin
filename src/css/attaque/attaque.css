@@ -1,0 +1,11 @@
+/* v0.90 : Page Attaque */
+/* panneau : aucune surbrillance au survol, sauf les lignes des tableaux de données (armée, floods) */
+#centre #formulaireChoixArmee tr:hover > td{background:transparent!important;}
+#centre #formulaireChoixArmee #tabChoixArmee > tbody > tr:not(:first-child):hover > td,
+#centre #formulaireChoixArmee #Calys_OF_tabFlood > tbody > tr:not(:first-child):hover > td{background:color-mix(in srgb,var(--fz-accent) 16%,transparent)!important;}
+/* les boutons stylés gardent leur centrage dans le panneau */
+#formulaireChoixArmee center > .fz-act-wrap{margin-top:10px;}
+/* Attaques en cours : tag d'alliance en orange comme dans les classements, « Pseudo (TAG) » */
+#centre > center > span.gras > a[href*="classementAlliance"]{color:#e3a15f!important;}
+#centre > center > span.gras > a[href*="classementAlliance"]:hover{color:#f5c99a!important;}
+#centre > center > span.gras > a[href*="Membre"]{margin-right:4px;}

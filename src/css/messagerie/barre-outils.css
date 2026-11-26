@@ -1,0 +1,11 @@
+/* Messagerie : barre d'outils alignée et onglets de dossiers lisibles */
+#messagerie .groupe_options_gestion{display:inline-flex!important;align-items:center;height:28px;box-sizing:border-box;vertical-align:middle!important;padding:0!important;}
+#messagerie .groupe_options_gestion > span,#messagerie .groupe_options_gestion .option_gestion{display:inline-flex;align-items:center;justify-content:center;gap:5px;height:26px;box-sizing:border-box;padding:0 9px!important;margin:0!important;vertical-align:middle!important;line-height:1!important;}
+#messagerie .groupe_options_gestion img,#messagerie .bouton_messagerie img{position:static!important;margin:0!important;top:auto!important;display:block!important;}
+#messagerie .bouton_messagerie{display:inline-flex!important;align-items:center;justify-content:center;width:26px!important;height:26px!important;box-sizing:border-box;padding:0!important;}
+#messagerie .bouton_messagerie > span{display:inline-flex!important;align-items:center;justify-content:center;}
+#messagerie .groupe_dossiers,#messagerie .groupe_dossiers *,#messagerie a.groupe_dossiers{color:var(--fz-accent)!important;font-family:"Exo 2","Segoe UI",sans-serif!important;font-size:13px!important;font-weight:600!important;font-variant:normal!important;text-transform:none!important;letter-spacing:.03em!important;text-shadow:none!important;}
+#messagerie .groupe_dossiers:hover,#messagerie .groupe_dossiers:hover *{color:#fff!important;}
+#messagerie .groupe_dossiers .choix_supplementaires_option,#messagerie .groupe_dossiers .choix_supplementaires_option *{font-size:12px!important;}
+#centre #messagerie td.td_objet > span.message_affiche{color:#9fdcff!important;opacity:1!important;font-weight:600;letter-spacing:.02em;font-variant-numeric:tabular-nums;}
+#centre #messagerie td.td_participants,#centre #messagerie td.td_participants a,#centre #messagerie td.td_par,#centre #messagerie td.td_par a{color:#9fdcff!important;font-weight:600!important;}

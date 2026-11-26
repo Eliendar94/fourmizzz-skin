@@ -1,0 +1,8 @@
+/* v0.97 : sous-menus (Reine, Construction, Laboratoire…) en grille régulière, icône centrée au-dessus du texte */
+html body #menu ul.menu_colonne{display:grid!important;grid-template-columns:repeat(3,1fr);grid-auto-rows:auto;align-items:stretch;row-gap:2px;padding:8px 6px!important;box-sizing:border-box;height:auto!important;}
+html body #menu ul.menu_colonne > li{float:none!important;height:auto!important;width:auto!important;margin:0!important;}
+html body #menu ul.menu_colonne > li > a{display:flex!important;flex-direction:column;align-items:center;justify-content:flex-start;gap:5px;width:100%!important;height:100%!important;min-height:57px;padding:7px 4px!important;box-sizing:border-box;text-align:center!important;line-height:1.15!important;overflow:visible!important;}
+html body #menu ul.menu_colonne > li > a > span{display:block!important;margin:0!important;width:24px!important;height:24px!important;flex:0 0 auto;}
+/* « Mon Profil » (Communauté) : n'hérite plus du bleu des liens vers les profils joueurs */
+html body #centre #menu a[href*="Membre.php"]{color:var(--fz-text)!important;}
+html body #centre #menu a[href*="Membre.php"]:hover{color:var(--fz-accent)!important;}

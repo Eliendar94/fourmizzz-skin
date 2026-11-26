@@ -1,0 +1,22 @@
+/* v1.01 : sous-pages Compte+ (simulateurs, flood, ponte, amis, bloc-note, profil) */
+/* panneaux beiges du jeu → panneaux du skin */
+#centre table.simulateur_combat,#centre table.tableau_ami,#centre #tab_blocnote,#centre .message_voile{background:linear-gradient(135deg,rgba(14,30,52,.88),rgba(8,14,28,.94))!important;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;border-radius:0!important;box-shadow:0 0 calc(18px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 18%,transparent),inset 0 0 calc(22px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 6%,transparent)!important;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));color:var(--fz-text)!important;}
+#centre table.simulateur_combat td,#centre table.tableau_ami td,#centre #tab_blocnote td,#centre #tab_blocnote tr{background:transparent!important;color:var(--fz-text)!important;}
+#centre table.tableau_ami{padding:6px 12px!important;}
+#centre #tab_blocnote{padding:2px 8px!important;}
+/* simulateur de combat : cadres (fieldset) et lignes alignées */
+#centre table.simulateur_combat fieldset{border:1px solid color-mix(in srgb,var(--fz-accent) 30%,transparent)!important;border-radius:0!important;background:color-mix(in srgb,var(--fz-accent) 4%,transparent)!important;padding:4px 10px 8px!important;}
+#centre table.simulateur_combat td{vertical-align:middle!important;padding-top:1px!important;padding-bottom:1px!important;}
+#centre table.simulateur_combat label{color:var(--fz-text)!important;}
+#centre table.simulateur_combat input[type=radio]{accent-color:var(--fz-accent);vertical-align:middle;}
+/* simulateurs : nombres alignés à droite, en chiffres tabulaires */
+#centre :is(table.simulateur_combat,table.simulateur) input[type=text]{font-variant-numeric:tabular-nums;}
+/* simulateur de ponte : 1re colonne (armée actuelle) alignée à droite, bouton « pondre » centré */
+#centre table.simulateur:has(input[type=image][src*="OK."]) tr > td:first-of-type{text-align:right!important;padding-right:10px!important;font-variant-numeric:tabular-nums;}
+#centre table.simulateur:has(input[type=image][src*="OK."]) tr > td:last-of-type{text-align:center!important;}
+/* flood TdC : ligne d'en-tête en bandeau */
+#centre #formulaireFlood table tr:nth-child(3) > :is(td,th){background:color-mix(in srgb,var(--fz-accent) 12%,transparent)!important;border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 45%,transparent);padding:4px!important;}
+#centre #formulaireFlood table tr:nth-child(3) > :is(td,th):last-child{text-align:center!important;}
+/* bloc-note : bouton « Nouvelle note » au style du forum, recherche alignée */
+#centre #tab_blocnote td{vertical-align:middle!important;}
+#centre #tab_blocnote input#rechercher{vertical-align:middle;}

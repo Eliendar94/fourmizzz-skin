@@ -1,0 +1,21 @@
+/* v1.55 : panneaux (Reine, Construction, Laboratoire) — bordure identique sur les 4 côtés, panneaux séparés de 8 px, sans coins coupés */
+html body #centre table:has(> tbody > tr.ligneAmelioration){border-collapse:separate!important;border-spacing:0 8px!important;}
+html body #centre tr.ligneAmelioration{clip-path:none!important;border:0!important;}
+html body #centre tr.ligneAmelioration > td{border:0 solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;border-top-width:1px!important;border-bottom-width:1px!important;}
+html body #centre tr.ligneAmelioration > td:first-child{border-left-width:1px!important;}
+html body #centre tr.ligneAmelioration > td:last-child,html body #centre tr.ligneAmelioration > td.cout_amelioration{border-right-width:1px!important;}
+html body #centre tr.ligneAmelioration > td.fz-hidden-td{border:0!important;}
+html body #centre tr.ligneAmelioration.fz-u-ouv:hover > td{border-color:#ffb020!important;}
+html body #centre tr.ligneAmelioration.fz-u-mil:hover > td{border-color:#ff4d5e!important;}
+/* v1.56 : effet néon au survol — bâtiments (Construction) en vert, recherches (Laboratoire) en violet */
+html body #centre tr.ligneAmelioration:has(.photo_batiment){transition:box-shadow .2s!important;}
+html body #centre tr.ligneAmelioration:has(.photo_batiment):hover{box-shadow:0 0 0 1px rgba(74,222,128,.85),0 0 calc(18px*var(--fz-glow)) rgba(74,222,128,.55),0 0 calc(40px*var(--fz-glow)) rgba(74,222,128,.25),inset 0 0 calc(24px*var(--fz-glow)) rgba(74,222,128,.14)!important;}
+html body #centre tr.ligneAmelioration:has(.photo_batiment):hover > td{border-color:#4ade80!important;}
+html body #centre tr.ligneAmelioration:has(.photo_recherche){transition:box-shadow .2s!important;}
+html body #centre tr.ligneAmelioration:has(.photo_recherche):hover{box-shadow:0 0 0 1px rgba(180,110,255,.85),0 0 calc(18px*var(--fz-glow)) rgba(180,110,255,.55),0 0 calc(40px*var(--fz-glow)) rgba(180,110,255,.25),inset 0 0 calc(24px*var(--fz-glow)) rgba(180,110,255,.14)!important;}
+html body #centre tr.ligneAmelioration:has(.photo_recherche):hover > td{border-color:#b46eff!important;}
+
+/* v1.54 : page Reine — effet néon sur le panneau d'unité survolé (ouvrière : or, unités militaires : rouge) */
+html body #centre tr.ligneAmelioration:is(.fz-u-ouv,.fz-u-mil){transition:box-shadow .2s,border-color .2s!important;}
+html body #centre tr.ligneAmelioration.fz-u-ouv:hover{border-color:#ffb020!important;box-shadow:0 0 0 1px rgba(255,176,32,.85),0 0 calc(18px*var(--fz-glow)) rgba(255,176,32,.55),0 0 calc(40px*var(--fz-glow)) rgba(255,176,32,.25),inset 0 0 calc(24px*var(--fz-glow)) rgba(255,176,32,.14)!important;}
+html body #centre tr.ligneAmelioration.fz-u-mil:hover{border-color:#ff4d5e!important;box-shadow:0 0 0 1px rgba(255,77,94,.85),0 0 calc(18px*var(--fz-glow)) rgba(255,77,94,.55),0 0 calc(40px*var(--fz-glow)) rgba(255,77,94,.25),inset 0 0 calc(24px*var(--fz-glow)) rgba(255,77,94,.14)!important;}

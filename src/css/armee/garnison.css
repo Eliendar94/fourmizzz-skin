@@ -1,0 +1,15 @@
+/* Page Armée : tableaux « Troupes en garnison » / « Déplacer son armée » */
+#centre table.simulateur{background:linear-gradient(135deg,rgba(14,30,52,.85),rgba(8,14,28,.92))!important;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;border-radius:0!important;box-shadow:0 0 calc(18px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 18%,transparent),inset 0 0 calc(22px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 6%,transparent)!important;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));color:var(--fz-text)!important;padding:4px 8px 10px!important;}
+#centre table.simulateur tr,#centre table.simulateur td,#centre table.simulateur th{background:transparent!important;color:var(--fz-text)!important;}
+#centre table.simulateur tr.ligne_paire > td{background:color-mix(in srgb,var(--fz-accent) 6%,transparent)!important;}
+#centre table.simulateur tr:hover > td{background:color-mix(in srgb,var(--fz-accent) 12%,transparent)!important;}
+#centre table.simulateur tr:first-child th,#centre table.simulateur tr:first-child td{color:var(--fz-accent)!important;}
+#centre center h3{color:var(--fz-accent)!important;font-family:"Orbitron","Segoe UI",sans-serif!important;text-transform:uppercase;letter-spacing:.08em;text-shadow:0 0 calc(8px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 70%,transparent);}
+#centre table.simulateur input[type=submit],#centre table.simulateur input[type=button]{background:color-mix(in srgb,var(--fz-accent) 10%,transparent)!important;color:var(--fz-accent)!important;border:1px solid var(--fz-accent)!important;border-radius:2px!important;padding:3px 10px!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:11px!important;letter-spacing:.06em;cursor:pointer;margin-left:8px!important;}
+#centre table.simulateur input[type=submit]:hover,#centre table.simulateur input[type=button]:hover{background:color-mix(in srgb,var(--fz-accent) 25%,transparent)!important;color:#fff!important;}
+#centre table.simulateur input[type=radio]{vertical-align:middle!important;margin:0 4px 0 0!important;}
+#centre table.simulateur img{vertical-align:middle!important;}
+/* Encart « Floods en route vers toi » (script tiers) */
+#centre #fmz-floods-recus{background:linear-gradient(135deg,rgba(70,12,22,.85),rgba(30,6,14,.9))!important;border:1px solid color-mix(in srgb,var(--fz-danger) 60%,transparent)!important;border-left:3px solid var(--fz-danger)!important;border-radius:2px!important;color:var(--fz-text)!important;box-shadow:0 0 calc(12px*var(--fz-glow)) color-mix(in srgb,var(--fz-danger) 30%,transparent)!important;}
+#centre #fmz-floods-recus *{color:inherit;}
+#centre #fmz-floods-recus b,#centre #fmz-floods-recus strong{color:#ffb3bf!important;}

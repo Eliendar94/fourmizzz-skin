@@ -1,0 +1,14 @@
+/* v0.88 : Page Convois */
+/* lignes du formulaire sans surbrillance (les libellés « max » cliquables gardent la leur) */
+#centre table.simulateur form:has(#pseudo_convoi) tr:hover > td:not(.cliquable3){background:transparent!important;}
+/* icônes toutes à la même taille (16 / 25 / 35 px à l'origine) */
+#centre form:has(#pseudo_convoi) td > img{width:24px!important;height:24px!important;object-fit:contain;display:block;margin:0 auto;}
+/* bouton « Lancer le convoi », style de secours si l'option « Bouton Construire » est désactivée : famille des boutons d'action (Construire vert, Pondre orange, Recherche violet), ici en bleu */
+#centre form td:has(> input[name="convoi"]:not(.fz-hidden-input)){padding-top:10px!important;filter:drop-shadow(0 0 calc(6px*var(--fz-glow)) rgba(56,140,255,.6));}
+#centre table.simulateur form input[type="submit"][name="convoi"]{width:240px!important;height:auto!important;padding:8px 16px!important;
+  font-family:"Orbitron","Segoe UI",sans-serif!important;font-weight:700!important;font-size:12px!important;letter-spacing:.18em!important;text-transform:uppercase;
+  color:#eef6ff!important;text-shadow:0 0 calc(5px*var(--fz-glow)) rgba(190,220,255,.8);
+  background:linear-gradient(180deg,#5aa8ff 0%,#2a6fe0 55%,#1747a8 100%)!important;border:1px solid #9cc9ff!important;border-radius:0!important;box-shadow:none!important;
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);cursor:pointer;transition:filter .15s,transform .1s;}
+#centre table.simulateur form input[type="submit"][name="convoi"]:hover{filter:brightness(1.18) saturate(1.2);color:#fff!important;}
+#centre table.simulateur form input[type="submit"][name="convoi"]:active{transform:translateY(1px);filter:brightness(.95);}

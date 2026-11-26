@@ -1,0 +1,17 @@
+/* v1.36 : page Message collectif — panneau du skin, titre en bandeau, barres d'icônes alignées */
+#centre .boiteMessagerie:has(#message_collectif){background:linear-gradient(135deg,rgba(14,30,52,.88),rgba(8,14,28,.94))!important;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;border-radius:0!important;box-shadow:0 0 calc(18px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 18%,transparent),inset 0 0 calc(22px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 6%,transparent)!important;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));color:var(--fz-text)!important;padding:10px 16px 14px!important;box-sizing:border-box;}
+#centre .boiteMessagerie:has(#message_collectif) > .titre{display:flex!important;align-items:center;justify-content:center;gap:12px;margin:6px -16px 12px!important;padding:8px 16px!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:17px!important;font-style:normal!important;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#eafaff!important;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--fz-accent) 22%,transparent) 30%,color-mix(in srgb,var(--fz-accent) 22%,transparent) 70%,transparent)!important;border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 55%,transparent)!important;text-shadow:0 0 calc(10px*var(--fz-glow)) var(--fz-accent),0 0 2px var(--fz-accent)!important;}
+#centre .boiteMessagerie:has(#message_collectif) > .titre::before,#centre .boiteMessagerie:has(#message_collectif) > .titre::after{content:"";flex:0 0 50px;height:1px;background:linear-gradient(90deg,transparent,var(--fz-accent));}
+#centre .boiteMessagerie:has(#message_collectif) > .titre::after{background:linear-gradient(90deg,var(--fz-accent),transparent);}
+#centre .boiteMessagerie [id^="listeSmiley"]{line-height:24px;}
+#centre form:has(#message_collectif) .tousLesSmiley.fz-smiley-box{margin:0 0 8px!important;padding:6px 8px;background:color-mix(in srgb,var(--fz-accent) 6%,transparent);border:1px solid color-mix(in srgb,var(--fz-accent) 30%,transparent);}
+#centre .boiteMessagerie [id^="listeSmiley"] img{vertical-align:middle!important;margin:0 1px!important;}
+#centre .boiteMessagerie [id^="listeSmiley"] img[src*="rien.gif"]{width:8px!important;height:1px!important;}
+#centre form:has(#message_collectif){color:var(--fz-text)!important;}
+#centre form:has(#message_collectif) #objet{width:calc(100% - 290px)!important;min-width:240px;margin:0 8px 8px 4px;vertical-align:middle;}
+#centre form:has(#message_collectif) span.sur_une_ligne,#centre form:has(#message_collectif) span.sur_une_ligne > span{display:inline-flex!important;align-items:center;gap:4px;vertical-align:middle;}
+#centre form:has(#message_collectif) span.sur_une_ligne img{vertical-align:middle!important;position:static!important;top:0!important;margin:0 2px!important;}
+#centre #message_collectif{margin-top:8px!important;width:100%!important;box-sizing:border-box;border:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent)!important;}
+#centre .fz-build-wrap.fz-msgc-wrap{min-width:160px;margin:10px 12px 0 0!important;}
+#centre form:has(#message_collectif) #choix_separer{vertical-align:middle;}
+#centre form:has(#message_collectif) input[type=checkbox]{accent-color:var(--fz-accent);vertical-align:middle;}
