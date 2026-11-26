@@ -49,12 +49,18 @@ tools/verifier.js    vérifications ; tools/fixtures/ = pages de test minimales 
 
 ```
 node build.js                          # dist/fourmizzz-skin.user.js : autonome, images embarquées (~1,7 Mo)
-node build.js --resources <URL>/assets # dist/fourmizzz-skin.leger.user.js : images en @resource (~260 Ko)
+npm run build:leger                    # dist/fourmizzz-skin.leger.user.js : images en @resource (~260 Ko)
 node tools/verifier.js                 # vérifications (+ --ref fichier.user.js, + --rendu)
 ```
 
-La variante `--resources` demande que `assets/` soit publié en HTTPS (ex. GitHub raw). Le gestionnaire de userscripts
+La variante légère charge les images depuis le dépôt public https://github.com/Eliendar94/fourmizzz-skin
+(`raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/`) : **pousser les images sur `main` avant de
+distribuer un script qui les référence**, et garder le dépôt public (un dépôt privé rend les images illisibles pour le gestionnaire). Le gestionnaire de userscripts
 télécharge les images une fois, à l'installation ; `?v=<empreinte>` force le re-téléchargement quand une image change.
+
+Les images de `assets/` doivent rester **identiques octet pour octet** aux originales : ne pas les faire transiter par un
+outil ou un dossier qui réécrit les fichiers (le dossier partagé du projet Claude y ajoute des métadonnées C2PA, +5,7 Ko
+par image). Le dépôt GitHub fait référence ; `--ref` détecte toute dérive.
 
 ## Style visuel
 

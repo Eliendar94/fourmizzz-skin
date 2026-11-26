@@ -5,8 +5,12 @@
   "description": "Skin cosmétique (userscript) pour le jeu Fourmizzz",
   "scripts": {
     "build": "node build.js",
+    "build:leger": "node build.js --resources https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/",
     "verifier": "node tools/verifier.js",
     "verifier:rendu": "node tools/verifier.js --rendu"
   },
-  "engines": { "node": ">=18" }
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": "github:Eliendar94/fourmizzz-skin"
 }
