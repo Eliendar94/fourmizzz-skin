@@ -28,7 +28,8 @@ src/entete.js        bloc ==UserScript== (nom, version, @match, @grant)
 src/js/NN-nom.js     une fonction (ou un groupe de fonctions liées) par fichier, assemblés dans l'ordre des numéros
 src/css/<page>/*.css le CSS, rangé par page (reine/, construction/, laboratoire/, ressources/, convois/, attaque/,
                      armee/, alliance/, chats/, messagerie/, membre/, classements/, carte/, statistiques/, compteplus/)
-                     + commun/ (toutes pages), futuriste/ (thème Futuriste), compat/ (scripts tiers), reglages/ (panneau 🎨)
+                     + commun/ (toutes pages), futuriste/ (thème Futuriste), compat/ (scripts tiers), reglages/ (panneau 🎨),
+                     mobile/ (règles sous 61em seulement, ajoutées en dernier dans apply())
 assets/              images en fichiers normaux (.jpg ; .webp pour les 2 images d'origine en WebP, dont une transparente)
 build.js             assemblage → dist/
 tools/verifier.js    vérifications ; tools/fixtures/ = pages de test minimales pour le rendu
@@ -108,6 +109,12 @@ Futuriste violet (accent `#b77cff`).
 Le skin cohabite avec des scripts tiers (fmz-moderne et son shadow DOM, cixy, OptiFlood, « Profil joueur », plan de ponte…) :
 leurs éléments sont restylés, jamais supprimés ; le texte d'origine masqué reste dans la page pour qu'ils puissent le lire.
 
-## À venir
+## Version mobile
 
-Version mobile (responsive) : phase suivante, non commencée.
+Le jeu est lui-même responsive (design7.css) : sous **61em** (976 px) sa barre de menu passe à 48 px (icône au-dessus
+du texte) et il cache les boîtes de gauche (`#menuBoite` à top:-1000px) ; sous **41em** (656 px) la barre n'est plus fixe et
+les sous-menus prennent toute la largeur. Les règles mobiles du skin (`src/css/mobile/`) sont toutes dans
+`@media screen and (max-width:61em)` (ou 41em) : **le rendu ordinateur ne doit pas bouger**. Le bouton des boîtes de gauche
+(`#fz-boites-btn`, `src/js/43-mobile-boites-gauche.js`) n'est créé que sous 61em et bascule la classe
+`html.fz-boites-ouvertes`. `tools/fixtures/Armee.php.html` reprend un extrait du CSS du jeu (menu, boîtes) pour tester les trois largeurs.
+Pages déjà correctes sur téléphone : Reine, Ressources, Construction, Laboratoire, Alliance (membres), Armée.

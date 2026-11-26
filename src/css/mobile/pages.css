@@ -1,0 +1,33 @@
+/* v1.61 : version mobile — éléments trop larges sur téléphone. Sous 41em, le jeu fixe la page à 550 px
+   (<meta viewport width=550>) et réduit les photos à 75 × 75 px. */
+
+/* Bannière Construction / Laboratoire : elle s'agrandit quand plusieurs files sont en cours (la 2e ligne était coupée).
+   Hauteur inchangée tant que le contenu tient dans les 150 px d'origine. */
+html body #centre .fz-page-hero.fz-has-info{height:auto!important;min-height:150px;}
+
+@media screen and (max-width:41em){
+/* Page élargie par un tableau (Membres, Classements…) : la barre de navigation et le fond suivent toute la largeur */
+html{position:relative!important;width:fit-content!important;min-width:100%!important;}
+body::before{position:absolute!important;}
+
+/* Reine : tableau « Pontes en cours » à la largeur des panneaux d'unités */
+html body #centre > h4 + table.tableau_leger{width:100%!important;max-width:100%;}
+html body #centre > h4 + table.tableau_leger :is(td,th){padding:3px 4px!important;}
+html body #centre > h4 + table.tableau_leger :is(td,th):not(.fz-tcell){font-size:12px!important;}
+html body #centre > h4 + table.tableau_leger tr:first-child > :is(td,th){white-space:normal!important;font-size:9.5px!important;letter-spacing:.04em!important;line-height:1.3;}
+html body #centre > h4 + table.tableau_leger td.fz-tcell > .fz-time{font-size:11.5px!important;}
+
+/* Vignettes posées sur les photos (75 px) : sur toute la largeur de la photo au lieu de déborder à gauche */
+html body #centre .photo_unite .fz-army-badge{left:0;right:0;padding:2px 2px 3px!important;text-align:center;white-space:nowrap;font-size:9.5px!important;letter-spacing:0!important;clip-path:none!important;}
+html body #centre .photo_unite .fz-army-badge em{font-size:8.5px!important;}
+html body #centre .fz-lvls.fz-lvls-photo:has(.fz-lvl-up){left:0;right:0;display:block!important;}
+html body #centre .fz-lvls.fz-lvls-photo:has(.fz-lvl-up) .fz-lvl{padding:3px 2px 4px!important;text-align:center;font-size:11px!important;letter-spacing:0!important;clip-path:none!important;}
+
+/* Bannière : titre plus petit, files d'attente sur toute la largeur */
+html body #centre .fz-page-hero.fz-has-info{min-height:0;padding:14px 0 16px!important;}
+html body #centre .fz-page-hero .fz-page-hero-head{margin:0 18px 0 22px!important;gap:8px!important;}
+html body #centre .fz-page-hero .fz-page-hero-title{font-size:22px!important;letter-spacing:.14em!important;}
+html body #centre .fz-page-hero-info{padding:5px 10px!important;}
+html body #centre .fz-page-hero-info .fz-hero-line{font-size:12px!important;}
+html body #centre .fz-page-hero-info .fz-hero-sub{font-size:10.5px!important;}
+}

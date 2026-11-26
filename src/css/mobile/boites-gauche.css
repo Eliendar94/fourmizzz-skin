@@ -1,0 +1,15 @@
+/* v1.60 : version mobile — bouton en haut à gauche pour afficher / cacher les boîtes de gauche
+   (pseudo du joueur, Compte +), que le jeu cache sous 61em. Le bouton n'existe que sur petit écran. */
+#fz-boites-btn{display:none;}
+@media screen and (max-width:61em){
+html body #menu #fz-boites-btn{display:flex;align-items:center;justify-content:center;position:absolute;left:0;top:0;z-index:3001;width:44px;height:48px;margin:0;padding:0;border:0;border-right:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent);background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+html body #menu #fz-boites-btn > span{display:block;width:24px;height:24px;background:none!important;filter:drop-shadow(0 0 calc(3px*var(--fz-glow)) var(--fz-accent));}
+html body #menu #fz-boites-btn svg{display:block;width:24px;height:24px;stroke:var(--fz-accent);transition:transform .2s;}
+html.fz-boites-ouvertes body #menu #fz-boites-btn{background:color-mix(in srgb,var(--fz-accent) 18%,transparent);box-shadow:inset 0 -2px 0 var(--fz-accent);}
+html.fz-boites-ouvertes body #menu #fz-boites-btn svg{transform:rotate(90deg);}
+/* boîtes affichées sous la barre, par-dessus la page, avec un voile sombre derrière (toucher le voile referme) */
+html.fz-boites-ouvertes body #menuBoite{top:48px!important;z-index:19999!important;}
+/* le sous-menu déroulé passerait par-dessus les boîtes : masqué tant qu'elles sont affichées */
+html.fz-boites-ouvertes body #menu ul.menu_colonne{visibility:hidden!important;}
+html.fz-boites-ouvertes body #menuBoite::before{content:"";position:fixed;inset:0;z-index:-1;background:rgba(2,6,14,.72);backdrop-filter:blur(2px);}
+}

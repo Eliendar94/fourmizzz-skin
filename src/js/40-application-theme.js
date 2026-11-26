@@ -4,7 +4,7 @@
   style.id = 'fz-skin';
   const apply = () => {
     const futur = cfg.enabled && PRESETS[cfg.preset] && PRESETS[cfg.preset].futur;
-    style.textContent = !cfg.enabled ? '' : (futur ? FUTUR_IMPORT : '') + vars(cfg) + SKIN_CSS + (futur ? FUTUR_CSS : '') + (cfg.stationImg ? STATION_CSS + CUSTOM_IMG_CSS : '') + (cfg.buildBtn ? BUILD_BTN_CSS : '') + PONTE_TABLE_CSS + RING_CSS + MSG_TAG_CSS + MEMBERS_CSS + CHAT_CSS + PSEUDO_CSS + ALLY_NAME_CSS + forumCss(cfg) + (cfg.neonIcons ? msgIconCss(cfg) : '') + armyHeadCss(cfg.accent) + RES_LAYOUT_CSS + (cfg.neonIcons ? extraIconCss(cfg) : '') + (cfg.neonIcons ? neonIconCss(cfg.accent) + compteIconCss(cfg.accent) + menuIconCss(cfg.accent) + cplusIconCss(cfg) : '');
+    style.textContent = !cfg.enabled ? '' : (futur ? FUTUR_IMPORT : '') + vars(cfg) + SKIN_CSS + (futur ? FUTUR_CSS : '') + (cfg.stationImg ? STATION_CSS + CUSTOM_IMG_CSS : '') + (cfg.buildBtn ? BUILD_BTN_CSS : '') + PONTE_TABLE_CSS + RING_CSS + MSG_TAG_CSS + MEMBERS_CSS + CHAT_CSS + PSEUDO_CSS + ALLY_NAME_CSS + forumCss(cfg) + (cfg.neonIcons ? msgIconCss(cfg) : '') + armyHeadCss(cfg.accent) + RES_LAYOUT_CSS + (cfg.neonIcons ? extraIconCss(cfg) : '') + (cfg.neonIcons ? neonIconCss(cfg.accent) + compteIconCss(cfg.accent) + menuIconCss(cfg.accent) + cplusIconCss(cfg) : '') + MOBILE_CSS;
     document.documentElement.classList.toggle('fz-has-bg', !!(futur && cfg.bgImg));
   };
   apply();

@@ -1,0 +1,87 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><title>Armée</title>
+<style>
+/* extrait de design7.css du jeu (menu, boîtes de gauche, colonnes) pour tester le rendu ordinateur / tablette / téléphone */
+body{font-family:Verdana,sans-serif;padding:0;margin:0;}
+#centre{padding-top:35px;padding-bottom:50px;font-size:.9em;margin:0 10px 0 260px;text-align:left;}
+#gauche,#droite{position:fixed;top:0;bottom:0;width:250px;background-color:black;}
+#gauche{left:0;border-right:2px solid black;}
+#droite{right:0;display:none;border-left:2px solid black;}
+#menu{position:fixed;left:252px;right:0;top:0;z-index:20000;height:30px;background:#525543;}
+ul#menu_horizontal{z-index:3000;position:relative;padding:0;margin:0 45px 0 0;list-style:none;text-align:center;height:100%;}
+ul#menu_horizontal li{width:19.9%;height:100%;float:left;}
+.menuActif{top:30px!important;}
+#menu ul li a{display:inline-block;width:100%;height:100%;color:#d3d9b8;overflow:hidden;text-overflow:ellipsis;}
+ul#menu_horizontal li a span{height:26px;width:24px;vertical-align:-7px;margin-right:2px;display:inline-block;margin-top:2px;}
+ul.menu_colonne{width:calc(40% - 15px);position:absolute;text-align:left;z-index:3000;margin:0;padding:5px 0;list-style:none;background:#5d614c;}
+#menuFourmiliere,#menuAlliance{top:-1000px;}
+#menuFourmiliere{left:0;}
+#menuAlliance{left:calc(10% - 15px);}
+ul.menu_colonne li{height:57px;display:inline-block;width:30.66%;text-align:center;font-size:.8em;margin-left:2%;vertical-align:bottom;float:left;}
+ul.menu_colonne li a{display:block;width:100%;height:57px;color:#e9f2da;}
+ul.menu_colonne li a span{text-align:center;height:26px;width:24px;display:block;margin:auto;}
+#boutonDeconnexion{display:block;height:100%;width:45px;position:absolute;top:0;right:0;}
+#boutonDeconnexion span{width:24px;height:25px;margin:5px auto;display:block;}
+#menuBoite{display:block;width:250px;height:500px;position:fixed;top:30px;left:0;z-index:100;}
+#boiteComptePlus,#boiteInfo{position:absolute;left:15px;text-align:center;color:#d3d9b8;}
+#boiteInfo{top:20px;}#boiteComptePlus{top:200px;}
+.titre_colonne_cliquable{position:absolute;top:0;display:block;white-space:nowrap;overflow:hidden;width:220px;height:25px;padding-top:10px;z-index:3;}
+.contenu_boite_info,.contenu_boite_compte_plus{padding-top:10px;font-size:.8em;position:absolute;top:25px;padding-bottom:5px;width:220px;}
+@media screen and (max-width:61em){
+#centre{margin:0 5px;padding-top:53px;}
+#gauche{display:none;}
+.menuActif{top:48px!important;}
+#menu{height:48px;left:0;right:0;font-size:.8em;}
+ul#menu_horizontal li{width:16.66%;}
+ul#menu_horizontal li a span{display:block;margin:3px auto auto;}
+ul.menu_colonne{width:calc(33.33% - 15px);}
+#menuFourmiliere{left:calc(8.33% - 7.5px);}
+#menuAlliance{left:calc(25% - 15px);}
+#menuBoite{top:-1000px;}
+}
+@media screen and (max-width:41em){
+#menu{position:absolute;}
+ul.menu_colonne{width:100%;}
+#menuFourmiliere,#menuAlliance{left:0;}
+#menuBoite{position:absolute;}
+}
+@media screen and (min-width:84em){
+#centre{margin-right:260px;}#droite{display:block;}
+#menu{left:252px;right:250px;}
+}
+</style></head><body>
+<div id="gauche"></div>
+<nav id="menu">
+<ul id="menu_horizontal">
+<li id="liBoutonRessource"><a id="boutonRessource" href="Ressources.php"><span></span>Ressources</a></li>
+<li><a id="boutonFourmiliere" class="boutonActif" href="Reine.php"><span></span>Fourmilière</a></li>
+<li><a id="boutonAlliance" href="alliance.php"><span></span>Alliance</a></li>
+<li><a id="boutonCommunaute" href="classementAlliance.php"><span></span>Communauté</a></li>
+<li><a id="boutonComptePlus" href="compteplus.php"><span></span>Compte +</a></li>
+<li><a id="boutonAide" href="tutorial.php"><span></span>Aide</a></li>
+</ul>
+<a id="boutonDeconnexion" href="Membre.php"><span></span></a>
+<ul id="menuFourmiliere" class="menu_colonne menuActif">
+<li><a class="boutonReine" href="Reine.php"><span></span>Reine</a></li>
+<li><a class="boutonConstruction" href="construction.php"><span></span>Construction</a></li>
+<li><a class="boutonLaboratoire" href="laboratoire.php"><span></span>Laboratoire</a></li>
+<li><a class="boutonRessources" href="Ressources.php"><span></span>Ressources</a></li>
+<li><a class="boutonArmee" href="Armee.php"><span></span>Armée</a></li>
+<li><a class="boutonEnnemies" href="ennemie.php"><span></span>Ennemis</a></li>
+<li><a class="boutonCommerce" href="commerce.php"><span></span>Commerce</a></li>
+<li><a class="boutonMessagerie" href="messagerie.php"><span></span>Messagerie</a></li>
+<li><a class="boutonMaFourmiliere" href="Membre.php"><span></span>Ma fourmilière</a></li>
+</ul>
+<ul id="menuAlliance" class="menu_colonne">
+<li><a class="boutonChat" href="chat.php"><span></span>Chat</a></li>
+<li><a class="boutonMembres" href="alliance.php?Membres"><span></span>Membres</a></li>
+</ul>
+</nav>
+<div id="menuBoite">
+<div id="boiteInfo" class="boite_info"><a class="titre_colonne_cliquable" href="Membre.php"><span>Naruto94</span></a>
+<div class="contenu_boite_info"><table id="tableau_boite_info"><tr><td><span class="ligne_boite_info"><span class="texte_ligne_boite_info">12 345 ouvrières</span></span></td></tr><tr><td><span class="ligne_boite_info"><span class="texte_ligne_boite_info">1 000 nourriture</span></span></td></tr><tr><td><span class="ligne_boite_info"><span class="texte_ligne_boite_info">2 000 matériaux</span></span></td></tr></table></div></div>
+<div id="boiteComptePlus" class="boite_compte_plus"><span class="titre_colonne_cliquable">Compte +</span>
+<div class="contenu_boite_compte_plus"><table><tr><td><a href="compteplus.php">Simulateur de chasse</a></td></tr><tr><td><a href="compteplus.php">Bloc-notes</a></td></tr></table></div></div>
+</div>
+<div id="centre"><h2>Armée</h2><p>Contenu de la page Armée.</p><p>Deuxième paragraphe pour vérifier que la barre de menu ne recouvre pas le contenu.</p></div>
+<div id="droite"></div>
+</body></html>
