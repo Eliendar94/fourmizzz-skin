@@ -64,6 +64,11 @@ function build({ resources = null } = {}) {
       const v = crypto.createHash('sha1').update(fs.readFileSync(path.join(ASSETS, rel))).digest('hex').slice(0, 8);
       return `// @resource     ${name} ${base}${rel}?v=${v}`;
     });
+    // Mises à jour automatiques : le script léger est publié à côté des images, dans dist/ du même dépôt.
+    if (/\/assets\/$/.test(base)) {
+      const self = base.replace(/assets\/$/, 'dist/fourmizzz-skin.leger.user.js');
+      lines.push(`// @downloadURL  ${self}`, `// @updateURL    ${self}`);
+    }
     header = header
       .replace(/(\/\/ @grant[^\n]*\n)(?!\/\/ @grant)/, `$1// @grant        GM_getResourceURL\n`)
       .replace('// ==/UserScript==', lines.join('\n') + '\n// ==/UserScript==');

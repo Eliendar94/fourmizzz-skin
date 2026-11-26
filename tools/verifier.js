@@ -26,6 +26,15 @@ const embed = build();
 const leger = build({ resources: 'https://exemple.invalid/assets/' });
 ok(`images embarquées : ${(Buffer.byteLength(embed) / 1024).toFixed(0)} Ko, @resource : ${(Buffer.byteLength(leger) / 1024).toFixed(0)} Ko`);
 
+const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+const publie = path.join(ROOT, 'dist', 'fourmizzz-skin.leger.user.js');
+const urlAssets = ((pkg.scripts['build:leger'] || '').match(/--resources (\S+)/) || [])[1];
+if (urlAssets && fs.existsSync(publie)) {
+  fs.readFileSync(publie, 'utf8') === build({ resources: urlAssets })
+    ? ok('dist/fourmizzz-skin.leger.user.js à jour')
+    : ko('dist/fourmizzz-skin.leger.user.js pas à jour : lancer « npm run build:leger » avant de committer');
+}
+
 console.log('2. Syntaxe');
 for (const [n, code] of [['embarqué', embed], ['@resource', leger]]) {
   try { new vm.Script(code, { filename: n }); ok(n); } catch (e) { ko(`${n} : ${e.message}`); }
@@ -47,13 +56,18 @@ bad.length ? bad.forEach(ko) : ok('aucun envoi automatique (les .click() ne sont
 
 if (refPath) {
   console.log('5. Comparaison avec ' + refPath);
-  const ref = fs.readFileSync(refPath, 'utf8');
-  if (ref === embed) ok('identique octet pour octet');
+  // L'en-tête (@version…) change à chaque livraison : on compare le code, puis on signale les différences d'en-tête.
+  const split = (s) => { const i = s.indexOf('// ==/UserScript==\n'); return [s.slice(0, i), s.slice(i)]; };
+  const [refH, refC] = split(fs.readFileSync(refPath, 'utf8')), [embH, embC] = split(embed);
+  if (refC === embC) ok('code identique octet pour octet');
   else {
-    let i = 0; while (ref[i] === embed[i]) i++;
-    const line = ref.slice(0, i).split('\n').length;
-    ko(`différence à partir de la ligne ${line} (taille réf. ${ref.length}, construit ${embed.length})`);
+    let i = 0; while (refC[i] === embC[i]) i++;
+    const line = refH.split('\n').length + refC.slice(0, i).split('\n').length - 1;
+    ko(`code différent à partir de la ligne ${line} (taille réf. ${refC.length}, construit ${embC.length})`);
   }
+  const a = refH.split('\n'), b = embH.split('\n');
+  const hd = [...b.filter((l) => !a.includes(l)).map((l) => '+ ' + l), ...a.filter((l) => !b.includes(l)).map((l) => '- ' + l)];
+  ok(hd.length ? `en-tête : ${hd.join(' | ')}` : 'en-tête identique');
 }
 
 (async () => {

@@ -1,2 +1,3 @@
-dist/
+dist/*
+!dist/fourmizzz-skin.leger.user.js
 node_modules/

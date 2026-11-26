@@ -58,6 +58,12 @@ La variante légère charge les images depuis le dépôt public https://github.c
 distribuer un script qui les référence**, et garder le dépôt public (un dépôt privé rend les images illisibles pour le gestionnaire). Le gestionnaire de userscripts
 télécharge les images une fois, à l'installation ; `?v=<empreinte>` force le re-téléchargement quand une image change.
 
+**Installation / mises à jour** : `dist/fourmizzz-skin.leger.user.js` est versionné dans le dépôt (seul fichier de `dist/`
+committé) et s'installe depuis https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/dist/fourmizzz-skin.leger.user.js ;
+ses `@downloadURL` / `@updateURL` pointent dessus, Tampermonkey propose donc les mises à jour quand `@version` augmente.
+Relancer `npm run build:leger` avant chaque commit (le vérificateur le contrôle). Ne pas faire copier-coller le script
+au joueur : ses lignes très longues sont facilement tronquées (erreur « Unexpected end of input »).
+
 Les images de `assets/` doivent rester **identiques octet pour octet** aux originales : ne pas les faire transiter par un
 outil ou un dossier qui réécrit les fichiers (le dossier partagé du projet Claude y ajoute des métadonnées C2PA, +5,7 Ko
 par image). Le dépôt GitHub fait référence ; `--ref` détecte toute dérive.
