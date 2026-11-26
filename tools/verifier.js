@@ -103,6 +103,8 @@ if (refPath) {
           await ctx.addInitScript({ content: `(() => { const run = () => { ${code}\n}; if (document.documentElement) run(); else new MutationObserver((m, o) => { if (document.documentElement) { o.disconnect(); run(); } }).observe(document, { childList: true }); })();` });
           const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message));
           await p.goto(url); await p.waitForTimeout(2500);
+          // animations infinies (vignette « Nouveau » qui pulse…) figées au début, sinon chaque capture diffère
+          await p.evaluate(() => document.getAnimations().forEach((a) => { a.pause(); a.currentTime = 0; }));
           if (process.env.CAPTURES) { fs.mkdirSync(process.env.CAPTURES, { recursive: true }); await p.screenshot({ fullPage: true, path: path.join(process.env.CAPTURES, `${page}.${width}.${name.replace(/\W/g, '')}.png`) }); }
           if (errs.length) ko(`${page} (${name}) : erreur JS « ${errs[0]} »`);
           const etat = await p.evaluate(() => {
