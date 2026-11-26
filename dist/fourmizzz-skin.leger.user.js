@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fourmizzz — Skin perso
 // @namespace    fourmizzz-skin
-// @version      1.59
+// @version      1.60
 // @description  Thème personnalisable pour Fourmizzz (cosmétique uniquement)
 // @match        https://*.fourmizzz.fr/*
 // @run-at       document-start
@@ -226,6 +226,42 @@ body,#centre,#centre td,#centre div,#centre span{font-family:"Exo 2",var(--fz-fo
 #centre > small{color:var(--fz-text)!important;opacity:.7;}
 html.fz-has-bg,html.fz-has-bg body{background:linear-gradient(rgba(5,7,13,var(--fz-bg-veil)),rgba(5,7,13,var(--fz-bg-veil))),var(--fz-bg-img) center/cover fixed no-repeat,#05070d!important;}
 `;
+  // v1.60 : version mobile (règles sous 61em uniquement), ajoutée en dernier dans apply() pour primer
+  const MOBILE_CSS = `/* v1.60 : version mobile — barre de navigation. Sous 61em (976 px), le jeu passe sa barre à 48 px de haut
+   (icône au-dessus du texte) et cache les boîtes de gauche : le skin gardait la disposition ordinateur
+   (30 px, icône à côté du texte), d'où des libellés tassés. Rien ne change au-dessus de 61em. */
+@media screen and (max-width:61em){
+html body #menu #menu_horizontal{margin:0 44px!important;}
+html body #menu #menu_horizontal > li{min-width:0;}
+html body #menu #menu_horizontal > li > a{flex-direction:column;gap:4px;height:48px;padding:0 2px!important;overflow:hidden;white-space:nowrap;font-family:"Exo 2",var(--fz-font)!important;font-size:11px!important;font-weight:600!important;letter-spacing:.04em!important;text-transform:none!important;}
+html body #menu #menu_horizontal > li > a > span{width:22px!important;height:22px!important;}
+html body #menu #boutonDeconnexion{height:48px!important;width:44px!important;}
+html body #menu #boutonDeconnexion > span{width:22px!important;height:22px!important;}
+/* sous-menu (Reine, Construction…) : assez large pour ses libellés, texte resserré */
+html body #menu ul.menu_colonne{min-width:min(340px,100%);}
+html body #menu ul.menu_colonne > li > a{min-height:54px;padding:6px 2px!important;font-size:10px!important;letter-spacing:.03em!important;overflow-wrap:anywhere;}
+}
+@media screen and (max-width:41em){
+html body #menu ul.menu_colonne{min-width:0;}
+html body #menu #menu_horizontal{margin:0 40px!important;}
+html body #menu #menu_horizontal > li > a{font-size:clamp(8px,2.4vw,11px)!important;letter-spacing:0!important;padding:0 1px!important;}
+html body #menu #boutonDeconnexion,html body #menu #fz-boites-btn{width:40px!important;}
+}
+/* v1.60 : version mobile — bouton en haut à gauche pour afficher / cacher les boîtes de gauche
+   (pseudo du joueur, Compte +), que le jeu cache sous 61em. Le bouton n'existe que sur petit écran. */
+#fz-boites-btn{display:none;}
+@media screen and (max-width:61em){
+html body #menu #fz-boites-btn{display:flex;align-items:center;justify-content:center;position:absolute;left:0;top:0;z-index:3001;width:44px;height:48px;margin:0;padding:0;border:0;border-right:1px solid color-mix(in srgb,var(--fz-accent) 35%,transparent);background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+html body #menu #fz-boites-btn > span{display:block;width:24px;height:24px;background:none!important;filter:drop-shadow(0 0 calc(3px*var(--fz-glow)) var(--fz-accent));}
+html body #menu #fz-boites-btn svg{display:block;width:24px;height:24px;stroke:var(--fz-accent);transition:transform .2s;}
+html.fz-boites-ouvertes body #menu #fz-boites-btn{background:color-mix(in srgb,var(--fz-accent) 18%,transparent);box-shadow:inset 0 -2px 0 var(--fz-accent);}
+html.fz-boites-ouvertes body #menu #fz-boites-btn svg{transform:rotate(90deg);}
+/* boîtes affichées sous la barre, par-dessus la page, avec un voile sombre derrière (toucher le voile referme) */
+html.fz-boites-ouvertes body #menuBoite{top:48px!important;z-index:19999!important;}
+/* le sous-menu déroulé passerait par-dessus les boîtes : masqué tant qu'elles sont affichées */
+html.fz-boites-ouvertes body #menu ul.menu_colonne{visibility:hidden!important;}
+html.fz-boites-ouvertes body #menuBoite::before{content:"";position:fixed;inset:0;z-index:-1;background:rgba(2,6,14,.72);backdrop-filter:blur(2px);}
+}`;
 
   // ---------- Illustrations originales « station spatiale » des bâtiments (dessinées en SVG) ----------
   const STATION_SVG = (() => {
@@ -2202,7 +2238,7 @@ ${[['tdc', '#ff4d5e'], ['dome', '#ffb020'], ['loge', '#4ade80']].map(([k, col]) 
   style.id = 'fz-skin';
   const apply = () => {
     const futur = cfg.enabled && PRESETS[cfg.preset] && PRESETS[cfg.preset].futur;
-    style.textContent = !cfg.enabled ? '' : (futur ? FUTUR_IMPORT : '') + vars(cfg) + SKIN_CSS + (futur ? FUTUR_CSS : '') + (cfg.stationImg ? STATION_CSS + CUSTOM_IMG_CSS : '') + (cfg.buildBtn ? BUILD_BTN_CSS : '') + PONTE_TABLE_CSS + RING_CSS + MSG_TAG_CSS + MEMBERS_CSS + CHAT_CSS + PSEUDO_CSS + ALLY_NAME_CSS + forumCss(cfg) + (cfg.neonIcons ? msgIconCss(cfg) : '') + armyHeadCss(cfg.accent) + RES_LAYOUT_CSS + (cfg.neonIcons ? extraIconCss(cfg) : '') + (cfg.neonIcons ? neonIconCss(cfg.accent) + compteIconCss(cfg.accent) + menuIconCss(cfg.accent) + cplusIconCss(cfg) : '');
+    style.textContent = !cfg.enabled ? '' : (futur ? FUTUR_IMPORT : '') + vars(cfg) + SKIN_CSS + (futur ? FUTUR_CSS : '') + (cfg.stationImg ? STATION_CSS + CUSTOM_IMG_CSS : '') + (cfg.buildBtn ? BUILD_BTN_CSS : '') + PONTE_TABLE_CSS + RING_CSS + MSG_TAG_CSS + MEMBERS_CSS + CHAT_CSS + PSEUDO_CSS + ALLY_NAME_CSS + forumCss(cfg) + (cfg.neonIcons ? msgIconCss(cfg) : '') + armyHeadCss(cfg.accent) + RES_LAYOUT_CSS + (cfg.neonIcons ? extraIconCss(cfg) : '') + (cfg.neonIcons ? neonIconCss(cfg.accent) + compteIconCss(cfg.accent) + menuIconCss(cfg.accent) + cplusIconCss(cfg) : '') + MOBILE_CSS;
     document.documentElement.classList.toggle('fz-has-bg', !!(futur && cfg.bgImg));
   };
   apply();
@@ -2282,6 +2318,7 @@ ${[['tdc', '#ff4d5e'], ['dome', '#ffb020'], ['loge', '#4ade80']].map(([k, col]) 
       tick(); setInterval(tick, 1000); // le jeu met à jour les comptes à rebours chaque seconde
     }
     fzCompat();
+    if (cfg.enabled) mobileLeftBoxesButton(); // v1.60 : bouton des boîtes de gauche, petit écran seulement
     if (cfg.enabled) { markSubheads(); setTimeout(markSubheads, 1500); }
     if (cfg.enabled) { colorPonteNames(); colorPonteDestinations(); }
     if (cfg.enabled && (document.getElementById('nouveauxMessages') || /chat\.php|alliance/i.test(location.pathname))) { colorChatTags(); setInterval(colorChatTags, 1000); }
@@ -2304,4 +2341,43 @@ ${[['tdc', '#ff4d5e'], ['dome', '#ffb020'], ['loge', '#4ade80']].map(([k, col]) 
     setInterval(fzCompat, 2000);
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', onReady); else onReady();
+  // ---------- v1.60 : version mobile — bouton « boîtes de gauche » ----------
+  // Sous 61em, le jeu cache les boîtes de gauche (pseudo du joueur, Compte +). Un bouton en haut à gauche de la
+  // barre de navigation les affiche ou les cache (simple bascule d'affichage, aucune action de jeu).
+  // Le bouton n'est créé que sur petit écran : sur ordinateur, la page reste strictement identique.
+  // (déclaration de fonction : remontée dans la portée commune, appelée depuis onReady dans 42-demarrage.js)
+  function mobileLeftBoxesButton() {
+    const mq = window.matchMedia('screen and (max-width: 61em)');
+    const root = document.documentElement;
+    const OPEN = 'fz-boites-ouvertes';
+    const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M5.5 8h1.5M5.5 11h1.5M5.5 14h1.5"/></svg>';
+    const setOpen = (open) => {
+      root.classList.toggle(OPEN, open);
+      const btn = document.getElementById('fz-boites-btn');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    const sync = () => {
+      // compteplus.php ajoute un second #menu vide : on prend celui qui porte la barre de navigation
+      const menu = [...document.querySelectorAll('#menu')].find((m) => m.querySelector('#menu_horizontal'));
+      const boxes = document.getElementById('menuBoite');
+      let btn = document.getElementById('fz-boites-btn');
+      if (!mq.matches || !menu || !boxes) { if (btn) btn.remove(); setOpen(false); return; }
+      if (btn) return;
+      btn = document.createElement('button');
+      btn.type = 'button';
+      btn.id = 'fz-boites-btn';
+      btn.title = 'Afficher / cacher les infos du joueur et Compte +';
+      btn.setAttribute('aria-label', btn.title);
+      btn.setAttribute('aria-controls', 'menuBoite');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.innerHTML = '<span>' + ICON + '</span>';
+      btn.addEventListener('click', (e) => { e.preventDefault(); setOpen(!root.classList.contains(OPEN)); });
+      menu.insertBefore(btn, menu.firstChild);
+    };
+    // toucher le voile sombre (fond de #menuBoite, hors des boîtes) referme le panneau
+    document.addEventListener('click', (e) => { if (root.classList.contains(OPEN) && e.target && e.target.id === 'menuBoite') setOpen(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && root.classList.contains(OPEN)) setOpen(false); });
+    if (mq.addEventListener) mq.addEventListener('change', sync); else mq.addListener(sync);
+    sync();
+  }
 })();

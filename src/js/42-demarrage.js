@@ -15,6 +15,7 @@
       tick(); setInterval(tick, 1000); // le jeu met à jour les comptes à rebours chaque seconde
     }
     fzCompat();
+    if (cfg.enabled) mobileLeftBoxesButton(); // v1.60 : bouton des boîtes de gauche, petit écran seulement
     if (cfg.enabled) { markSubheads(); setTimeout(markSubheads, 1500); }
     if (cfg.enabled) { colorPonteNames(); colorPonteDestinations(); }
     if (cfg.enabled && (document.getElementById('nouveauxMessages') || /chat\.php|alliance/i.test(location.pathname))) { colorChatTags(); setInterval(colorChatTags, 1000); }
