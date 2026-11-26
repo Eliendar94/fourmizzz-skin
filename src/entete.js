@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fourmizzz — Skin perso
 // @namespace    fourmizzz-skin
-// @version      1.60
+// @version      1.61
 // @description  Thème personnalisable pour Fourmizzz (cosmétique uniquement)
 // @match        https://*.fourmizzz.fr/*
 // @run-at       document-start
