@@ -15,9 +15,16 @@
     JS: __ASSET__('unites/jeune-soldate.jpg'),
     S: __ASSET__('unites/soldate.jpg'),
     SE: __ASSET__('unites/soldate-elite.jpg'),
+    // v1.63 : l'image de la v1.42 était celle de la Concierge (rangée par erreur en Concierge d'élite) ;
+    // ajout des Concierge d'élite, Tank, Tank d'élite, Tueuse, Tueuse d'élite (456×300, comme les autres)
+    C: __ASSET__('unites/concierge.jpg'),
     CE: __ASSET__('unites/concierge-elite.jpg'),
     A: __ASSET__('unites/artilleuse.jpg'),
     AE: __ASSET__('unites/artilleuse-elite.jpg'),
+    Tk: __ASSET__('unites/tank.jpg'),
+    TkE: __ASSET__('unites/tank-elite.jpg'),
+    T: __ASSET__('unites/tueuse.jpg'),
+    TE: __ASSET__('unites/tueuse-elite.jpg'),
   };
   // v1.44 : page Reine — bouton « Copier mon armée » (unités de combat, hors ouvrières, au format « 386 838 Jeunes Soldates Naines, … »)
   const pluralUnit = (name) => name.split(' ').map(w => /^d[’']/i.test(w) ? (/s$/i.test(w) ? w : w + 's') : (/^(de|du|des)$/i.test(w) || /s$/i.test(w) ? w : w + 's')).join(' ');

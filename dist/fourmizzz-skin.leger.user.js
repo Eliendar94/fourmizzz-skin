@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fourmizzz — Skin perso
 // @namespace    fourmizzz-skin
-// @version      1.62
+// @version      1.63
 // @description  Thème personnalisable pour Fourmizzz (cosmétique uniquement)
 // @match        https://*.fourmizzz.fr/*
 // @run-at       document-start
@@ -30,9 +30,14 @@
 // @resource     unites-jeune-soldate https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/jeune-soldate.jpg?v=de06d6d9
 // @resource     unites-soldate https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/soldate.jpg?v=0e7464c8
 // @resource     unites-soldate-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/soldate-elite.jpg?v=8f903896
-// @resource     unites-concierge-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/concierge-elite.jpg?v=7a95d2ef
+// @resource     unites-concierge https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/concierge.jpg?v=7a95d2ef
+// @resource     unites-concierge-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/concierge-elite.jpg?v=cac178b3
 // @resource     unites-artilleuse https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/artilleuse.jpg?v=b09b5196
 // @resource     unites-artilleuse-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/artilleuse-elite.jpg?v=325fb04f
+// @resource     unites-tank https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/tank.jpg?v=99aba0a2
+// @resource     unites-tank-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/tank-elite.jpg?v=4196a83b
+// @resource     unites-tueuse https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/tueuse.jpg?v=32b2f485
+// @resource     unites-tueuse-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/tueuse-elite.jpg?v=897ea0a4
 // @resource     bannieres-ressources https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/bannieres/ressources.jpg?v=f307307c
 // @resource     bannieres-construction https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/bannieres/construction.jpg?v=3de370d5
 // @resource     bannieres-laboratoire https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/bannieres/laboratoire.jpg?v=1559f69a
@@ -318,9 +323,14 @@ NE: GM_getResourceURL('unites-naine'),
 JS: GM_getResourceURL('unites-jeune-soldate'),
 S: GM_getResourceURL('unites-soldate'),
 SE: GM_getResourceURL('unites-soldate-elite'),
+C: GM_getResourceURL('unites-concierge'),
 CE: GM_getResourceURL('unites-concierge-elite'),
 A: GM_getResourceURL('unites-artilleuse'),
 AE: GM_getResourceURL('unites-artilleuse-elite'),
+Tk: GM_getResourceURL('unites-tank'),
+TkE: GM_getResourceURL('unites-tank-elite'),
+T: GM_getResourceURL('unites-tueuse'),
+TE: GM_getResourceURL('unites-tueuse-elite'),
 };
 const pluralUnit = (name) => name.split(' ').map(w => /^d[’']/i.test(w) ? (/s$/i.test(w) ? w : w + 's') : (/^(de|du|des)$/i.test(w) || /s$/i.test(w) ? w : w + 's')).join(' ');
 function armyCopyText() {
