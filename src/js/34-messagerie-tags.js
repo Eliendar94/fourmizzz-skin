@@ -27,19 +27,26 @@
       a.parentNode.insertBefore(tag, a);
     });
     // Messages non lus : vignette « Nouveau » à la place du compteur (n), titre en gras
-    document.querySelectorAll('#messagerie span.nbr_mess_non_lus_conv').forEach(sp => {
-      const tr = sp.closest('tr');
-      const has = /\d/.test(sp.textContent);
-      let badge = tr && tr.querySelector('.fz-new');
+    /* v1.64 : le jeu signale un message non lu par la seule présence de span.nbr_mess_non_lus_conv, souvent vide
+       (rapports, conversation à un seul message non lu) : on ne demande plus de chiffre. Et on parcourt les lignes,
+       pas les compteurs : quand le message est ouvert, le jeu retire le compteur et la vignette doit disparaître. */
+    document.querySelectorAll('#messagerie tr.en_tete_message').forEach(tr => {
+      const sp = tr.querySelector('span.nbr_mess_non_lus_conv');
+      const has = !!sp;
+      let badge = tr.querySelector('.fz-new');
       if (has && !badge) {
         badge = document.createElement('span');
         badge.className = 'fz-new'; badge.textContent = 'Nouveau';
         // placée entre la vignette de type et le titre
-        const tag = tr && tr.querySelector('.fz-tag');
+        const tag = tr.querySelector('.fz-tag');
         if (tag) tag.after(badge); else sp.after(badge);
       }
-      if (badge) { badge.style.display = has ? '' : 'none'; badge.title = sp.textContent.replace(/\D/g, '') + ' message(s) non lu(s)'; }
-      if (tr) tr.classList.toggle('fz-unread', has);
+      if (badge) {
+        badge.style.display = has ? '' : 'none';
+        const n = has ? sp.textContent.replace(/\D/g, '') : '';
+        badge.title = n ? n + ' message(s) non lu(s)' : 'Non lu';
+      }
+      tr.classList.toggle('fz-unread', has);
     });
   }
   const MSG_TAG_CSS = __CSS__('messagerie/tags.css', 'messagerie/barre-outils.css', 'classements/classements.css', 'commun/panneaux-survol.css', 'convois/convois.css', 'attaque/attaque.css', 'commun/liens-annuler.css', 'membre/profil.css', 'commun/sous-menus.css', 'statistiques/statistiques.css', 'compteplus/compteplus.css', 'compteplus/sous-pages.css', 'reine/couleurs-ponte.css', 'construction/niveaux.css', 'alliance/membres-titre-ma-ligne.css', 'attaque/correctif-panneau.css', 'carte/carte.css', 'armee/statistiques.css', 'reine/armee-et-pontes.css', 'alliance/message-collectif.css', 'chats/titres-tags.css', 'commun/boites-gauche-hud.css', 'convois/capacite.css', 'construction/panneaux-neon.css', 'construction/attente-couts.css', 'construction/vignette-niveau.css', 'reine/destination-ponte.css');

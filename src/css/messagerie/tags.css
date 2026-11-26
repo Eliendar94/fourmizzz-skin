@@ -8,3 +8,6 @@
 #centre #messagerie tr.fz-unread > td:first-child{box-shadow:inset 3px 0 0 var(--fz-accent);}
 /* Message ouvert : date et heure dans la couleur du texte du message */
 #centre #messagerie tr.contenu_conversation td.expe,#centre #messagerie tr.contenu_conversation td.expe *,#centre #messagerie .message_non_lu{color:var(--fz-text)!important;}
+/* v1.64 : date et heure d'envoi dans le corps du message (div.date_envoi, gris #444 du jeu illisible sur fond sombre)
+   → pastille HUD : chiffres Orbitron à chasse fixe, couleur d'accent, liseré et légère lueur */
+#centre #messagerie tr.contenu_conversation .date_envoi{display:inline-block;float:right;margin:0 0 6px 12px!important;padding:2px 9px;border:1px solid color-mix(in srgb,var(--fz-accent) 45%,transparent);border-radius:2px;background:color-mix(in srgb,var(--fz-accent) 10%,rgba(5,12,24,.85));color:color-mix(in srgb,var(--fz-accent) 70%,#fff)!important;font:600 11px/16px "Orbitron","Segoe UI",sans-serif!important;letter-spacing:.08em;font-variant-numeric:tabular-nums;white-space:nowrap;text-shadow:0 0 calc(4px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 60%,transparent);box-shadow:0 0 calc(6px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 20%,transparent);}

@@ -31,3 +31,5 @@ html body #centre .fz-page-hero-info{padding:5px 10px!important;}
 html body #centre .fz-page-hero-info .fz-hero-line{font-size:12px!important;}
 html body #centre .fz-page-hero-info .fz-hero-sub{font-size:10.5px!important;}
 }
+/* v1.64 : Messagerie, date d'envoi un peu plus grande au doigt, sans marge gauche qui déborde */
+@media screen and (max-width:61em){#centre #messagerie tr.contenu_conversation .date_envoi{font-size:12px!important;line-height:18px!important;margin-left:8px!important;padding:1px 7px;}}
