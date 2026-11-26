@@ -1,3 +1,11 @@
+  // v1.62 : conversion couleur RVB (0-255) → [teinte en degrés, saturation 0-1, luminosité 0-1], partagée par le forum et le chat
+  function rgbToHsl(r, g, b) {
+    const R = r / 255, G = g / 255, B = b / 255, mx = Math.max(R, G, B), mn = Math.min(R, G, B), d = mx - mn;
+    let h = 0, l = (mx + mn) / 2, sat = d ? d / (1 - Math.abs(2 * l - 1)) : 0;
+    if (d) { h = mx === R ? ((G - B) / d) % 6 : mx === G ? (B - R) / d + 2 : (R - G) / d + 4; h *= 60; if (h < 0) h += 360; }
+    return [h, sat, l];
+  }
+
   // ---------- Forum interne de l'alliance ----------
   function styleForum() {
     // vignettes des sous-forums : couleur propre à chaque forum, éclaircie pour le fond sombre
@@ -9,9 +17,7 @@
       sp.classList.add('fz-forumtag');
       if (!m) return;
       const [r, g, b] = m.map(Number);
-      const R = r / 255, G = g / 255, B = b / 255, mx = Math.max(R, G, B), mn = Math.min(R, G, B), d = mx - mn;
-      let h = 0, l = (mx + mn) / 2, sat = d ? d / (1 - Math.abs(2 * l - 1)) : 0;
-      if (d) { h = mx === R ? ((G - B) / d) % 6 : mx === G ? (B - R) / d + 2 : (R - G) / d + 4; h *= 60; if (h < 0) h += 360; }
+      const [h, sat, l] = rgbToHsl(r, g, b);
       const col = (sat < .12 && l < .2) ? 'var(--fz-accent)' : sat < .12 ? '#cfe3f5' : `hsl(${Math.round(h)},${Math.round(Math.max(sat, .55) * 100)}%,${Math.round(Math.max(l, .72) * 100)}%)`;
       sp.style.setProperty('--ftag', col);
     });

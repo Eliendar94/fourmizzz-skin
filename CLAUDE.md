@@ -52,7 +52,12 @@ tools/verifier.js    vérifications ; tools/fixtures/ = pages de test minimales 
 node build.js                          # dist/fourmizzz-skin.user.js : autonome, images embarquées (~1,7 Mo)
 npm run build:leger                    # dist/fourmizzz-skin.leger.user.js : images en @resource (~260 Ko)
 node tools/verifier.js                 # vérifications (+ --ref fichier.user.js, + --rendu)
+node build.js --brut                   # sans allègement (débogage)
 ```
+
+Depuis la v1.62, le script livré est **allégé au build** (`minJs` / `minCss` dans `build.js`) : commentaires, indentation et
+blancs inutiles retirés ; chaînes, gabarits et expressions régulières intacts, retours à la ligne du JS conservés. Les sources
+restent commentées. Le rendu est comparé à trois largeurs (1200, 800, 390 px) : capture, DOM et styles calculés.
 
 La variante légère charge les images depuis le dépôt public https://github.com/Eliendar94/fourmizzz-skin
 (`raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/`) : **pousser les images sur `main` avant de
