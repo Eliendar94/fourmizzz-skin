@@ -36,6 +36,7 @@
     // le tableau des membres est construit après le chargement par un script tiers : on le surveille
     if (cfg.enabled && /alliance/i.test(location.pathname)) { fixMembers(); setInterval(fixMembers, 1000); styleForum(); setInterval(styleForum, 1000); }
     if (cfg.enabled && document.getElementById('messagerie')) { tagMessages(); setInterval(tagMessages, 1500); } // la liste change sans recharger la page
+    if (cfg.enabled && /fourmiliere\.php/i.test(location.pathname)) fourmiliereMegastructure(); // v1.68 : mégastructure spatiale
     new MutationObserver(fzCompat).observe(document.body, { childList: true });
     setInterval(fzCompat, 2000);
   };

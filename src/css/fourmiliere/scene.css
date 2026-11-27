@@ -1,0 +1,22 @@
+/* v1.68 : page « Ma Fourmilière » en mégastructure spatiale (scène construite par src/js/46-fourmiliere-megastructure.js).
+   Empilement : décor (1) < drones (2) < zones survolables (3) < bulles du jeu (10).
+   Le décor, le canvas et l'image à <map> du jeu restent dans la page, seulement masqués. */
+.fz-fourmi{background:#03050c;box-shadow:0 0 calc(24px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 22%,transparent);outline:1px solid color-mix(in srgb,var(--fz-accent) 40%,transparent);clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));text-align:left;}
+.fz-fourmi > #fourmiliere,.fz-fourmi > img[usemap="#vueFourmiliere"]{display:none!important;}
+.fz-fourmi > .fz-fourmi-decor{position:absolute;left:0;top:0;width:750px;height:750px;z-index:1;background:#03050c center/750px 750px no-repeat;pointer-events:none;}
+.fz-fourmi > .fz-fourmi-decor > svg{display:block;}
+.fz-fourmi > .fz-fourmi-anim{position:absolute;left:0;top:0;width:750px;height:750px;z-index:2;pointer-events:none;filter:drop-shadow(0 0 calc(4px*var(--fz-glow)) rgba(140,220,255,.6));}
+.fz-fourmi > .fz-fourmi-zones{position:absolute;left:0;top:0;width:750px;height:750px;z-index:3;}
+.fz-fourmi-zones polygon{fill:transparent;stroke:transparent;stroke-width:2;stroke-linejoin:round;cursor:pointer;transition:fill .2s,stroke .2s;}
+.fz-fourmi-zones polygon.fz-on{fill:color-mix(in srgb,var(--fz-zone) 16%,transparent);stroke:var(--fz-zone);stroke-dasharray:10 6;animation:fz-fourmi-scan 1.2s linear infinite;filter:drop-shadow(0 0 calc(6px*var(--fz-glow)) var(--fz-zone));}
+@keyframes fz-fourmi-scan{to{stroke-dashoffset:-32;}}
+.fz-fourmi-nom{font:600 9px "Orbitron","Segoe UI",sans-serif;letter-spacing:.12em;text-transform:uppercase;text-anchor:middle;opacity:.6;}
+.fz-fourmi-provisoire{font:10px "Exo 2","Segoe UI",sans-serif;fill:#8aa0b5;text-anchor:end;opacity:.7;}
+.fz-fourmi-etoile{animation:fz-fourmi-scintille 3s ease-in-out infinite alternate;}
+@keyframes fz-fourmi-scintille{from{opacity:.15;}to{opacity:.9;}}
+/* bulles du jeu : panneau HUD au-dessus de la scène ; elles ne captent pas la souris (sinon la zone perd le survol et la bulle clignote) */
+.fz-fourmi > table.boite_amelioration{z-index:10!important;pointer-events:none;}
+.fz-fourmi > table.boite_amelioration img.photo{width:160px;height:120px;object-fit:cover;border:1px solid color-mix(in srgb,var(--fz-accent) 45%,transparent);box-shadow:0 0 calc(10px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 30%,transparent);margin-right:8px;}
+.fz-fourmi > table.boite_amelioration h2{font-family:"Orbitron","Segoe UI",sans-serif!important;letter-spacing:.1em;text-transform:uppercase;color:var(--fz-accent)!important;text-shadow:0 0 calc(8px*var(--fz-glow)) var(--fz-accent);font-size:15px!important;}
+.fz-fourmi > table.boite_amelioration td{text-align:left!important;vertical-align:middle!important;}
+.fz-fourmi > table.boite_amelioration td:first-child{width:1%;}
