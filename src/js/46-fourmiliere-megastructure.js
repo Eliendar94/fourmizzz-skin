@@ -7,10 +7,10 @@
   //   3. calque animé (canvas) : petits vaisseaux-drones qui circulent dans leur module, plus nombreux quand le palier
   //      des bâtiments monte (paliers 1 à 6 transmis par le jeu dans fourmiliereNiveaux), et vaisseaux qui partent du
   //      port spatial et y reviennent pour chaque mouvement en cours (chasses, attaques, convois de la boîte Compte +) ;
-  //   4. calque des zones (SVG) : contour néon au survol et panneau HUD du module : bâtiments (niveau et effet lus
-  //      dans les bulles du jeu), recherches (lues en GET sur laboratoire.php), mouvements (boîte Compte +) ou troupes
-  //      (lues en GET sur Armee.php et commerce.php). Clic = page du module (simple navigation) ;
-  //      sur écran tactile : 1er appui = panneau, 2e = page.
+  //   4. calque des zones (SVG) : contour néon et aperçu du panneau HUD au survol (souris) ; un clic (ou un appui)
+  //      épingle le panneau (croix pour le fermer, lien › vers la page du module, plusieurs ouverts sans se recouvrir ;
+  //      sur petit écran ils s'empilent sous la scène). Données : bulles du jeu (bâtiments), boîte d'infos et boîte
+  //      Compte + (stocks, mouvements), et pages lues en GET (laboratoire, construction, Ressources, Armée, Convois).
   // Les zones viennent du calque du joueur (un contour de couleur par module), converti en polygones (pixels de l'image).
   // (déclaration de fonction : remontée dans la portée commune, appelée depuis onReady dans 42-demarrage.js)
   function fourmiliereMegastructure() {
@@ -24,14 +24,14 @@
     // bulles du jeu (table#messageN) → clé du palier dans fourmiliereNiveaux
     const NIV = { 1: 'nivEtablePuceron', 2: 'nivEtableCochenille', 3: 'nivChampignonniere', 4: 'nivCombat', 5: 'nivCaserne', 6: 'nivCouveuse',
       7: 'nivSolarium', 8: 'nivLaboratoire', 9: 'nivEntrepotNourriture', 10: 'nivEntrepotMateriaux', 11: '', 12: 'nivLoge', 13: 'nivAnalyse' };
-    // Zones (ordre = ordre d'empilement : le central « troupes » d'abord, le Dôme par-dessus). bat = bulles du jeu,
-    // rech = recherches (titre sur laboratoire.php), special = panneau propre, drones = nombre fixe (sinon d'après le palier).
+    // Zones (ordre = ordre d'empilement : le central « troupes » d'abord, le Dôme par-dessus). id = contenu du panneau (RENDU),
+    // page = lien du panneau, bat = bulles du jeu (nombre de drones d'après leur palier), drones = nombre fixe.
     const ZONES = [
-      { id: 'troupes', titre: 'Troupes', c: '#c8d3e0', page: 'Armee.php', special: 'troupes', drones: 5,
+      { id: 'troupes', titre: 'Troupes', c: '#c8d3e0', page: 'Armee.php', drones: 5,
         poly: [355,314,348,398,355,421,375,443,403,456,419,452,476,470,532,501,584,520,592,527,602,523,648,522,698,513,745,486,782,473,793,465,800,451,824,420,834,394,835,365,812,315,793,290,763,265,720,249,666,223,660,225,660,233,665,245,688,275,689,294,680,315,669,330,649,345,630,352,591,353,545,344,537,340,515,318,499,298,496,274,507,249,524,227,524,224,518,221,497,220,400,264,368,293] },
       { id: 'nourriture', titre: 'Entrepôt de nourriture', c: '#4ade80', page: 'construction.php', bat: [9],
         poly: [450,212,433,186,401,154,362,129,329,115,311,111,285,111,238,117,214,124,189,135,162,155,113,207,88,266,84,300,84,347,88,351,176,348,232,351,315,349,323,338,333,314,357,284,389,258,407,252,442,230,449,221] },
-      { id: 'nurserie', titre: 'Nurserie', c: '#ff5a6a', page: 'construction.php', bat: [7, 6], rech: ['Technique de ponte'],
+      { id: 'ponte', titre: 'Amélioration du temps de ponte', c: '#ff5a6a', page: 'construction.php', bat: [7, 6],
         poly: [395,123,398,132,434,171,453,187,475,212,485,216,499,216,510,211,527,210,554,203,615,200,669,208,693,215,711,215,787,133,784,120,771,95,748,72,718,60,677,56,643,46,526,50,519,44,515,49,485,51,426,80] },
       { id: 'militaire', titre: 'Quartier militaire', c: '#ff8a3d', page: 'construction.php', bat: [5, 4],
         poly: [722,232,724,237,730,233,771,249,807,271,852,323,859,325,880,325,915,316,964,312,980,308,1007,309,1065,301,1095,301,1099,291,1100,254,1084,210,1070,185,1045,165,991,132,935,112,854,110,832,116,778,146,757,164,743,188,727,227] },
@@ -39,11 +39,11 @@
         poly: [854,347,852,352,856,358,846,407,804,470,805,485,863,536,945,573,977,594,1007,603,1038,605,1058,592,1080,569,1122,502,1125,366,1113,336,1107,330,1089,322,1051,313,980,309] },
       { id: 'materiaux', titre: 'Entrepôt de matériaux', c: '#f9a8d4', page: 'construction.php', bat: [10],
         poly: [910,594,888,575,869,565,848,541,790,510,785,503,776,504,742,520,682,540,618,545,614,553,613,588,617,609,616,648,622,672,626,728,639,762,645,768,686,768,728,759,731,756,731,742,724,722,724,698,736,682,766,660,828,641,887,608,909,604] },
-      { id: 'port', titre: 'Port spatial', c: '#8fd8ff', page: 'Armee.php', special: 'port', drones: 3,
+      { id: 'port', titre: 'Port spatial', c: '#8fd8ff', page: 'Armee.php', drones: 3,
         poly: [1151,709,1135,695,1088,675,1037,627,985,607,964,594,953,593,911,608,836,649,816,656,786,661,760,675,735,700,731,711,731,725,738,759,771,807,793,828,869,886,877,890,889,890,910,885,928,875,965,862,1002,853,1055,829,1101,799,1133,769,1152,729] },
-      { id: 'recherche', titre: 'Pôle de recherche', c: '#ffd84a', page: 'laboratoire.php', bat: [8, 13], rech: ['Génétique', 'Poison', 'Acide'],
+      { id: 'recherche', titre: 'Pôle de recherche', c: '#ffd84a', page: 'laboratoire.php', bat: [8, 13],
         poly: [181,640,193,659,210,674,241,688,276,699,300,714,346,733,414,753,458,754,530,770,555,771,566,763,574,734,576,683,582,659,578,613,581,549,572,537,517,506,466,484,442,477,396,473,378,480,347,484,315,502,290,512,269,529,267,535,220,581,196,615,188,634] },
-      { id: 'champignonniere', titre: 'Champignonnière', c: '#f2f5fa', page: 'construction.php', bat: [3],
+      { id: 'champignonniere', titre: 'Champignonnière', c: '#f2f5fa', page: 'Ressources.php', bat: [3],
         poly: [296,355,289,352,118,355,94,368,78,384,78,404,83,415,81,471,95,526,110,557,136,585,146,590,172,591,200,582,224,567,250,538,282,519,290,511,350,482,360,472,362,459,319,381] },
       { id: 'dome', titre: 'Dôme et Loge impériale', c: '#c77dff', page: 'construction.php', bat: [11, 12],
         poly: [511,273,509,293,513,314,525,327,543,336,583,337,602,343,632,344,652,336,667,324,678,305,678,288,672,262,659,238,635,222,604,213,581,213,559,222,522,255] },
@@ -69,6 +69,7 @@
     const palier = (n) => Math.max(1, Math.min(6, niveaux[NIV[n]] || 1));
 
     // --- données des panneaux ---
+    const num = (s) => parseInt(String(s || '').replace(/[^\d]/g, ''), 10) || 0;
     // bâtiment : lu dans la bulle du jeu (nom, niveau, effet) ; photo « station » si l'option est active
     const batiment = (n) => {
       const b = document.getElementById('message' + n); if (!b) return null;
@@ -78,7 +79,7 @@
         effet: ((txt.match(/Effet\s*:?\s*(.+)$/i) || [])[1] || '').trim(),
         photo: (cfg.stationImg && CUSTOM_IMG['photo' + (n - 1)]) || (img && img.getAttribute('src')) || '' };
     };
-    // pages lues en GET (comme Diplomatie / profil), gardées en mémoire de session pour ne pas les relire à chaque survol
+    // pages lues en GET (comme Diplomatie / profil), gardées en mémoire de session pour ne pas les relire à chaque ouverture
     const lirePage = (url, duree) => {
       const cle = 'fzFourmi:' + location.host + ':' + url;
       try { const c = JSON.parse(sessionStorage.getItem(cle) || 'null'); if (c && Date.now() - c.t < duree) return Promise.resolve(new DOMParser().parseFromString(c.h, 'text/html')); } catch (e) {}
@@ -87,14 +88,83 @@
         return new DOMParser().parseFromString(h, 'text/html');
       });
     };
-    const recherches = () => lirePage('laboratoire.php', 3600e3).then(d => {
-      const r = {};
-      d.querySelectorAll('#centre tr.ligneAmelioration').forEach(tr => {
-        const h = tr.querySelector('h2'), n = tr.querySelector('.niveau_amelioration'), ph = tr.querySelector('.photo_recherche');
-        if (h) r[h.textContent.trim().toLowerCase()] = { nom: h.textContent.trim(), niv: n ? (n.textContent.match(/\d+/) || [''])[0] : '', photo: ph && cfg.stationImg ? RECHERCHE_IMG[ph.id] || '' : '' };
-      });
-      return r;
-    });
+    // Chargeurs : chacun lit une page une seule fois par affichage (la promesse est gardée) ; D[nom] = résultat ou {} si échec.
+    const D = {}, enCours = {};
+    const CHARGEURS = {
+      // recherches : nom, niveau, photo, effet chiffré (« Vie des unités accrue de 10% par niveau » → +10 % × niveau)
+      labo: () => lirePage('laboratoire.php', 3600e3).then(d => {
+        const r = {};
+        d.querySelectorAll('#centre tr.ligneAmelioration').forEach(tr => {
+          const h = tr.querySelector('h2'), n = tr.querySelector('.niveau_amelioration'), ph = tr.querySelector('.photo_recherche');
+          if (!h) return;
+          const niv = n ? num(n.textContent) : 0, txt = tr.textContent.replace(/\s+/g, ' ');
+          const m = txt.match(/Effet\s*:\s*(.+?)\s+(?:accrue?s?|réduite?s?|augmentée?s?)\s+de\s+(\d+(?:[.,]\d+)?)\s*%\s*par niveau/i);
+          r[h.textContent.trim().toLowerCase()] = { nom: h.textContent.trim(), niv, photo: ph && cfg.stationImg ? RECHERCHE_IMG[ph.id] || '' : '',
+            effet: m ? `${m[1]} ${/réduit/i.test(txt) ? '−' : '+'}${fmt(parseFloat(m[2].replace(',', '.')) * niv)} %` : '' };
+        });
+        return r;
+      }),
+      // bâtiments : capacité / production actuelle et au niveau suivant (descriptions de construction.php)
+      constr: () => lirePage('construction.php', 600e3).then(d => {
+        const r = {};
+        d.querySelectorAll('#centre tr.ligneAmelioration').forEach(tr => {
+          const h = tr.querySelector('h2'); if (!h) return;
+          const txt = tr.textContent.replace(/\s+/g, ' ');
+          const a = txt.match(/(Capacité|Production) actuelle\s*:\s*([\d\s  ]+)/i), s = txt.match(/(?:Capacité|Production) au niveau (\d+)\s*:\s*([\d\s  ]+)/i);
+          r[h.textContent.trim().toLowerCase()] = { actuel: a ? num(a[2]) : null, nivSuiv: s ? +s[1] : null, suivant: s ? num(s[2]) : null };
+        });
+        return r;
+      }),
+      // production par jour (Ressources.php) : récolte = ouvrières affectées × 48 (calcul du jeu), champignonnière, consommation
+      ress: () => lirePage('Ressources.php', 600e3).then(d => {
+        const p = d.getElementById('nbNourriture'), par = p && p.closest('p');
+        const val = (id) => { const e = d.getElementById(id); return e ? num(e.value || e.getAttribute('value')) : 0; };
+        const r = { recN: val('RecolteNourriture') * 48, recM: val('RecolteMateriaux') * 48, champi: 0, conso: 0 };
+        if (par) {
+          let last = null;
+          for (const n of par.childNodes) {
+            if (n.nodeType === 1 && n.tagName === 'STRONG') last = n;
+            else if (n.nodeType === 3 && last && !last.id) { if (/champignonni/i.test(n.textContent)) r.champi = num(last.textContent); }
+          }
+          const t = par.textContent.replace(/\s+/g, ' '), m = t.match(/consomme\s+([\d\s  ]+)/i); if (m) r.conso = num(m[1]);
+        }
+        return r;
+      }),
+      // armée (Armee.php) : quantités (span « remplirFormulaire(n,'uniteX',lieu,…) ») et statistiques par lieu
+      armee: () => lirePage('Armee.php', 600e3).then(d => {
+        const t = d.querySelector('#centre table.simulateur'); const r = { unites: [], vie: null };
+        if (!t) return r;
+        const head = [...t.rows].find(x => /Unités/.test(x.textContent));
+        const ht = head ? head.textContent.replace(/\s+/g, ' ') : '';
+        r.nivDome = +((ht.match(/Dôme\s*\((\d+)\)/i) || [])[1] || 0); r.nivLoge = +((ht.match(/Loge\s*\((\d+)\)/i) || [])[1] || 0);
+        [...t.rows].forEach(tr => {
+          const sp = [...tr.querySelectorAll('span[onclick*="remplirFormulaire"]')]; if (!sp.length) return;
+          const nomEl = tr.cells[0].querySelector('.pas_sur_telephone') || tr.cells[0];
+          r.unites.push({ nom: nomEl.textContent.replace(/\s+/g, ' ').trim(), n: sp.reduce((s, x) => s + num((x.getAttribute('onclick').match(/\((\d+)/) || [])[1]), 0) });
+        });
+        // lignes de statistiques : chaque cellule de lieu = « total = base + bonus (+ bonus du lieu) » dans son détail
+        const stat = (re) => [...t.rows].find(x => x.cells[0] && re.test(x.cells[0].textContent));
+        const parts = (tr) => tr ? [...tr.cells].slice(1).map(c => { const s = c.textContent.replace(/\s+/g, ' '); const eq = s.split('='); return (eq[1] || eq[0]).split('+').map(num); }) : [];
+        const somme = (tr) => parts(tr).reduce((s, p) => s + p.reduce((a, b) => a + b, 0), 0);
+        const vie = stat(/^\s*Vie/i), lg = vie ? vie.textContent : '';
+        if (vie) {
+          const pv = parts(vie), base = pv.reduce((s, p) => s + (p[0] || 0), 0), bouc = pv.reduce((s, p) => s + (p[1] || 0), 0);
+          r.vie = { base, bouc, nivBouc: +((lg.match(/Bouclier\s*\((\d+)\)/i) || [])[1] || 0) };
+        }
+        r.att = somme(stat(/Dégats en Attaque/i)); r.def = somme(stat(/Dégats en Défense/i));
+        const co = stat(/Consommation/i); r.conso = co ? [...co.cells].slice(1).reduce((s, c) => s + num(c.textContent), 0) : 0;
+        r.nivArme = +(((stat(/Dégats en Attaque/i) || { textContent: '' }).textContent.match(/Arme\s*\((\d+)\)/i) || [])[1] || 0);
+        return r;
+      }),
+      // convois (commerce.php) : ouvrières, terrain de chasse, bonus de l'étable à pucerons (même calcul que la page Convois)
+      convois: () => lirePage('commerce.php', 600e3).then(cm => {
+        const v = (id) => { const e = cm.getElementById(id); return e ? Math.floor(parseFloat(e.textContent)) || 0 : 0; };
+        let bonus = 0; for (const sc of cm.querySelectorAll('script')) { const m = sc.textContent.match(/function\s+maj_input_convoi[\s\S]*?var\s+bonus\s*=\s*(\d+(?:\.\d+)?)/); if (m) { bonus = parseFloat(m[1]); break; } }
+        const tot = v('nb_ouvrieres'), tdc = v('quantite_tdc');
+        return { tot, tdc: Math.min(tot, tdc), dispo: Math.max(0, tot - Math.min(tot, tdc)), cap: 10 * (1 + 0.05 * bonus), bonus };
+      }),
+    };
+    const charger = (nom) => enCours[nom] || (enCours[nom] = CHARGEURS[nom]().then(x => { D[nom] = x; }, () => { D[nom] = {}; }));
     // mouvements : lignes chasse / attaque / convoi de la boîte Compte + (texte, compte à rebours du jeu, détail de l'infobulle)
     const MOUV = [['chasse', 'Chasses', '#4ade80'], ['attaque', 'Attaques', '#ff4d5e'], ['convoi', 'Convois', '#5aa8ff']];
     const mouvements = () => MOUV.map(([cle, titre, c]) => {
@@ -105,45 +175,23 @@
       let det = [];
       const sc = [...tr.querySelectorAll('script')].map(s => s.textContent).join('\n').match(/content\s*:\s*"((?:\\.|[^"\\])*)"/);
       if (sc) { try { const t = new DOMParser().parseFromString(JSON.parse('"' + sc[1] + '"'), 'text/html'); det = [...t.querySelectorAll('tr')].map(r => [...r.cells].map(x => x.textContent.trim())); } catch (e) {} }
-      return { titre, c, lib, nb, tps: tps ? tps.textContent.trim() : '', det };
+      return { cle, titre, c, lib, nb, tps: tps ? tps.textContent.trim() : '', det };
     });
-    // troupes : tableau « Troupes en garnison » de Armee.php (colonnes Terrain de chasse / Dôme / Loge) + ouvrières de commerce.php
-    const troupes = () => Promise.all([lirePage('Armee.php', 600e3), lirePage('commerce.php', 600e3)]).then(([a, cm]) => {
-      const t = [...a.querySelectorAll('#centre table.simulateur')].find(x => /Unités/.test(x.textContent));
-      const res = { lieux: [], unites: [] };
-      if (t) {
-        const rows = [...t.rows], hi = rows.findIndex(r => /Unités/.test(r.textContent));
-        const cols = []; let o = 0;
-        [...rows[hi].cells].forEach(c => { cols.push([o, o + c.colSpan, c.textContent.replace(/\s+/g, ' ').trim()]); o += c.colSpan; });
-        res.lieux = cols.slice(1).map(c => c[2]);
-        for (const r of rows.slice(hi + 1)) {
-          if (r.cells.length < 2 || /Vie|Dégats|Consommation/i.test(r.cells[0].textContent)) break;
-          const c0 = r.cells[0], ab = c0.querySelector('span, small, abbr');
-          let nom = c0.textContent.replace(/\s+/g, ' ').trim(); if (ab && ab.textContent.trim() && nom.endsWith(ab.textContent.trim())) nom = nom.slice(0, -ab.textContent.trim().length).trim();
-          const v = res.lieux.map(() => 0); let off = c0.colSpan;
-          [...r.cells].slice(1).forEach(c => {
-            const i = cols.findIndex(col => off >= col[0] && off < col[1]) - 1;
-            const s = c.textContent.replace(/\s+/g, ' ').trim();
-            if (i >= 0 && /^[\d\s  ]+$/.test(s) && s.replace(/\D/g, '').length) v[i] = Math.max(v[i], parseInt(s.replace(/\D/g, ''), 10));
-            off += c.colSpan;
-          });
-          if (v.some(x => x > 0)) res.unites.push({ nom, v });
-        }
-      }
-      const num = (id) => { const e = cm.getElementById(id); return e ? Math.floor(parseFloat(e.textContent)) || 0 : 0; };
-      let bonus = 0; for (const sc of cm.querySelectorAll('script')) { const m = sc.textContent.match(/function\s+maj_input_convoi[\s\S]*?var\s+bonus\s*=\s*(\d+(?:\.\d+)?)/); if (m) { bonus = parseFloat(m[1]); break; } }
-      const tot = num('nb_ouvrieres'), tdc = num('quantite_tdc');
-      if (tot) { res.ouvr = tot; res.dispo = Math.max(0, tot - Math.min(tot, tdc)); res.cap = res.dispo * 10 * (1 + 0.05 * bonus); }
-      return res;
-    });
+    // stock et remplissage des entrepôts : boîte d'infos du jeu (à gauche), mise à jour en direct
+    const stock = (k) => {
+      const j = document.querySelector('#tableau_boite_info .jauge_' + k), td = j && j.closest('td');
+      const t = td && td.querySelector('.texte_ligne_boite_info');
+      const m = td && (td.getAttribute('title') || '').match(/(\d+(?:[.,]\d+)?)\s*%/);
+      const pct = j && j.style.width ? parseFloat(j.style.width) : m ? parseFloat(m[1].replace(',', '.')) : null;
+      return { qte: t ? num(t.textContent) : null, pct: pct == null ? null : Math.max(0, Math.min(100, pct)) };
+    };
 
-    // --- structure : scène (taille affichée) > étage 1200×896 réduit par zoom CSS (décor, drones, zones) + panneau ---
+    // --- structure : scène (taille affichée) > étage 1200×896 réduit par zoom CSS (décor, drones, zones) ; panneaux à part ---
     const etage = document.createElement('div'); etage.className = 'fz-fourmi-etage';
     const decor = document.createElement('div'); decor.className = 'fz-fourmi-decor'; decor.style.backgroundImage = `url("${DECOR}")`;
     const cv = document.createElement('canvas'); cv.className = 'fz-fourmi-anim';
     const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'fz-fourmi-zones'); svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    const panneau = document.createElement('div'); panneau.className = 'fz-fourmi-panneau';
-    etage.append(decor, cv, svg); scene.append(etage, panneau);
+    etage.append(decor, cv, svg); scene.append(etage);
     let k = 1;
     const ajuster = () => {
       const c = document.getElementById('centre'); const w = c ? c.clientWidth : innerWidth;
@@ -216,77 +264,156 @@
       requestAnimationFrame(boucle);
     }
 
-    // --- panneau HUD d'un module ---
-    const ligne = (b) => `<div class="fz-fp-item">${b.photo ? `<img src="${esc(b.photo)}" alt="">` : '<i></i>'}<div><b>${esc(b.nom)}</b>${b.niv ? ` <span class="fz-fp-niv">niv. ${esc(b.niv)}</span>` : ''}${b.effet ? `<small>${esc(b.effet)}</small>` : ''}</div></div>`;
-    const contenu = (z) => {
-      if (z.special === 'port') {
-        const ms = mouvements().filter(Boolean);
-        if (!ms.length) return '<p class="fz-fp-note">Le résumé des mouvements vient de la boîte Compte + : détail sur les pages Armée, Ressources et Convois.</p>';
-        return ms.map(m => `<div class="fz-fp-mouv" style="--fz-zone:${m.c}"><div class="fz-fp-mt"><b>${esc(m.titre)}</b><span>${esc(m.lib)}${m.tps ? ' · ' + esc(m.tps) : ''}</span></div>`
-          + (m.det.length ? `<table>${m.det.map(r => `<tr>${r.map(x => `<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</table>` : '') + '</div>').join('');
+    // --- panneaux HUD : aperçu au survol (souris), panneau épinglé au clic (croix pour fermer, plusieurs à la fois) ---
+    const ligne = (b) => `<div class="fz-fp-item">${b.photo ? `<img src="${esc(b.photo)}" alt="">` : '<i></i>'}<div><b>${esc(b.nom)}</b>${b.niv !== '' && b.niv != null ? ` <span class="fz-fp-niv">niv. ${esc(b.niv)}</span>` : ''}${b.effet ? `<small>${esc(b.effet)}</small>` : ''}</div></div>`;
+    const val = (lib, v, cls) => `<div class="fz-fp-ligne${cls ? ' ' + cls : ''}"><span>${lib}</span><b>${v}</b></div>`;
+    const attente = (noms) => noms.some(n => !(n in D));
+    const rech = (nom) => { const r = D.labo && D.labo[nom.toLowerCase()]; return r || { nom, niv: attente(['labo']) ? '…' : '' }; };
+    // anneau de remplissage (même dessin que la page Ressources : 10 segments, du vert (vide) au rouge (plein))
+    const anneau = (pct) => {
+      const col = `hsl(${Math.round(120 * (1 - pct / 100))},85%,52%)`, R = 26, C = 2 * Math.PI * R, SEG = 10, segLen = C / SEG - 3.2;
+      let s = '';
+      for (let i = 0; i < SEG; i++) {
+        const on = i < Math.floor(pct / 10) || (i === Math.floor(pct / 10) && pct % 10 >= 5);
+        s += `<circle cx="32" cy="32" r="${R}" fill="none" stroke="${on ? col : 'rgba(255,255,255,.12)'}" stroke-width="6" stroke-dasharray="${segLen.toFixed(2)} ${(C - segLen).toFixed(2)}" stroke-dashoffset="${(-i * C / SEG).toFixed(2)}" transform="rotate(-90 32 32)"/>`;
       }
-      if (z.special === 'troupes') {
-        if (!z.donnees) return '<p class="fz-fp-note">Lecture des troupes…</p>';
-        const t = z.donnees;
-        let h = '';
-        if (t.unites.length) {
-          const tot = t.lieux.map((_, i) => t.unites.reduce((s, u) => s + u.v[i], 0));
-          h += `<table class="fz-fp-armee"><tr><th>Unités</th>${t.lieux.map(l => `<th>${esc(l)}</th>`).join('')}</tr>`
-            + t.unites.map(u => `<tr><td>${esc(u.nom)}</td>${u.v.map(x => `<td>${x ? fmt(x) : ''}</td>`).join('')}</tr>`).join('')
-            + `<tr class="fz-fp-tot"><td>Total</td>${tot.map(x => `<td>${fmt(x)}</td>`).join('')}</tr></table>`;
-        } else h += '<p class="fz-fp-note">Aucune unité lue.</p>';
-        if (t.ouvr) h += `<div class="fz-fp-ligne"><span>Ouvrières</span><b>${fmt(t.ouvr)}</b></div><div class="fz-fp-ligne"><span>Ouvrières disponibles</span><b>${fmt(t.dispo)}</b></div><div class="fz-fp-ligne"><span>Capacité de livraison</span><b>${fmt(t.cap)}</b></div>`;
-        return h;
-      }
-      let h = z.bat.map(batiment).filter(Boolean).map(ligne).join('');
-      if (z.rech) h += z.rech.map(n => { const r = z.donnees && z.donnees[n.toLowerCase()]; return ligne(r || { nom: n, niv: z.donnees ? '' : '…' }); }).join('');
+      return `<svg class="fz-fp-anneau" viewBox="0 0 64 64" width="64" height="64" style="filter:drop-shadow(0 0 calc(3px*var(--fz-glow)) ${col})">${s}<text x="32" y="33" text-anchor="middle" dominant-baseline="middle" font-family="Orbitron,Segoe UI,sans-serif" font-weight="700" font-size="14" fill="#fff">${Math.round(pct)}%</text></svg>`;
+    };
+    const entrepot = (n, k) => {
+      const b = batiment(n), c = D.constr && b && D.constr[b.nom.toLowerCase()], s = stock(k);
+      let h = b ? ligne(Object.assign({}, b, { effet: '' })) : '';
+      h += '<div class="fz-fp-entrepot">' + (s.pct != null ? anneau(s.pct) : '') + '<div>'
+        + (s.qte != null ? val('En stock', fmt(s.qte)) : '')
+        + (c && c.actuel != null ? val('Capacité', fmt(c.actuel)) : attente(['constr']) ? val('Capacité', '…') : '')
+        + (c && c.suivant != null ? val(`Capacité au niveau ${c.nivSuiv}`, fmt(c.suivant), 'fz-fp-suiv') : '')
+        + '</div></div>';
       return h;
     };
-    const placer = (z) => {
-      const sw = W * k, sh = H * k, pw = Math.min(360, sw - 16);
-      panneau.style.width = pw + 'px';
-      const ph = panneau.offsetHeight;
-      const [x0, y0, x1, y1] = z.box.map(v => v * k);
-      let left, top;
-      if (sw < 600) { left = (sw - pw) / 2; top = (y0 + y1) / 2 > sh / 2 ? 8 : sh - ph - 8; }
-      else {
-        left = x1 + 12 + pw <= sw ? x1 + 12 : x0 - 12 - pw >= 0 ? x0 - 12 - pw : (sw - pw) / 2;
-        top = Math.max(8, Math.min(sh - ph - 8, (y0 + y1) / 2 - ph / 2));
-      }
-      panneau.style.left = Math.round(left) + 'px'; panneau.style.top = Math.round(Math.max(0, top)) + 'px';
+    const RENDU = {
+      // Solarium + Couveuse + Technique de ponte : chacun +10 % de vitesse de ponte par niveau, additionnés
+      ponte: () => {
+        const so = batiment(7), cv = batiment(6), tp = rech('Technique de ponte');
+        const pts = [so, cv].map(b => b ? num(b.niv) * 10 : 0).concat(tp.niv !== '…' ? [num(tp.niv) * 10] : []);
+        const tot = pts.reduce((a, b) => a + b, 0);
+        return [so, cv].filter(Boolean).map((b, i) => ligne(Object.assign({}, b, { effet: `Vitesse de ponte +${fmt(pts[i])} %` }))).join('')
+          + ligne(Object.assign({}, tp, { effet: tp.effet || '' }))
+          + val('Vitesse de ponte totale', attente(['labo']) ? '…' : `+${fmt(tot)} %`, 'fz-fp-total');
+      },
+      militaire: () => [5, 4].map(batiment).filter(Boolean).map(ligne).join('') + ligne(rech('Armes')) + ligne(rech('Bouclier Thoracique')),
+      etables: () => [1, 2].map(batiment).filter(Boolean).map(ligne).join(''),
+      nourriture: () => entrepot(9, 'nourriture'),
+      materiaux: () => entrepot(10, 'materiaux'),
+      champignonniere: () => {
+        const b = batiment(3), r = D.ress, c = D.constr && b && D.constr[b.nom.toLowerCase()];
+        let h = b ? ligne(Object.assign({}, b, { effet: '' })) : '';
+        if (!r) return h + '<p class="fz-fp-note">Lecture de la production…</p>';
+        const champi = r.champi || (c && c.actuel) || 0, solde = r.recN + champi - r.conso;
+        const sg = (v) => `<span class="${v > 0 ? 'fz-pos' : v < 0 ? 'fz-neg' : ''}">${v > 0 ? '+' : v < 0 ? '−' : ''}${fmt(Math.abs(v))}</span>`;
+        return h + '<div class="fz-fp-sous">Nourriture par jour</div>' + val('Récolte du terrain', sg(r.recN)) + val('Champignonnière', sg(champi))
+          + (c && c.suivant != null ? val(`Champignonnière au niveau ${c.nivSuiv}`, sg(c.suivant), 'fz-fp-suiv') : '')
+          + val('Coût de l\'armée', sg(-r.conso)) + val('Reste', sg(solde), 'fz-fp-total');
+      },
+      dome: () => [11, 12].map(batiment).filter(Boolean).map(ligne).join(''),
+      recherche: () => [8, 13].map(batiment).filter(Boolean).map(ligne).join('') + ['Génétique', 'Poison', 'Acide'].map(n => ligne(rech(n))).join(''),
+      troupes: () => {
+        const a = D.armee; if (!a) return '<p class="fz-fp-note">Lecture de l\'armée…</p>';
+        const us = (a.unites || []).filter(u => u.n > 0);
+        let h = '<div class="fz-fp-sous">Armée totale</div>';
+        h += us.length ? '<table class="fz-fp-armee">' + us.map(u => { const hit = UNIT_COLORS.find(([re]) => re.test(u.nom)); return `<tr style="color:${hit ? hit[1] : 'inherit'}"><td>${esc(u.nom)}</td><td>${fmt(u.n)}</td></tr>`; }).join('')
+          + `<tr class="fz-fp-tot"><td>Total</td><td>${fmt(us.reduce((s, u) => s + u.n, 0))}</td></tr></table>` : '<p class="fz-fp-note">Aucune unité.</p>';
+        if (a.vie) {
+          // vie si toute l'armée était au même endroit : base + bouclier + bonus du lieu (Dôme 10 % + 5 %/niv, Loge 30 % + 15 %/niv, sur la base)
+          const v = (bonus) => a.vie.base + a.vie.bouc + a.vie.base * bonus;
+          h += '<div class="fz-fp-sous">Statistiques</div>'
+            + val('Vie sur le terrain de chasse', fmt(v(0))) + val(`Vie au Dôme (${a.nivDome})`, fmt(v(a.nivDome ? .10 + .05 * a.nivDome : 0)))
+            + val(`Vie en Loge (${a.nivLoge})`, fmt(v(a.nivLoge ? .30 + .15 * a.nivLoge : 0)))
+            + val('Dégâts en attaque', fmt(a.att)) + val('Dégâts en défense', fmt(a.def)) + val('Consommation journalière', fmt(a.conso));
+        }
+        return h;
+      },
+      // Port spatial : mouvements en cours / permis (niveau de Vitesse de chasse ou d'attaque + 1), capacité des convois
+      port: () => {
+        const ms = mouvements().filter(Boolean), lab = D.labo || {}, cv = D.convois;
+        const permis = { chasse: lab['vitesse de chasse'], attaque: lab["vitesse d'attaque"] };
+        let h = ms.length ? '' : '<p class="fz-fp-note">Mouvements en cours : boîte Compte + absente de la page.</p>';
+        h += ms.map(m => {
+          const p = permis[m.cle], max = p ? ` / ${p.niv + 1}` : m.cle === 'convoi' ? '' : attente(['labo']) ? ' / …' : '';
+          return `<div class="fz-fp-mouv" style="--fz-zone:${m.c}"><div class="fz-fp-mt"><b>${esc(m.titre)}</b><span><b>${m.nb}${max}</b>${m.tps ? ' · ' + esc(m.tps) : ''}</span></div>`
+            + (m.det.length ? `<table>${m.det.map(r => `<tr>${r.map(x => `<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</table>` : '') + '</div>';
+        }).join('');
+        if (cv && cv.tot) h += '<div class="fz-fp-sous">Capacité des convois</div>' + val('Ouvrières disponibles', fmt(cv.dispo))
+          + val('Livrable sans découvrir le TdC', fmt(cv.dispo * cv.cap)) + val('Livrable avec 100 % des ouvrières', fmt(cv.tot * cv.cap))
+          + `<p class="fz-fp-note">${cv.cap.toLocaleString('fr-FR')} ressources par ouvrière (Étable à pucerons niv. ${cv.bonus})</p>`;
+        else if (attente(['convois'])) h += '<p class="fz-fp-note">Lecture des convois…</p>';
+        return h;
+      },
     };
-    const remplir = (z) => {
-      panneau.style.setProperty('--fz-zone', z.c);
-      panneau.innerHTML = `<div class="fz-fp-titre">${esc(z.titre)}</div>${contenu(z)}`;
-      placer(z);
+    const BESOINS = { ponte: ['labo'], militaire: ['labo'], recherche: ['labo'], nourriture: ['constr'], materiaux: ['constr'], champignonniere: ['ress', 'constr'], troupes: ['armee'], port: ['labo', 'convois'] };
+    const html = (z, epingle) => `<div class="fz-fp-titre">${esc(z.titre)}${epingle ? `<a class="fz-fp-page" href="${z.page}" title="Ouvrir la page">›</a><button type="button" class="fz-fp-x" title="Fermer">×</button>` : ''}</div><div class="fz-fp-corps">${RENDU[z.id]()}</div>`;
+
+    const dock = document.createElement('div'); dock.className = 'fz-fourmi-dock'; scene.after(dock);
+    const etroit = () => W * k < 600; // petit écran : les panneaux épinglés s'empilent sous la scène
+    const epingles = []; // zones épinglées, dans l'ordre d'ouverture
+    const chevauche = (a, b) => a.l < b.l + b.w + 6 && b.l < a.l + a.w + 6 && a.t < b.t + b.h + 6 && b.t < a.t + a.h + 6;
+    // place un panneau près de sa zone, sans recouvrir les panneaux déjà épinglés (sinon : premier emplacement libre)
+    const placer = (z, el, autres) => {
+      const sw = W * k, sh = H * k, pw = Math.min(340, sw - 16);
+      el.style.width = pw + 'px'; el.style.maxHeight = (sh - 16) + 'px';
+      const ph = Math.min(el.offsetHeight, sh - 16);
+      const [x0, y0, x1, y1] = z.box.map(v => v * k), cy = (y0 + y1) / 2 - ph / 2, cx = (x0 + x1) / 2 - pw / 2;
+      const borne = (l, t) => ({ l: Math.max(8, Math.min(sw - pw - 8, l)), t: Math.max(8, Math.min(sh - ph - 8, t)), w: pw, h: ph });
+      const cands = [borne(x1 + 12, cy), borne(x0 - 12 - pw, cy), borne(cx, y1 + 12), borne(cx, y0 - 12 - ph)];
+      for (let t = 8; t <= sh - ph - 8; t += 24) for (let l = 8; l <= sw - pw - 8; l += 24) cands.push(borne(l, t));
+      const r = cands.find(c => !autres.some(o => chevauche(c, o))) || cands[0];
+      el.style.left = Math.round(r.l) + 'px'; el.style.top = Math.round(r.t) + 'px';
+      return r;
     };
-    let ouverte = null, appui = null;
+    const rect = (el) => ({ l: el.offsetLeft, t: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight });
+    const replacer = () => {
+      const faits = [];
+      epingles.forEach(z => {
+        const el = z.panneau, dedans = !etroit();
+        if (dedans && el.parentNode !== scene) scene.appendChild(el); else if (!dedans && el.parentNode !== dock) dock.appendChild(el);
+        el.classList.toggle('fz-dock', !dedans);
+        if (dedans) faits.push(placer(z, el, faits)); else { el.style.left = el.style.top = el.style.width = el.style.maxHeight = ''; }
+      });
+    };
+    const rafraichir = (z) => {
+      if (apercu.zone === z) { apercu.innerHTML = html(z, false); placer(z, apercu, epingles.filter(x => x.panneau.parentNode === scene).map(x => rect(x.panneau))); }
+      if (z.panneau) { const c = z.panneau.querySelector('.fz-fp-corps'), n = RENDU[z.id](); if (c && c.dataset.k !== n) { c.innerHTML = n; c.dataset.k = n; replacer(); } }
+    };
+    const preparer = (z) => (BESOINS[z.id] || []).forEach(n => { if (!(n in D)) charger(n).then(() => rafraichir(z)); });
+    const apercu = document.createElement('div'); apercu.className = 'fz-fourmi-panneau fz-apercu'; scene.appendChild(apercu);
     const montrer = (z) => {
-      if (ouverte && ouverte !== z) ouverte.el.classList.remove('fz-on');
-      ouverte = z; z.el.classList.add('fz-on'); remplir(z); panneau.classList.add('fz-on');
-      // données lues en GET au premier survol, puis le panneau est mis à jour s'il est toujours ouvert
-      if (!z.donnees && !z.lecture && (z.rech || z.special === 'troupes')) {
-        z.lecture = (z.rech ? recherches() : troupes()).then(d => { z.donnees = d; }, () => { z.donnees = z.rech ? {} : { lieux: [], unites: [] }; })
-          .then(() => { if (ouverte === z) remplir(z); });
-      }
+      if (z.panneau || etroit()) return;
+      apercu.zone = z; apercu.style.setProperty('--fz-zone', z.c); apercu.innerHTML = html(z, false); apercu.classList.add('fz-on');
+      placer(z, apercu, epingles.filter(x => x.panneau.parentNode === scene).map(x => rect(x.panneau)));
+      z.el.classList.add('fz-on'); preparer(z);
     };
-    const cacher = (z) => { z.el.classList.remove('fz-on'); if (ouverte === z) { ouverte = null; panneau.classList.remove('fz-on'); } };
+    const cacherApercu = (z) => { if (apercu.zone === z) { apercu.zone = null; apercu.classList.remove('fz-on'); } if (!z.panneau) z.el.classList.remove('fz-on'); };
+    const fermer = (z) => { if (!z.panneau) return; z.panneau.remove(); z.panneau = null; epingles.splice(epingles.indexOf(z), 1); z.el.classList.remove('fz-on', 'fz-pin'); replacer(); };
+    const epingler = (z) => {
+      cacherApercu(z);
+      if (z.panneau) { z.panneau.classList.remove('fz-flash'); void z.panneau.offsetWidth; z.panneau.classList.add('fz-flash'); return; }
+      const el = document.createElement('div'); el.className = 'fz-fourmi-panneau fz-pin fz-on';
+      el.style.setProperty('--fz-zone', z.c); el.innerHTML = html(z, true);
+      el.querySelector('.fz-fp-x').addEventListener('click', (e) => { e.stopPropagation(); fermer(z); });
+      z.panneau = el; epingles.push(z); z.el.classList.add('fz-on', 'fz-pin');
+      replacer(); preparer(z);
+    };
+    // le Port spatial suit les comptes à rebours du jeu
+    setInterval(() => { const z = ZONES.find(x => x.id === 'port'); if (z.panneau || apercu.zone === z) rafraichir(z); }, 1000);
+    window.addEventListener('resize', replacer);
     ZONES.forEach(z => {
       const el = document.createElementNS(NS, 'polygon');
       el.setAttribute('points', z.p.map(q => q.join(',')).join(' '));
       el.style.setProperty('--fz-zone', z.c);
       const titre = document.createElementNS(NS, 'title'); titre.textContent = z.titre; el.appendChild(titre);
       z.el = el;
-      // sur écran tactile le navigateur simule mouseenter juste avant le clic : on note l'état dès pointerdown
-      el.addEventListener('pointerdown', (e) => { appui = { tactile: e.pointerType !== 'mouse', deja: ouverte === z }; });
-      el.addEventListener('mouseenter', () => montrer(z));
-      el.addEventListener('mouseleave', () => { if (!(appui && appui.tactile)) cacher(z); });
-      el.addEventListener('click', () => {
-        if (appui && appui.tactile && !appui.deja) { montrer(z); return; } // 1er appui : le panneau seulement
-        location.href = z.page; // simple navigation vers la page du module
-      });
+      // sur écran tactile le navigateur simule mouseenter juste avant le clic : l'aperçu n'est montré qu'à la souris
+      el.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') montrer(z); });
+      el.addEventListener('pointerleave', () => cacherApercu(z));
+      el.addEventListener('click', () => epingler(z));
       svg.appendChild(el);
     });
-    // appui en dehors des zones (tactile) : on referme le panneau
-    scene.addEventListener('click', (e) => { if (ouverte && e.target.closest && !e.target.closest('.fz-fourmi-zones polygon')) cacher(ouverte); });
   }

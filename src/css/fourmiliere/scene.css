@@ -33,3 +33,24 @@
 .fz-fp-armee tr.fz-fp-tot td{border-top:1px solid rgba(140,180,220,.25);font-weight:700;color:#f2f8ff;}
 .fz-fp-ligne{display:flex;justify-content:space-between;padding:2px 0;border-top:1px solid rgba(140,180,220,.12);margin-top:2px;}
 .fz-fp-ligne b{color:#f2f8ff;}
+/* panneaux épinglés (clic) : cliquables, croix de fermeture, lien vers la page ; sur petit écran, empilés sous la scène */
+.fz-fourmi-panneau.fz-pin{pointer-events:auto;overflow:auto;z-index:11;}
+.fz-fourmi-panneau.fz-flash{animation:fz-fourmi-flash .6s ease-out;}
+@keyframes fz-fourmi-flash{from{box-shadow:0 0 calc(40px*var(--fz-glow)) var(--fz-zone);}}
+.fz-fp-titre{position:relative;padding-left:22px;padding-right:22px;}
+.fz-fp-x,.fz-fp-page{position:absolute;top:-2px;width:20px;height:20px;line-height:18px;padding:0;border:1px solid color-mix(in srgb,var(--fz-zone) 55%,transparent);background:rgba(6,12,24,.8);color:#f2f8ff!important;font:700 15px/18px "Segoe UI",sans-serif;text-align:center;text-decoration:none!important;cursor:pointer;}
+.fz-fp-x{right:0;color:#ff7a85!important;}
+.fz-fp-page{left:0;}
+.fz-fp-x:hover,.fz-fp-page:hover{background:color-mix(in srgb,var(--fz-zone) 30%,#06101c);}
+.fz-fourmi-dock{display:flex;flex-direction:column;gap:8px;margin:8px auto 0;max-width:100%;text-align:left;}
+.fz-fourmi-dock:empty{display:none;}
+.fz-fourmi-dock > .fz-fourmi-panneau{position:relative;width:auto;}
+.fz-fp-sous{margin:8px 0 3px;font:600 10px "Orbitron","Segoe UI",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--fz-zone);}
+.fz-fp-total{border-top:1px solid color-mix(in srgb,var(--fz-zone) 50%,transparent)!important;font-weight:700;}
+.fz-fp-suiv span,.fz-fp-suiv b{color:#9fb0c3!important;font-weight:400;}
+.fz-fp-entrepot{display:flex;align-items:center;gap:10px;margin-top:4px;}
+.fz-fp-entrepot > div{flex:1;}
+.fz-fp-anneau{flex:0 0 64px;}
+.fz-fourmi-panneau .fz-pos{color:#4ade80;}
+.fz-fourmi-panneau .fz-neg{color:#ff5a6a;}
+.fz-fp-armee tr:not(.fz-fp-tot) td{color:inherit;}
