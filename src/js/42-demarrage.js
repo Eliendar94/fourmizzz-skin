@@ -22,6 +22,7 @@
     // v1.40 : titre du Chat général en bandeau (le Chat alliance est traité en CSS)
     if (cfg.enabled && /chat\.php/i.test(location.pathname)) { const h = [...document.querySelectorAll('#centre h2')].find(x => /^chat/i.test(x.textContent.trim())); if (h) h.classList.add('fz-band-title'); }
     if (cfg.enabled && /reine/i.test(location.pathname)) { ponteArmyBadges(); setInterval(ponteArmyBadges, 1000); armyCopyButton(); }
+    if (cfg.enabled && /reine/i.test(location.pathname)) reineDescriptionButtons(); // v1.65 : mobile, description repliable
     if (cfg.enabled && /armee/i.test(location.pathname)) { splitArmyStats(); setTimeout(() => { splitArmyStats(); syncArmyStatsCols(); }, 1500); window.addEventListener('resize', syncArmyStatsCols); }
     if (cfg.enabled && /alliance/i.test(location.pathname)) { markMeInMembers(); setInterval(() => { markMeInMembers(); placeCollectiveSmileys(); if (cfg.buildBtn) enhanceCollectiveSend(); }, 700); placeCollectiveSmileys(); }
     if (cfg.enabled && document.querySelector('#centre span.niveau_amelioration')) { levelBadges(); setInterval(levelBadges, 1500); waitTimes(); setInterval(waitTimes, 1500); }
