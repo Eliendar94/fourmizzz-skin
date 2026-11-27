@@ -54,3 +54,10 @@
 .fz-fourmi-panneau .fz-pos{color:#4ade80;}
 .fz-fourmi-panneau .fz-neg{color:#ff5a6a;}
 .fz-fp-armee tr:not(.fz-fp-tot) td{color:inherit;}
+/* v1.68 : entrepôt rempli à plus de 90 % : module rouge clignotant, ligne « Plein dans » en rouge */
+.fz-fourmi-zones polygon.fz-alerte{--fz-zone:#ff4d5e;stroke:#ff4d5e;fill:rgba(255,77,94,.10);animation:fz-fourmi-alerte 1.4s ease-in-out infinite;}
+.fz-fourmi-zones polygon.fz-alerte.fz-on{animation:fz-fourmi-scan 1.2s linear infinite,fz-fourmi-alerte 1.4s ease-in-out infinite;}
+@keyframes fz-fourmi-alerte{50%{fill:rgba(255,77,94,.24);filter:drop-shadow(0 0 calc(10px*var(--fz-glow)) #ff4d5e);}}
+.fz-fp-alerte,.fz-fp-alerte b{color:#ff5a6a!important;}
+.fz-fp-note.fz-fp-alerte{font-style:normal;font-size:11px;}
+.fz-fourmi-etage > .fz-fourmi-planete{pointer-events:none;opacity:.8;}

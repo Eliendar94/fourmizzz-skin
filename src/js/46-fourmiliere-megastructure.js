@@ -128,6 +128,13 @@
           }
           const t = par.textContent.replace(/\s+/g, ' '), m = t.match(/consomme\s+([\d\s  ]+)/i); if (m) r.conso = num(m[1]);
         }
+        // v1.68 : « Votre entrepôt de … sera plein dans X (le …) » / « … est plein » (mêmes phrases que la page Ressources)
+        const txt = d.body ? d.body.textContent.replace(/\s+/g, ' ') : '';
+        r.plein = {};
+        [['nourriture', 'nourriture'], ['materiaux', 'mat.riaux']].forEach(([k, re]) => {
+          const m = txt.match(new RegExp('entrep.t de ' + re + ' sera plein dans ([^(]+?)\\s*\\((le [^)]+)\\)', 'i'));
+          r.plein[k] = m ? { dans: m[1].trim(), le: m[2].trim() } : new RegExp('entrep.t de ' + re + ' est plein', 'i').test(txt) ? { dans: '' } : null;
+        });
         return r;
       }),
       // armée (Armee.php) : quantités (span « remplirFormulaire(n,'uniteX',lieu,…) ») et statistiques par lieu
@@ -178,6 +185,7 @@
       return { cle, titre, c, lib, nb, tps: tps ? tps.textContent.trim() : '', det };
     });
     // stock et remplissage des entrepôts : boîte d'infos du jeu (à gauche), mise à jour en direct
+    const SEUIL = 90;
     const stock = (k) => {
       const j = document.querySelector('#tableau_boite_info .jauge_' + k), td = j && j.closest('td');
       const t = td && td.querySelector('.texte_ligne_boite_info');
@@ -239,13 +247,19 @@
     // sorties du port spatial : un vaisseau par mouvement en cours (5 au plus par type), qui part vers l'espace et revient
     const port = ZONES.find(z => z.id === 'port');
     const vols = [];
-    mouvements().forEach((m, i) => { if (m) for (let j = 0; j < Math.min(5, m.nb); j++) vols.push({ c: m.c, t: 1.5, x: port.ctr[0], y: port.ctr[1], a: 0, alpha: 0, phase: -(j * 140 + i * 60) - 1, trace: [] }); });
+    // v1.68 : les attaques partent en formation vers une cible (réticule rouge dans l'espace, coin bas droit)
+    const CIBLE = [1172, 872];
+    mouvements().forEach((m, i) => { if (m) for (let j = 0; j < Math.min(5, m.nb); j++) vols.push({ cle: m.cle, rang: j, c: m.c, t: 1.5, x: port.ctr[0], y: port.ctr[1], a: 0, alpha: 0, phase: -(m.cle === 'attaque' ? j * 22 : j * 140 + i * 60) - 1, trace: [] }); });
+    const attaques = vols.some(v => v.cle === 'attaque');
     const voler = (v) => {
       v.phase++;
       if (v.phase < 0) return;
-      if (v.phase % 420 === 0) { // départ : cap vers le bas / la droite de l'image
+      if (v.phase % 420 === 0) { // départ : cap vers la cible (attaque) ou vers le bas / la droite de l'image
         v.x = port.ctr[0]; v.y = port.ctr[1]; v.trace = [];
-        const a = .15 + hasard() * 1.2; v.dx = Math.cos(a) * 2.4; v.dy = Math.sin(a) * 2.4;
+        if (v.cle === 'attaque') {
+          const a = Math.atan2(CIBLE[1] - v.y, CIBLE[0] - v.x) + ((v.rang % 2 ? 1 : -1) * Math.ceil(v.rang / 2)) * .035, d = Math.hypot(CIBLE[0] - v.x, CIBLE[1] - v.y) / 180;
+          v.dx = Math.cos(a) * d; v.dy = Math.sin(a) * d;
+        } else { const a = .15 + hasard() * 1.2; v.dx = Math.cos(a) * 2.4; v.dy = Math.sin(a) * 2.4; }
       }
       const p = v.phase % 420; // 0-179 aller, 180-239 hors champ, 240-419 retour
       if (p < 180) { v.x += v.dx; v.y += v.dy; v.a = Math.atan2(v.dy, v.dx); v.alpha = Math.min(1, (180 - p) / 40); }
@@ -253,14 +267,84 @@
       else { v.x -= v.dx; v.y -= v.dy; v.a = Math.atan2(-v.dy, -v.dx); v.alpha = Math.min(1, (p - 240) / 40, (420 - p) / 25); }
       v.trace.push([v.x, v.y]); if (v.trace.length > 14) v.trace.shift();
     };
-    const dessiner = () => { ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); drones.forEach(vaisseau); vols.forEach(v => { if (v.alpha > 0) vaisseau(v); }); };
+    // v1.68 : réticule de la cible des attaques (tourne lentement, pulse)
+    const reticule = (f) => {
+      const r = 15 + Math.sin(f * .12) * 2;
+      ctx.save(); ctx.translate(CIBLE[0], CIBLE[1]); ctx.strokeStyle = '#ff4d5e'; ctx.lineWidth = 1.6; ctx.globalAlpha = .85;
+      ctx.rotate(f * .02); ctx.setLineDash([7, 5]); ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+      ctx.rotate(-f * .02); ctx.beginPath();
+      [[0, -1], [0, 1], [-1, 0], [1, 0]].forEach(([a, b]) => { ctx.moveTo(a * (r - 6), b * (r - 6)); ctx.lineTo(a * (r + 6), b * (r + 6)); });
+      ctx.stroke(); ctx.fillStyle = '#ff4d5e'; ctx.beginPath(); ctx.arc(0, 0, 2, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    };
+    // v1.68 : étoiles filantes, de temps en temps, dans les bandes d'espace (haut et bord gauche de l'image)
+    const filantes = [];
+    let prochaine = 60;
+    const filer = () => {
+      if (--prochaine <= 0) {
+        prochaine = 90 + Math.random() * 150;
+        const haut = Math.random() < .7, a = haut ? (Math.random() < .5 ? .2 + Math.random() * .25 : Math.PI - .2 - Math.random() * .25) : 1.25 + Math.random() * .2;
+        filantes.push({ x: haut ? 40 + Math.random() * 820 : 5 + Math.random() * 45, y: haut ? Math.random() * 35 : 200 + Math.random() * 520, a, v: 7 + Math.random() * 4, vie: 0, fin: 18 + Math.random() * 14 });
+      }
+      for (let i = filantes.length - 1; i >= 0; i--) { const e = filantes[i]; e.x += Math.cos(e.a) * e.v; e.y += Math.sin(e.a) * e.v; if (++e.vie > e.fin) filantes.splice(i, 1); }
+    };
+    const etoiles = () => filantes.forEach(e => {
+      const L = 70, al = Math.sin(Math.PI * e.vie / e.fin), x0 = e.x - Math.cos(e.a) * L, y0 = e.y - Math.sin(e.a) * L;
+      const g = ctx.createLinearGradient(x0, y0, e.x, e.y); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(1, `rgba(220,240,255,${(.9 * al).toFixed(3)})`);
+      ctx.strokeStyle = g; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(e.x, e.y); ctx.stroke();
+      ctx.fillStyle = `rgba(255,255,255,${al.toFixed(3)})`; ctx.beginPath(); ctx.arc(e.x, e.y, 1.4, 0, Math.PI * 2); ctx.fill();
+    });
+    // v1.68 : la planète (haut droit) tourne doucement : bandes nuageuses translucides qui défilent, projetées sur la sphère.
+    // Calque à part (sans la lueur des drones), recalculé pixel par pixel toutes les 3 images à partir d'une texture périodique.
+    const PL = { x: 1118, y: 30, r: 140 }, PX = 960, PW = 240, PH = PL.y + PL.r, TW = 512, TH = 256;
+    const tex = new Uint8ClampedArray(TW * TH * 4);
+    for (let v = 0; v < TH; v++) {
+      const lat = v / TH, bande = Math.sin(lat * 31) + .6 * Math.sin(lat * 57 + 1.3) + .4 * Math.sin(lat * 13 + .4);
+      for (let u = 0; u < TW; u++) {
+        const t = u / TW * Math.PI * 2; // fonctions périodiques en u : la texture se raccorde
+        let n = bande + .9 * (Math.sin(t * 3 + lat * 9) * .5 + Math.sin(t * 7 + lat * 23 + 2) * .3 + Math.sin(t * 13 - lat * 40) * .2) - .4;
+        const o = (v * TW + u) * 4, clair = n > 0;
+        tex[o] = clair ? 250 : 110; tex[o + 1] = clair ? 228 : 68; tex[o + 2] = clair ? 196 : 38;
+        tex[o + 3] = Math.round(Math.min(1, Math.abs(n)) * 70);
+      }
+    }
+    // correspondance pixel → (longitude, latitude) de la sphère, et atténuation vers le bord du disque
+    const pu = new Int16Array(PW * PH).fill(-1), pv = new Int16Array(PW * PH), pa = new Float32Array(PW * PH);
+    for (let y = 0; y < PH; y++) for (let x = 0; x < PW; x++) {
+      const dx = x + PX - PL.x, dy = y - PL.y, w2 = PL.r * PL.r - dy * dy, i = y * PW + x;
+      if (w2 <= dx * dx) continue;
+      pu[i] = Math.round((Math.asin(dx / Math.sqrt(w2)) / Math.PI + .5) * TW / 2);
+      pv[i] = Math.min(TH - 1, Math.round((Math.asin(dy / PL.r) / Math.PI + .5) * TH));
+      const r = Math.hypot(dx, dy) / PL.r; pa[i] = r < .7 ? 1 : Math.max(0, (1 - r) / .3);
+    }
+    const pcv = document.createElement('canvas'); pcv.className = 'fz-fourmi-planete'; pcv.width = PW; pcv.height = PH;
+    Object.assign(pcv.style, { left: PX + 'px', width: PW + 'px', height: PH + 'px' });
+    cv.before(pcv);
+    const pctx = pcv.getContext('2d'), pimg = pctx.createImageData(PW, PH), pd = pimg.data;
+    let rot = 0;
+    const planete = () => {
+      const r0 = Math.floor(rot);
+      for (let i = 0; i < PW * PH; i++) {
+        if (pu[i] < 0) continue;
+        const o = (pv[i] * TW + (pu[i] + r0) % TW) * 4, q = i * 4;
+        pd[q] = tex[o]; pd[q + 1] = tex[o + 1]; pd[q + 2] = tex[o + 2]; pd[q + 3] = tex[o + 3] * pa[i];
+      }
+      pctx.putImageData(pimg, 0, 0);
+    };
+    let image = 0;
+    const dessiner = () => {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+      if (image % 3 === 0) planete();
+      etoiles();
+      if (attaques) reticule(image);
+      drones.forEach(vaisseau); vols.forEach(v => { if (v.alpha > 0) vaisseau(v); });
+    };
     // Mouvement réduit demandé par le système, ou test automatisé (navigateur piloté : captures comparées) : scène figée.
     const fige = navigator.webdriver || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
     drones.forEach(d => { for (let i = 0; i < 10; i++) avancer(d); });
     dessiner();
     if (!fige) {
       let avant = 0;
-      const boucle = (t) => { if (t - avant >= 33) { avant = t; drones.forEach(avancer); vols.forEach(voler); dessiner(); } requestAnimationFrame(boucle); };
+      const boucle = (t) => { if (t - avant >= 33) { avant = t; image++; rot = (rot + .12) % TW; filer(); drones.forEach(avancer); vols.forEach(voler); dessiner(); } requestAnimationFrame(boucle); };
       requestAnimationFrame(boucle);
     }
 
@@ -287,6 +371,11 @@
         + (c && c.actuel != null ? val('Capacité', fmt(c.actuel)) : attente(['constr']) ? val('Capacité', '…') : '')
         + (c && c.suivant != null ? val(`Capacité au niveau ${c.nivSuiv}`, fmt(c.suivant), 'fz-fp-suiv') : '')
         + '</div></div>';
+      // v1.68 : alerte au-delà de 90 % (le module passe au rouge) et heure de remplissage lue sur la page Ressources
+      const pl = D.ress && D.ress.plein && D.ress.plein[k], alerte = s.pct != null && s.pct >= SEUIL;
+      if (pl) h += val(pl.dans ? 'Plein dans' : 'Entrepôt', pl.dans ? `${esc(pl.dans)} <small>(${esc(pl.le)})</small>` : 'plein !', alerte || !pl.dans ? 'fz-fp-alerte' : '');
+      else if (attente(['ress'])) h += val('Plein dans', '…');
+      if (alerte) h += '<div class="fz-fp-note fz-fp-alerte">⚠ Entrepôt rempli à plus de 90 % : la production au-delà de la capacité est perdue.</div>';
       return h;
     };
     const RENDU = {
@@ -348,7 +437,7 @@
         return h;
       },
     };
-    const BESOINS = { ponte: ['labo'], militaire: ['labo'], recherche: ['labo'], nourriture: ['constr'], materiaux: ['constr'], champignonniere: ['ress', 'constr'], troupes: ['armee'], port: ['labo', 'convois'] };
+    const BESOINS = { ponte: ['labo'], militaire: ['labo'], recherche: ['labo'], nourriture: ['constr', 'ress'], materiaux: ['constr', 'ress'], champignonniere: ['ress', 'constr'], troupes: ['armee'], port: ['labo', 'convois'] };
     const html = (z, epingle) => `<div class="fz-fp-titre">${esc(z.titre)}${epingle ? `<a class="fz-fp-page" href="${z.page}" title="Ouvrir la page">›</a><button type="button" class="fz-fp-x" title="Fermer">×</button>` : ''}</div><div class="fz-fp-corps">${RENDU[z.id]()}</div>`;
 
     const dock = document.createElement('div'); dock.className = 'fz-fourmi-dock'; scene.after(dock);
@@ -405,6 +494,9 @@
       z.panneau = el; epingles.push(z); z.el.classList.add('fz-on', 'fz-pin');
       replacer(); preparer(z);
     };
+    // v1.68 : entrepôts remplis à plus de 90 % : contour rouge clignotant permanent (la jauge du jeu est relue toutes les 5 s)
+    const alertes = () => ZONES.forEach(z => { if (z.id === 'nourriture' || z.id === 'materiaux') { const s = stock(z.id); z.el.classList.toggle('fz-alerte', s.pct != null && s.pct >= SEUIL); } });
+    setTimeout(alertes); setInterval(alertes, 5000);
     // le Port spatial suit les comptes à rebours du jeu
     setInterval(() => { const z = ZONES.find(x => x.id === 'port'); if (z.panneau || apercu.zone === z) rafraichir(z); }, 1000);
     window.addEventListener('resize', replacer);
