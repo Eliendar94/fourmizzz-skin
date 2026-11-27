@@ -112,7 +112,10 @@ que l'intensité des néons (`glow`) et l'image de fond (`bgImg`) ; seuls ces de
 ## Chargement sans flash
 
 Depuis la v1.69, le contenu de la page reste transparent (`html.fz-voile`, `src/css/commun/voile-chargement.css`) jusqu'à la fin
-de `onReady()` (+ 250 ms au plus pour les polices), puis fondu de 0,12 s ; levée forcée au bout de 2,5 s. La console (F12) indique à chaque page quand le script a démarré par rapport au premier affichage (`src/js/00-diagnostic-demarrage.js`). Toute nouvelle
+de `onReady()` (+ 250 ms au plus pour les polices), puis fondu de 0,12 s ; levée forcée au bout de 2,5 s. La console (F12) indique à chaque page quand le script a démarré par rapport au premier affichage (`src/js/00-diagnostic-demarrage.js`).
+Tampermonkey sur Chrome peut lancer le script **après** le premier affichage (mesuré chez l'utilisateur, même avec « UserScripts API Dynamic ») :
+le voile n'y peut rien. D'où `extension-anti-flash/` : mini-extension Chrome (CSS seul, `document_start`) qui masque la page tant que
+`<style id="fz-skin">` n'existe pas, sécurité 1,5 s. **Ne pas renommer l'id `fz-skin`** sans mettre à jour son CSS. Toute nouvelle
 transformation faite au chargement doit rester dans `onReady()` pour être cachée par le voile.
 
 ## Compatibilité
