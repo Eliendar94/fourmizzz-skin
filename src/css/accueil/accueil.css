@@ -51,7 +51,7 @@ html body #centre_accueil{background-image:linear-gradient(180deg,rgba(4,8,18,.6
 html body #logo_fourmizzz{display:none!important;}
 html body :is(.boite_connexion,#boite_presentation) .titre_connexion_cliquable{display:block!important;width:100%!important;height:44px!important;line-height:44px;padding-top:0!important;clip-path:none;}
 html body .boite_connexion_contenu{clip-path:none;}
-html body .banniere_accueil{top:180px!important;height:auto!important;padding-bottom:22px;}
+html body .banniere_accueil{height:auto!important;padding-bottom:22px;}
 html body .banniere_accueil_texte{font-size:13.5px!important;}
 html body .banniere_accueil_texte .texte_accueil_1{margin:0 20px!important;font-size:12.5px;}
 html body .banniere_accueil :is(.home_primary_button,.home_secondary_button){position:relative!important;top:auto!important;left:auto!important;width:auto!important;max-width:320px;margin:14px auto 0!important;padding:0 12px;}
