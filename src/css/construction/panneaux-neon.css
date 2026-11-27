@@ -22,3 +22,5 @@ html body #centre tr.ligneAmelioration.fz-u-mil:hover{border-color:#ff4d5e!impor
 /* v1.65 : nom des bâtiments en vert (comme le bouton Construire), nom des recherches en violet (comme le bouton Rechercher) */
 html body #centre tr.ligneAmelioration:has(.photo_batiment) h2{color:#4ade80!important;text-shadow:0 0 calc(8px*var(--fz-glow)) rgba(74,222,128,.7)!important;}
 html body #centre tr.ligneAmelioration:has(.photo_recherche) h2{color:#b57cff!important;text-shadow:0 0 calc(8px*var(--fz-glow)) rgba(181,124,255,.7)!important;}
+/* v1.66 : valeurs chiffrées des effets (capacités, production, « Effet : +10 % ») en gras vert = bénéfique */
+html body #centre .fz-effet b.fz-val{color:#4ade80!important;font-weight:700!important;text-shadow:0 0 calc(6px*var(--fz-glow)) rgba(74,222,128,.55);white-space:nowrap;}
