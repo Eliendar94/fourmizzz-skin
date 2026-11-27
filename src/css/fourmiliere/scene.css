@@ -1,22 +1,35 @@
 /* v1.68 : page « Ma Fourmilière » en mégastructure spatiale (scène construite par src/js/46-fourmiliere-megastructure.js).
-   Empilement : décor (1) < drones (2) < zones survolables (3) < bulles du jeu (10).
-   Le décor, le canvas et l'image à <map> du jeu restent dans la page, seulement masqués. */
-.fz-fourmi{background:#03050c;box-shadow:0 0 calc(24px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 22%,transparent);outline:1px solid color-mix(in srgb,var(--fz-accent) 40%,transparent);clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));text-align:left;}
-.fz-fourmi > #fourmiliere,.fz-fourmi > img[usemap="#vueFourmiliere"]{display:none!important;}
-.fz-fourmi > .fz-fourmi-decor{position:absolute;left:0;top:0;width:750px;height:750px;z-index:1;background:#03050c center/750px 750px no-repeat;pointer-events:none;}
-.fz-fourmi > .fz-fourmi-decor > svg{display:block;}
-.fz-fourmi > .fz-fourmi-anim{position:absolute;left:0;top:0;width:750px;height:750px;z-index:2;pointer-events:none;filter:drop-shadow(0 0 calc(4px*var(--fz-glow)) rgba(140,220,255,.6));}
-.fz-fourmi > .fz-fourmi-zones{position:absolute;left:0;top:0;width:750px;height:750px;z-index:3;}
-.fz-fourmi-zones polygon{fill:transparent;stroke:transparent;stroke-width:2;stroke-linejoin:round;cursor:pointer;transition:fill .2s,stroke .2s;}
-.fz-fourmi-zones polygon.fz-on{fill:color-mix(in srgb,var(--fz-zone) 16%,transparent);stroke:var(--fz-zone);stroke-dasharray:10 6;animation:fz-fourmi-scan 1.2s linear infinite;filter:drop-shadow(0 0 calc(6px*var(--fz-glow)) var(--fz-zone));}
-@keyframes fz-fourmi-scan{to{stroke-dashoffset:-32;}}
-.fz-fourmi-nom{font:600 9px "Orbitron","Segoe UI",sans-serif;letter-spacing:.12em;text-transform:uppercase;text-anchor:middle;opacity:.6;}
-.fz-fourmi-provisoire{font:10px "Exo 2","Segoe UI",sans-serif;fill:#8aa0b5;text-anchor:end;opacity:.7;}
-.fz-fourmi-etoile{animation:fz-fourmi-scintille 3s ease-in-out infinite alternate;}
-@keyframes fz-fourmi-scintille{from{opacity:.15;}to{opacity:.9;}}
-/* bulles du jeu : panneau HUD au-dessus de la scène ; elles ne captent pas la souris (sinon la zone perd le survol et la bulle clignote) */
-.fz-fourmi > table.boite_amelioration{z-index:10!important;pointer-events:none;}
-.fz-fourmi > table.boite_amelioration img.photo{width:160px;height:120px;object-fit:cover;border:1px solid color-mix(in srgb,var(--fz-accent) 45%,transparent);box-shadow:0 0 calc(10px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 30%,transparent);margin-right:8px;}
-.fz-fourmi > table.boite_amelioration h2{font-family:"Orbitron","Segoe UI",sans-serif!important;letter-spacing:.1em;text-transform:uppercase;color:var(--fz-accent)!important;text-shadow:0 0 calc(8px*var(--fz-glow)) var(--fz-accent);font-size:15px!important;}
-.fz-fourmi > table.boite_amelioration td{text-align:left!important;vertical-align:middle!important;}
-.fz-fourmi > table.boite_amelioration td:first-child{width:1%;}
+   Scène = div du jeu (taille fixée en JS) > étage 1200×896 réduit par zoom (décor < drones < zones) + panneau HUD.
+   Le décor, le canvas, l'image à <map> et les bulles du jeu restent dans la page, seulement masqués. */
+.fz-fourmi{background:#03050c;box-shadow:0 0 calc(24px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 22%,transparent);outline:1px solid color-mix(in srgb,var(--fz-accent) 40%,transparent);text-align:left;margin:4px auto;}
+.fz-fourmi > #fourmiliere,.fz-fourmi > img[usemap="#vueFourmiliere"],.fz-fourmi > table.boite_amelioration{display:none!important;}
+.fz-fourmi > .fz-fourmi-etage{position:absolute;left:0;top:0;width:1200px;height:896px;}
+.fz-fourmi-etage > *{position:absolute;left:0;top:0;width:1200px;height:896px;}
+.fz-fourmi-decor{background:#03050c 0 0/1200px 896px no-repeat;pointer-events:none;}
+.fz-fourmi-anim{pointer-events:none;filter:drop-shadow(0 0 calc(5px*var(--fz-glow)) rgba(140,220,255,.6));}
+.fz-fourmi-zones polygon{fill:transparent;stroke:transparent;stroke-width:3;stroke-linejoin:round;cursor:pointer;transition:fill .2s,stroke .2s;}
+.fz-fourmi-zones polygon.fz-on{fill:color-mix(in srgb,var(--fz-zone) 14%,transparent);stroke:var(--fz-zone);stroke-dasharray:14 8;animation:fz-fourmi-scan 1.2s linear infinite;filter:drop-shadow(0 0 calc(8px*var(--fz-glow)) var(--fz-zone));}
+@keyframes fz-fourmi-scan{to{stroke-dashoffset:-44;}}
+/* panneau HUD du module survolé (hors zoom : texte à taille normale) ; il ne capte pas la souris */
+.fz-fourmi-panneau{position:absolute;z-index:10;display:none;pointer-events:none;box-sizing:border-box;padding:8px 10px 10px;background:linear-gradient(135deg,rgba(14,30,52,.94),rgba(8,14,28,.96));border:1px solid color-mix(in srgb,var(--fz-zone,var(--fz-accent)) 60%,transparent);box-shadow:0 0 calc(18px*var(--fz-glow)) color-mix(in srgb,var(--fz-zone,var(--fz-accent)) 30%,transparent);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));color:var(--fz-text);font-size:12px;line-height:1.35;}
+.fz-fourmi-panneau.fz-on{display:block;}
+.fz-fp-titre{font:700 13px "Orbitron","Segoe UI",sans-serif;letter-spacing:.14em;text-transform:uppercase;text-align:center;color:#f2f8ff;text-shadow:0 0 calc(8px*var(--fz-glow)) var(--fz-zone);padding:2px 0 6px;margin-bottom:6px;border-bottom:1px solid color-mix(in srgb,var(--fz-zone) 55%,transparent);}
+.fz-fp-item{display:flex;gap:8px;align-items:center;padding:4px 0;}
+.fz-fp-item + .fz-fp-item{border-top:1px solid rgba(140,180,220,.15);}
+.fz-fp-item > img,.fz-fp-item > i{flex:0 0 64px;width:64px;height:42px;object-fit:cover;border:1px solid color-mix(in srgb,var(--fz-zone) 45%,transparent);background:rgba(255,255,255,.04);}
+.fz-fp-item b{color:#f2f8ff;}
+.fz-fp-niv{color:var(--fz-zone);font-weight:700;margin-left:2px;}
+.fz-fp-item small{display:block;color:#8fe3a8;font-size:11px;margin-top:2px;}
+.fz-fp-note{margin:4px 0;color:#9fb0c3;font-style:italic;}
+.fz-fp-mouv + .fz-fp-mouv{margin-top:6px;}
+.fz-fp-mt{display:flex;justify-content:space-between;gap:8px;border-left:3px solid var(--fz-zone);padding-left:6px;}
+.fz-fp-mt b{color:var(--fz-zone);}
+.fz-fp-mouv table,.fz-fp-armee{width:100%;border-collapse:collapse;margin-top:3px;font-size:11px;}
+.fz-fp-mouv td{padding:1px 4px;color:#c9d6e4;}
+.fz-fp-mouv td:last-child{text-align:right;}
+.fz-fp-armee th{font-weight:600;color:#9fb0c3;text-align:right;padding:1px 4px;border-bottom:1px solid rgba(140,180,220,.25);}
+.fz-fp-armee th:first-child,.fz-fp-armee td:first-child{text-align:left;}
+.fz-fp-armee td{text-align:right;padding:1px 4px;}
+.fz-fp-armee tr.fz-fp-tot td{border-top:1px solid rgba(140,180,220,.25);font-weight:700;color:#f2f8ff;}
+.fz-fp-ligne{display:flex;justify-content:space-between;padding:2px 0;border-top:1px solid rgba(140,180,220,.12);margin-top:2px;}
+.fz-fp-ligne b{color:#f2f8ff;}
