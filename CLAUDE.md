@@ -106,8 +106,8 @@ par image). Le dépôt GitHub fait référence ; `--ref` détecte toute dérive.
 | Chats | mon alliance et alliés (pactes) en vert `#4ade80`, autres tags orange `#e3a15f` | |
 | Temps de trajet (profil) | du vert (< 1 h) au rouge (> 10 h) | |
 
-Thèmes prédéfinis (`PRESETS`, `src/js/01-themes-config.js`) : Nuit, Forêt, Océan, Fourmi rouge, Futuriste (défaut, accent `#39d0ff`),
-Futuriste violet (accent `#b77cff`).
+Thème unique depuis la v1.66 : **Futuriste** (`PRESETS`, `src/js/01-themes-config.js`, accent `#39d0ff`). Le panneau 🎨 ne règle plus
+que l'intensité des néons (`glow`) et l'image de fond (`bgImg`) ; seuls ces deux réglages sont enregistrés et relus.
 
 ## Compatibilité
 

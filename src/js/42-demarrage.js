@@ -25,6 +25,7 @@
     if (cfg.enabled && /reine/i.test(location.pathname)) reineDescriptionButtons(); // v1.65 : mobile, description repliable
     if (cfg.enabled && /armee/i.test(location.pathname)) { splitArmyStats(); setTimeout(() => { splitArmyStats(); syncArmyStatsCols(); }, 1500); window.addEventListener('resize', syncArmyStatsCols); }
     if (cfg.enabled && /alliance/i.test(location.pathname)) { markMeInMembers(); setInterval(() => { markMeInMembers(); placeCollectiveSmileys(); if (cfg.buildBtn) enhanceCollectiveSend(); }, 700); placeCollectiveSmileys(); }
+    if (cfg.enabled) { batimentsEffets(); setTimeout(batimentsEffets, 1500); } // v1.66 : effets en vert, Info+ sur téléphone
     if (cfg.enabled && document.querySelector('#centre span.niveau_amelioration')) { levelBadges(); setInterval(levelBadges, 1500); waitTimes(); setInterval(waitTimes, 1500); }
     if (cfg.enabled) { terrainRing(); warehouseRings(); setTimeout(warehouseRings, 1500); setTimeout(warehouseRings, 4000); setInterval(warehouseRings, 2000); }
     if (cfg.enabled && document.getElementById('nbNourriture')) { productionTable(); setInterval(productionTable, 1000); }
