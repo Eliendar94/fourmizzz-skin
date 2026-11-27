@@ -7,9 +7,9 @@
 .fz-fourmi-etage > *{position:absolute;left:0;top:0;width:1200px;height:896px;}
 .fz-fourmi-decor{background:#03050c 0 0/1200px 896px no-repeat;pointer-events:none;}
 .fz-fourmi-anim{pointer-events:none;filter:drop-shadow(0 0 calc(5px*var(--fz-glow)) rgba(140,220,255,.6));}
-.fz-fourmi-zones polygon{fill:transparent;stroke:transparent;stroke-width:3;stroke-linejoin:round;cursor:pointer;transition:fill .2s,stroke .2s;}
-.fz-fourmi-zones polygon.fz-on{fill:color-mix(in srgb,var(--fz-zone) 14%,transparent);stroke:var(--fz-zone);stroke-dasharray:14 8;animation:fz-fourmi-scan 1.2s linear infinite;filter:drop-shadow(0 0 calc(8px*var(--fz-glow)) var(--fz-zone));}
-@keyframes fz-fourmi-scan{to{stroke-dashoffset:-44;}}
+.fz-fourmi-zones polygon{fill:transparent;stroke:transparent;stroke-width:1.6;stroke-linejoin:round;cursor:pointer;transition:fill .2s,stroke .2s;}
+.fz-fourmi-zones polygon.fz-on{fill:color-mix(in srgb,var(--fz-zone) 14%,transparent);stroke:var(--fz-zone);stroke-dasharray:6 4;animation:fz-fourmi-scan 1.2s linear infinite;filter:drop-shadow(0 0 calc(8px*var(--fz-glow)) var(--fz-zone));}
+@keyframes fz-fourmi-scan{to{stroke-dashoffset:-20;}}
 /* panneau HUD du module survolé (hors zoom : texte à taille normale) ; il ne capte pas la souris */
 .fz-fourmi-panneau{position:absolute;z-index:10;display:none;pointer-events:none;box-sizing:border-box;padding:8px 10px 10px;background:linear-gradient(135deg,rgba(14,30,52,.94),rgba(8,14,28,.96));border:1px solid color-mix(in srgb,var(--fz-zone,var(--fz-accent)) 60%,transparent);box-shadow:0 0 calc(18px*var(--fz-glow)) color-mix(in srgb,var(--fz-zone,var(--fz-accent)) 30%,transparent);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));color:var(--fz-text);font-size:12px;line-height:1.35;}
 .fz-fourmi-panneau.fz-on{display:block;}
@@ -61,3 +61,9 @@
 .fz-fp-alerte,.fz-fp-alerte b{color:#ff5a6a!important;}
 .fz-fp-note.fz-fp-alerte{font-style:normal;font-size:11px;}
 .fz-fourmi-etage > .fz-fourmi-planete{pointer-events:none;opacity:.8;}
+/* v1.68 (ajustements) : pointillés des zones plus fins (1,6 px, tirets 6/4) ; icônes néon devant les valeurs ;
+   panneaux épinglés déplaçables par leur barre de titre, posés sur la page une fois déplacés */
+.fz-fp-ico{flex:0 0 auto;vertical-align:-3px;margin-right:5px;}
+.fz-fp-ligne > span{display:flex;align-items:center;}
+.fz-fourmi-panneau.fz-pin .fz-fp-titre{cursor:move;touch-action:none;user-select:none;-webkit-user-select:none;}
+.fz-fourmi-panneau.fz-libre{position:absolute;z-index:1000;margin:0;}

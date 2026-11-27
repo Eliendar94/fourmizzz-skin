@@ -202,8 +202,11 @@
     etage.append(decor, cv, svg); scene.append(etage);
     let k = 1;
     const ajuster = () => {
-      const c = document.getElementById('centre'); const w = c ? c.clientWidth : innerWidth;
-      k = Math.min(1, (w - 8) / W);
+      // v1.68 : largeur mesurée sur la scène elle-même (100 % de son conteneur) : la scène ne force plus la largeur de la page.
+      // Avant, elle reprenait la largeur de #centre, élargie sur téléphone par le cadre de 760 px du jeu : la page restait
+      // plus large que l'écran et le fond d'écran laissait une bande noire à droite.
+      scene.style.setProperty('width', 'calc(100% - 8px)', 'important'); scene.style.setProperty('max-width', W + 'px', 'important');
+      k = Math.min(1, scene.clientWidth / W);
       etage.style.zoom = k.toFixed(4);
       scene.style.setProperty('width', Math.floor(W * k) + 'px', 'important');
       scene.style.setProperty('height', Math.floor(H * k) + 'px', 'important');
@@ -350,6 +353,12 @@
 
     // --- panneaux HUD : aperçu au survol (souris), panneau épinglé au clic (croix pour fermer, plusieurs à la fois) ---
     const ligne = (b) => `<div class="fz-fp-item">${b.photo ? `<img src="${esc(b.photo)}" alt="">` : '<i></i>'}<div><b>${esc(b.nom)}</b>${b.niv !== '' && b.niv != null ? ` <span class="fz-fp-niv">niv. ${esc(b.niv)}</span>` : ''}${b.effet ? `<small>${esc(b.effet)}</small>` : ''}</div></div>`;
+    // v1.68 : icône néon du skin (mêmes dessins que les icônes du jeu remplacées, NEON_ICONS) devant les valeurs de ressources
+    const ico = (nom) => {
+      const d = NEON_ICONS.find(x => x[0] === nom); if (!d) return '';
+      return `<svg class="fz-fp-ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="${d[1]}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 calc(2.5px*var(--fz-glow)) ${d[1]})">${d[2].replace(/"C"/g, `"${d[1]}"`)}</svg>`;
+    };
+    const ICO = { nourriture: 'icone_pomme', materiaux: 'icone_bois' };
     const val = (lib, v, cls) => `<div class="fz-fp-ligne${cls ? ' ' + cls : ''}"><span>${lib}</span><b>${v}</b></div>`;
     const attente = (noms) => noms.some(n => !(n in D));
     const rech = (nom) => { const r = D.labo && D.labo[nom.toLowerCase()]; return r || { nom, niv: attente(['labo']) ? '…' : '' }; };
@@ -367,9 +376,9 @@
       const b = batiment(n), c = D.constr && b && D.constr[b.nom.toLowerCase()], s = stock(k);
       let h = b ? ligne(Object.assign({}, b, { effet: '' })) : '';
       h += '<div class="fz-fp-entrepot">' + (s.pct != null ? anneau(s.pct) : '') + '<div>'
-        + (s.qte != null ? val('En stock', fmt(s.qte)) : '')
-        + (c && c.actuel != null ? val('Capacité', fmt(c.actuel)) : attente(['constr']) ? val('Capacité', '…') : '')
-        + (c && c.suivant != null ? val(`Capacité au niveau ${c.nivSuiv}`, fmt(c.suivant), 'fz-fp-suiv') : '')
+        + (s.qte != null ? val(ico(ICO[k]) + 'En stock', fmt(s.qte)) : '')
+        + (c && c.actuel != null ? val(ico(ICO[k]) + 'Capacité', fmt(c.actuel)) : attente(['constr']) ? val(ico(ICO[k]) + 'Capacité', '…') : '')
+        + (c && c.suivant != null ? val(ico(ICO[k]) + `Capacité au niveau ${c.nivSuiv}`, fmt(c.suivant), 'fz-fp-suiv') : '')
         + '</div></div>';
       // v1.68 : alerte au-delà de 90 % (le module passe au rouge) et heure de remplissage lue sur la page Ressources
       const pl = D.ress && D.ress.plein && D.ress.plein[k], alerte = s.pct != null && s.pct >= SEUIL;
@@ -398,9 +407,10 @@
         if (!r) return h + '<p class="fz-fp-note">Lecture de la production…</p>';
         const champi = r.champi || (c && c.actuel) || 0, solde = r.recN + champi - r.conso;
         const sg = (v) => `<span class="${v > 0 ? 'fz-pos' : v < 0 ? 'fz-neg' : ''}">${v > 0 ? '+' : v < 0 ? '−' : ''}${fmt(Math.abs(v))}</span>`;
-        return h + '<div class="fz-fp-sous">Nourriture par jour</div>' + val('Récolte du terrain', sg(r.recN)) + val('Champignonnière', sg(champi))
-          + (c && c.suivant != null ? val(`Champignonnière au niveau ${c.nivSuiv}`, sg(c.suivant), 'fz-fp-suiv') : '')
-          + val('Coût de l\'armée', sg(-r.conso)) + val('Reste', sg(solde), 'fz-fp-total');
+        const n = ico('icone_pomme');
+        return h + '<div class="fz-fp-sous">Nourriture par jour</div>' + val(n + 'Récolte du terrain', sg(r.recN)) + val(n + 'Champignonnière', sg(champi))
+          + (c && c.suivant != null ? val(n + `Champignonnière au niveau ${c.nivSuiv}`, sg(c.suivant), 'fz-fp-suiv') : '')
+          + val(n + 'Coût de l\'armée', sg(-r.conso)) + val(n + 'Reste', sg(solde), 'fz-fp-total');
       },
       dome: () => [11, 12].map(batiment).filter(Boolean).map(ligne).join(''),
       recherche: () => [8, 13].map(batiment).filter(Boolean).map(ligne).join('') + ['Génétique', 'Poison', 'Acide'].map(n => ligne(rech(n))).join(''),
@@ -414,9 +424,9 @@
           // vie si toute l'armée était au même endroit : base + bouclier + bonus du lieu (Dôme 10 % + 5 %/niv, Loge 30 % + 15 %/niv, sur la base)
           const v = (bonus) => a.vie.base + a.vie.bouc + a.vie.base * bonus;
           h += '<div class="fz-fp-sous">Statistiques</div>'
-            + val('Vie sur le terrain de chasse', fmt(v(0))) + val(`Vie au Dôme (${a.nivDome})`, fmt(v(a.nivDome ? .10 + .05 * a.nivDome : 0)))
-            + val(`Vie en Loge (${a.nivLoge})`, fmt(v(a.nivLoge ? .30 + .15 * a.nivLoge : 0)))
-            + val('Dégâts en attaque', fmt(a.att)) + val('Dégâts en défense', fmt(a.def)) + val('Consommation journalière', fmt(a.conso));
+            + val(ico('icone_coeur') + 'Vie sur le terrain de chasse', fmt(v(0))) + val(ico('icone_coeur') + `Vie au Dôme (${a.nivDome})`, fmt(v(a.nivDome ? .10 + .05 * a.nivDome : 0)))
+            + val(ico('icone_coeur') + `Vie en Loge (${a.nivLoge})`, fmt(v(a.nivLoge ? .30 + .15 * a.nivLoge : 0)))
+            + val(ico('icone_degat_attaque') + 'Dégâts en attaque', fmt(a.att)) + val(ico('icone_degat_defense') + 'Dégâts en défense', fmt(a.def)) + val(ico('icone_pomme') + 'Consommation journalière', fmt(a.conso));
         }
         return h;
       },
@@ -430,8 +440,8 @@
           return `<div class="fz-fp-mouv" style="--fz-zone:${m.c}"><div class="fz-fp-mt"><b>${esc(m.titre)}</b><span><b>${m.nb}${max}</b>${m.tps ? ' · ' + esc(m.tps) : ''}</span></div>`
             + (m.det.length ? `<table>${m.det.map(r => `<tr>${r.map(x => `<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</table>` : '') + '</div>';
         }).join('');
-        if (cv && cv.tot) h += '<div class="fz-fp-sous">Capacité des convois</div>' + val('Ouvrières disponibles', fmt(cv.dispo))
-          + val('Livrable sans découvrir le TdC', fmt(cv.dispo * cv.cap)) + val('Livrable avec 100 % des ouvrières', fmt(cv.tot * cv.cap))
+        if (cv && cv.tot) h += '<div class="fz-fp-sous">Capacité des convois</div>' + val(ico('icone_ouvriere') + 'Ouvrières disponibles', fmt(cv.dispo))
+          + val(ico('icone_pomme') + ico('icone_bois') + 'Livrable sans découvrir le TdC', fmt(cv.dispo * cv.cap)) + val(ico('icone_pomme') + ico('icone_bois') + 'Livrable avec 100 % des ouvrières', fmt(cv.tot * cv.cap))
           + `<p class="fz-fp-note">${cv.cap.toLocaleString('fr-FR')} ressources par ouvrière (Étable à pucerons niv. ${cv.bonus})</p>`;
         else if (attente(['convois'])) h += '<p class="fz-fp-note">Lecture des convois…</p>';
         return h;
@@ -463,7 +473,7 @@
     const replacer = () => {
       const faits = [];
       dock.style.maxWidth = Math.floor(W * k) + 'px';
-      epingles.forEach(z => {
+      epingles.filter(z => !z.libre).forEach(z => {
         const el = z.panneau;
         let r = null;
         if (!etroit()) { if (el.parentNode !== scene) scene.appendChild(el); el.classList.remove('fz-dock'); r = placer(z, el, faits, true); }
@@ -484,7 +494,33 @@
       z.el.classList.add('fz-on'); preparer(z);
     };
     const cacherApercu = (z) => { if (apercu.zone === z) { apercu.zone = null; apercu.classList.remove('fz-on'); } if (!z.panneau) z.el.classList.remove('fz-on'); };
-    const fermer = (z) => { if (!z.panneau) return; z.panneau.remove(); z.panneau = null; epingles.splice(epingles.indexOf(z), 1); z.el.classList.remove('fz-on', 'fz-pin'); replacer(); };
+    const fermer = (z) => { if (!z.panneau) return; z.panneau.remove(); z.panneau = null; z.libre = false; epingles.splice(epingles.indexOf(z), 1); z.el.classList.remove('fz-on', 'fz-pin'); replacer(); };
+    // v1.68 : un panneau épinglé se déplace en tirant sa barre de titre (souris ou doigt), y compris hors du cadre de l'image.
+    // Au premier déplacement il est posé sur la page (body) : il n'est plus replacé automatiquement, la croix le ferme toujours.
+    const deplacable = (z, el) => {
+      const tete = el.querySelector('.fz-fp-titre');
+      tete.addEventListener('pointerdown', (e) => {
+        if (e.button || e.target.closest('a,button')) return;
+        const r0 = el.getBoundingClientRect(), dx = e.clientX - r0.left, dy = e.clientY - r0.top, x0 = e.clientX, y0 = e.clientY;
+        let o = null; // origin du positionnement, en coordonnées de la page
+        const bouger = (ev) => {
+          if (ev.pointerId !== e.pointerId) return;
+          if (!o) {
+            if (Math.hypot(ev.clientX - x0, ev.clientY - y0) < 5) return;
+            el.style.width = r0.width + 'px'; el.style.maxHeight = Math.min(r0.height, innerHeight - 16) + 'px';
+            el.classList.remove('fz-dock'); el.classList.add('fz-libre'); document.body.appendChild(el);
+            el.style.left = el.style.top = '0px'; const r = el.getBoundingClientRect(); o = [r.left + scrollX, r.top + scrollY];
+            if (!z.libre) { z.libre = true; replacer(); }
+          }
+          ev.preventDefault();
+          const l = Math.max(0, Math.min(document.documentElement.clientWidth - 40, ev.clientX - dx)) + scrollX - o[0];
+          el.style.left = Math.round(l) + 'px'; el.style.top = Math.round(Math.max(0, ev.clientY - dy) + scrollY - o[1]) + 'px';
+        };
+        // écoute sur la fenêtre : la capture du pointeur serait perdue quand le panneau change de parent
+        const fin = (ev) => { if (ev.pointerId !== e.pointerId) return; removeEventListener('pointermove', bouger); removeEventListener('pointerup', fin); removeEventListener('pointercancel', fin); };
+        addEventListener('pointermove', bouger, { passive: false }); addEventListener('pointerup', fin); addEventListener('pointercancel', fin);
+      });
+    };
     const epingler = (z) => {
       cacherApercu(z);
       if (z.panneau) { z.panneau.classList.remove('fz-flash'); void z.panneau.offsetWidth; z.panneau.classList.add('fz-flash'); return; }
@@ -492,6 +528,7 @@
       el.style.setProperty('--fz-zone', z.c); el.innerHTML = html(z, true);
       el.querySelector('.fz-fp-x').addEventListener('click', (e) => { e.stopPropagation(); fermer(z); });
       z.panneau = el; epingles.push(z); z.el.classList.add('fz-on', 'fz-pin');
+      deplacable(z, el);
       replacer(); preparer(z);
     };
     // v1.68 : entrepôts remplis à plus de 90 % : contour rouge clignotant permanent (la jauge du jeu est relue toutes les 5 s)
