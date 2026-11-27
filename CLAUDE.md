@@ -112,7 +112,7 @@ que l'intensité des néons (`glow`) et l'image de fond (`bgImg`) ; seuls ces de
 ## Chargement sans flash
 
 Depuis la v1.69, le contenu de la page reste transparent (`html.fz-voile`, `src/css/commun/voile-chargement.css`) jusqu'à la fin
-de `onReady()` (+ 250 ms au plus pour les polices), puis fondu de 0,12 s ; levée forcée au bout de 2,5 s. Toute nouvelle
+de `onReady()` (+ 250 ms au plus pour les polices), puis fondu de 0,12 s ; levée forcée au bout de 2,5 s. La console (F12) indique à chaque page quand le script a démarré par rapport au premier affichage (`src/js/00-diagnostic-demarrage.js`). Toute nouvelle
 transformation faite au chargement doit rester dans `onReady()` pour être cachée par le voile.
 
 ## Compatibilité

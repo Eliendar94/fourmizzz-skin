@@ -59,6 +59,13 @@
 
 (function () {
 'use strict';
+const FZ_T0 = Math.round(performance.now()), FZ_ETAT0 = document.readyState, FZ_BODY0 = !!document.body;
+window.addEventListener('load', () => setTimeout(() => {
+const fp = performance.getEntriesByType('paint').find((p) => p.name === 'first-paint');
+const nav = performance.getEntriesByType('navigation')[0];
+console.info(`[fz-skin] script lancé à ${FZ_T0} ms (page : ${FZ_ETAT0}${FZ_BODY0 ? ', <body> déjà là' : ''}) ; premier affichage à ${fp ? Math.round(fp.startTime) + ' ms' : '?'} ; page lue à ${nav ? Math.round(nav.domContentLoadedEventEnd) + ' ms' : '?'}`
++ (!fp ? '' : FZ_T0 > fp.startTime ? ' → script lancé APRÈS le premier affichage : le gestionnaire l\'injecte en retard.' : ' → ordre correct.'));
+}, 0));
 const PRESETS = {
 'Futuriste':{ bg:'#05070d', panel:'#0e1e34', panel2:'#0a1a2e', border:'#1d4f73', text:'#d6ecff', accent:'#39d0ff', link:'#7cffc4', danger:'#ff5470', sideDim:1, futur:true },
 };
