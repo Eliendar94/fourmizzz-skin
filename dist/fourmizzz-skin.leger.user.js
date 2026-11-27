@@ -9,52 +9,52 @@
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_getResourceURL
-// @resource     batiments-salle-analyse https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/batiments/salle-analyse.jpg?v=6b3ba9a6
-// @resource     batiments-etable-cochenilles https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/batiments/etable-cochenilles.jpg?v=11b3050d
-// @resource     batiments-etable-pucerons https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/batiments/etable-pucerons.jpg?v=af41d93a
-// @resource     batiments-loge-imperiale https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/batiments/loge-imperiale.jpg?v=eea7306f
-// @resource     batiments-champignonniere https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/batiments/champignonniere.jpg?v=1dec4c99
-// @resource     batiments-entrepot-nourriture https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/batiments/entrepot-nourriture.jpg?v=ffc8786f
-// @resource     batiments-entrepot-materiaux https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/batiments/entrepot-materiaux.jpg?v=9b3f3b6f
-// @resource     batiments-couveuse https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/batiments/couveuse.jpg?v=57d5e5db
-// @resource     batiments-solarium https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/batiments/solarium.jpg?v=7608cae5
-// @resource     batiments-laboratoire https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/batiments/laboratoire.jpg?v=0ceade59
-// @resource     batiments-dome https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/batiments/dome.jpg?v=6119e184
-// @resource     batiments-caserne https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/batiments/caserne.jpg?v=0a182b8c
-// @resource     batiments-salle-combat https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/batiments/salle-combat.jpg?v=b60196a5
-// @resource     recherches-technique-ponte https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/recherches/technique-ponte.jpg?v=ccc8a0da
-// @resource     recherches-bouclier https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/recherches/bouclier.jpg?v=2db0d1eb
-// @resource     recherches-armes https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/recherches/armes.jpg?v=ac1f0f9b
-// @resource     recherches-communication-animaux https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/recherches/communication-animaux.jpg?v=7c710cd0
-// @resource     recherches-vitesse-chasse https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/recherches/vitesse-chasse.jpg?v=0a834568
-// @resource     recherches-vitesse-attaque https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/recherches/vitesse-attaque.jpg?v=7d80eaff
-// @resource     recherches-acide https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/recherches/acide.jpg?v=ac272519
-// @resource     recherches-poison https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/recherches/poison.jpg?v=1fcc7073
-// @resource     recherches-genetique https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/recherches/genetique.jpg?v=52bda0f1
-// @resource     recherches-architecture https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/recherches/architecture.jpg?v=9680e340
-// @resource     compteplus-affiche https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/compteplus/affiche.webp?v=e31c8e92
-// @resource     membre-carte-xatak https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/membre/carte-xatak.webp?v=90d0f184
-// @resource     unites-ouvriere https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/ouvriere.jpg?v=4d50e898
-// @resource     unites-jeune-soldate-naine https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/jeune-soldate-naine.jpg?v=c7e1681b
-// @resource     unites-soldate-naine https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/soldate-naine.jpg?v=8404ea3d
-// @resource     unites-naine https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/naine.jpg?v=87aeda81
-// @resource     unites-jeune-soldate https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/jeune-soldate.jpg?v=de06d6d9
-// @resource     unites-soldate https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/soldate.jpg?v=0e7464c8
-// @resource     unites-soldate-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/soldate-elite.jpg?v=8f903896
-// @resource     unites-concierge https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/concierge.jpg?v=7a95d2ef
-// @resource     unites-concierge-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/concierge-elite.jpg?v=cac178b3
-// @resource     unites-artilleuse https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/artilleuse.jpg?v=b09b5196
-// @resource     unites-artilleuse-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/artilleuse-elite.jpg?v=325fb04f
-// @resource     unites-tank https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/tank.jpg?v=99aba0a2
-// @resource     unites-tank-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/tank-elite.jpg?v=4196a83b
-// @resource     unites-tueuse https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/tueuse.jpg?v=32b2f485
-// @resource     unites-tueuse-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/unites/tueuse-elite.jpg?v=897ea0a4
-// @resource     bannieres-ressources https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/bannieres/ressources.jpg?v=f307307c
-// @resource     bannieres-construction https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/bannieres/construction.jpg?v=3de370d5
-// @resource     bannieres-laboratoire https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/bannieres/laboratoire.jpg?v=1559f69a
-// @resource     fourmiliere-megastructure https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/fourmiliere/megastructure.jpg?v=39c71b6d
-// @downloadURL  https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/dist/fourmizzz-skin.leger.user.js
-// @updateURL    https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/dist/fourmizzz-skin.leger.user.js
+// @resource     batiments-salle-analyse https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/batiments/salle-analyse.jpg?v=6b3ba9a6
+// @resource     batiments-etable-cochenilles https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/batiments/etable-cochenilles.jpg?v=11b3050d
+// @resource     batiments-etable-pucerons https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/batiments/etable-pucerons.jpg?v=af41d93a
+// @resource     batiments-loge-imperiale https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/batiments/loge-imperiale.jpg?v=eea7306f
+// @resource     batiments-champignonniere https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/batiments/champignonniere.jpg?v=1dec4c99
+// @resource     batiments-entrepot-nourriture https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/batiments/entrepot-nourriture.jpg?v=ffc8786f
+// @resource     batiments-entrepot-materiaux https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/batiments/entrepot-materiaux.jpg?v=9b3f3b6f
+// @resource     batiments-couveuse https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/batiments/couveuse.jpg?v=57d5e5db
+// @resource     batiments-solarium https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/batiments/solarium.jpg?v=7608cae5
+// @resource     batiments-laboratoire https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/batiments/laboratoire.jpg?v=0ceade59
+// @resource     batiments-dome https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/batiments/dome.jpg?v=6119e184
+// @resource     batiments-caserne https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/batiments/caserne.jpg?v=0a182b8c
+// @resource     batiments-salle-combat https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/batiments/salle-combat.jpg?v=b60196a5
+// @resource     recherches-technique-ponte https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/recherches/technique-ponte.jpg?v=ccc8a0da
+// @resource     recherches-bouclier https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/recherches/bouclier.jpg?v=2db0d1eb
+// @resource     recherches-armes https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/recherches/armes.jpg?v=ac1f0f9b
+// @resource     recherches-communication-animaux https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/recherches/communication-animaux.jpg?v=7c710cd0
+// @resource     recherches-vitesse-chasse https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/recherches/vitesse-chasse.jpg?v=0a834568
+// @resource     recherches-vitesse-attaque https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/recherches/vitesse-attaque.jpg?v=7d80eaff
+// @resource     recherches-acide https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/recherches/acide.jpg?v=ac272519
+// @resource     recherches-poison https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/recherches/poison.jpg?v=1fcc7073
+// @resource     recherches-genetique https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/recherches/genetique.jpg?v=52bda0f1
+// @resource     recherches-architecture https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/recherches/architecture.jpg?v=9680e340
+// @resource     compteplus-affiche https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/compteplus/affiche.webp?v=e31c8e92
+// @resource     membre-carte-xatak https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/membre/carte-xatak.webp?v=90d0f184
+// @resource     unites-ouvriere https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/ouvriere.jpg?v=4d50e898
+// @resource     unites-jeune-soldate-naine https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/jeune-soldate-naine.jpg?v=c7e1681b
+// @resource     unites-soldate-naine https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/soldate-naine.jpg?v=8404ea3d
+// @resource     unites-naine https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/naine.jpg?v=87aeda81
+// @resource     unites-jeune-soldate https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/jeune-soldate.jpg?v=de06d6d9
+// @resource     unites-soldate https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/soldate.jpg?v=0e7464c8
+// @resource     unites-soldate-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/soldate-elite.jpg?v=8f903896
+// @resource     unites-concierge https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/concierge.jpg?v=7a95d2ef
+// @resource     unites-concierge-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/concierge-elite.jpg?v=cac178b3
+// @resource     unites-artilleuse https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/artilleuse.jpg?v=b09b5196
+// @resource     unites-artilleuse-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/artilleuse-elite.jpg?v=325fb04f
+// @resource     unites-tank https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/tank.jpg?v=99aba0a2
+// @resource     unites-tank-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/tank-elite.jpg?v=4196a83b
+// @resource     unites-tueuse https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/tueuse.jpg?v=32b2f485
+// @resource     unites-tueuse-elite https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/unites/tueuse-elite.jpg?v=897ea0a4
+// @resource     bannieres-ressources https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/bannieres/ressources.jpg?v=f307307c
+// @resource     bannieres-construction https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/bannieres/construction.jpg?v=3de370d5
+// @resource     bannieres-laboratoire https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/bannieres/laboratoire.jpg?v=1559f69a
+// @resource     fourmiliere-megastructure https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/assets/fourmiliere/megastructure.jpg?v=39c71b6d
+// @downloadURL  https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/dist/fourmizzz-skin.leger.user.js
+// @updateURL    https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/dist/fourmizzz-skin.leger.user.js
 // ==/UserScript==
 
 (function () {

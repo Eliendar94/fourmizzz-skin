@@ -54,7 +54,7 @@
 // @resource     bannieres-laboratoire https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/bannieres/laboratoire.jpg?v=1559f69a
 // @resource     fourmiliere-megastructure https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/assets/fourmiliere/megastructure.jpg?v=39c71b6d
 // @downloadURL  https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/dist/fourmizzz-skin.leger.user.js
-// @updateURL    https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/claude/project-thread-rrescd/dist/fourmizzz-skin.leger.user.js
+// @updateURL    https://raw.githubusercontent.com/Eliendar94/fourmizzz-skin/main/dist/fourmizzz-skin.leger.user.js
 // ==/UserScript==
 
 (function () {
