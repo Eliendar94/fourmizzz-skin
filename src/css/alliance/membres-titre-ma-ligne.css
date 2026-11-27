@@ -21,7 +21,7 @@ html.fz-cache-tf #centre #tabMembresAlliance .fz-col-tf{display:none!important;}
 #centre label.fz-cols-tf span{font-family:inherit!important;}
 #centre label.fz-cols-tf:hover{background:color-mix(in srgb,var(--fz-accent) 24%,transparent);color:#fff!important;}
 #centre label.fz-cols-tf input{position:absolute;opacity:0;width:0;height:0;margin:0;pointer-events:none;}
-#centre label.fz-cols-tf .fz-cols-box{position:relative;display:inline-block;width:18px;height:18px;box-sizing:border-box;border:1px solid var(--fz-accent);border-radius:2px;background:rgba(4,12,22,.8);}
+#centre label.fz-cols-tf .fz-cols-box{position:relative;display:inline-block;width:20px;height:20px;box-sizing:border-box;border:1px solid var(--fz-accent);border-radius:2px;background:rgba(4,12,22,.8);}
 #centre label.fz-cols-tf input:checked + .fz-cols-box{background:var(--fz-accent);box-shadow:0 0 calc(6px*var(--fz-glow)) var(--fz-accent);}
-#centre label.fz-cols-tf input:checked + .fz-cols-box::after{content:"";position:absolute;left:5px;top:1px;width:5px;height:10px;border:solid #04121f;border-width:0 2px 2px 0;transform:rotate(45deg);}
+#centre label.fz-cols-tf input:checked + .fz-cols-box::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #04121f;border-width:0 2px 2px 0;transform:rotate(45deg);}
 #centre label.fz-cols-tf input:focus-visible + .fz-cols-box{outline:2px solid #fff;outline-offset:1px;}
