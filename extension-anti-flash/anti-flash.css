@@ -1,0 +1,13 @@
+/* v1.69 : extension « anti-flash ». Chrome applique ce CSS avant le premier affichage, ce que Tampermonkey ne garantit pas.
+   Tant que le skin n'a pas posé sa balise <style id="fz-skin">, la page reste transparente sur le fond du thème Futuriste.
+   Le skin construit tout le reste dans la même tâche que cette balise (la page est déjà lue quand Tampermonkey le lance),
+   donc la page réapparaît directement habillée.
+   Sécurité : si le skin ne se lance pas (désactivé, désinstallé, erreur), l'animation rend la page visible après 1,5 s.
+   (Pas de !important sur opacity : une animation ne peut pas passer outre une déclaration !important.) */
+html{background:#05070d!important;}
+html:not(:has(> style#fz-skin)):not(:has(> head > style#fz-skin)) > body{
+  opacity:0;
+  pointer-events:none;
+  animation:fz-anti-flash-secours 0s linear 1.5s forwards;
+}
+@keyframes fz-anti-flash-secours{to{opacity:1;pointer-events:auto;}}

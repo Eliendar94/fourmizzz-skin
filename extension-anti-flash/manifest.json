@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Fourmizzz — anti-flash du skin",
+  "version": "1.0",
+  "description": "Masque la page du jeu jusqu'à ce que le skin Fourmizzz (Tampermonkey) soit appliqué. CSS seul, aucun script.",
+  "content_scripts": [
+    {
+      "matches": ["https://*.fourmizzz.fr/*", "https://fourmizzz.fr/*"],
+      "css": ["anti-flash.css"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ]
+}
