@@ -1,6 +1,6 @@
-  // ---------- v1.65 : version mobile — Reine, bouton « Description + » ----------
+  // ---------- v1.65 : version mobile — Reine, bouton « Info+ » ----------
   // Sur téléphone, la description des unités prend beaucoup de place et passe sous le bouton de destination.
-  // Elle est repliée derrière un bouton « Description + » (simple bascule d'affichage, aucune action de jeu).
+  // Elle est repliée derrière un bouton « Info+ » (simple bascule d'affichage, aucune action de jeu).
   // Le texte reste dans la page. Rien n'est créé sur ordinateur : la page y reste strictement identique.
   // (déclaration de fonction : remontée dans la portée commune, appelée depuis onReady dans 42-demarrage.js)
   function reineDescriptionButtons() {
@@ -20,7 +20,7 @@
         }
         const btn = document.createElement('button');
         btn.type = 'button'; btn.className = 'fz-desc-btn'; btn.setAttribute('aria-expanded', 'false');
-        btn.innerHTML = '<span>Description</span><b>+</b>';
+        btn.innerHTML = '<span>Info</span><b>+</b>';
         btn.addEventListener('click', (e) => {
           e.preventDefault();
           const tr = td.closest('tr'); const open = !tr.classList.contains('fz-desc-open');

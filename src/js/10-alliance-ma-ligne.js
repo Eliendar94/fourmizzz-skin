@@ -25,7 +25,9 @@
     lab.innerHTML = '<input type="checkbox"><span class="fz-cols-box"></span><span>Technologie / Fourmilière</span>';
     const cb = lab.querySelector('input'); cb.checked = show;
     cb.addEventListener('change', () => { GM_setValue('fzMembresTechFourmi', cb.checked); document.documentElement.classList.toggle('fz-cache-tf', !cb.checked); });
-    if (a && a.classList.contains('fz-addfriends')) a.after(lab); else t.after(lab);
+    // v1.65 : les deux boutons dans une même rangée flex (alignés sur ordinateur, empilés à la même largeur sur téléphone)
+    const row = document.createElement('div'); row.className = 'fz-mem-actions';
+    if (a && a.classList.contains('fz-addfriends')) { a.before(row); row.append(a, lab); } else { t.after(row); row.append(lab); }
   }
   function markMeInMembers() {
     membersPageExtras();

@@ -17,7 +17,7 @@ html body #centre #tabMembresAlliance tr.fz-me:hover > td{background:color-mix(i
 html body #centre #tabMembresAlliance tr.fz-me a{color:#4ade80!important;}
 /* v1.65 : case « Technologie / Fourmilière » (masque ces deux colonnes), à côté du bouton d'ajout aux amis */
 html.fz-cache-tf #centre #tabMembresAlliance .fz-col-tf{display:none!important;}
-#centre label.fz-cols-tf{display:inline-flex!important;align-items:center;gap:8px;margin:12px 0 4px 10px;padding:5px 14px 5px 5px;border:1px solid color-mix(in srgb,var(--fz-accent) 60%,transparent);background:color-mix(in srgb,var(--fz-accent) 10%,transparent);color:var(--fz-accent)!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:2px;box-shadow:0 0 calc(6px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 30%,transparent);cursor:pointer;user-select:none;}
+#centre label.fz-cols-tf{display:inline-flex!important;align-items:center;gap:8px;margin:12px 0 4px 10px;box-sizing:border-box;padding:5px 14px 5px 5px;border:1px solid color-mix(in srgb,var(--fz-accent) 60%,transparent);background:color-mix(in srgb,var(--fz-accent) 10%,transparent);color:var(--fz-accent)!important;font-family:"Orbitron","Segoe UI",sans-serif!important;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:2px;box-shadow:0 0 calc(6px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 30%,transparent);cursor:pointer;user-select:none;}
 #centre label.fz-cols-tf span{font-family:inherit!important;}
 #centre label.fz-cols-tf:hover{background:color-mix(in srgb,var(--fz-accent) 24%,transparent);color:#fff!important;}
 #centre label.fz-cols-tf input{position:absolute;opacity:0;width:0;height:0;margin:0;pointer-events:none;}
@@ -25,3 +25,6 @@ html.fz-cache-tf #centre #tabMembresAlliance .fz-col-tf{display:none!important;}
 #centre label.fz-cols-tf input:checked + .fz-cols-box{background:var(--fz-accent);box-shadow:0 0 calc(6px*var(--fz-glow)) var(--fz-accent);}
 #centre label.fz-cols-tf input:checked + .fz-cols-box::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #04121f;border-width:0 2px 2px 0;transform:rotate(45deg);}
 #centre label.fz-cols-tf input:focus-visible + .fz-cols-box{outline:2px solid #fff;outline-offset:1px;}
+/* v1.65 : rangée commune « Ajouter les membres… » + case Technologie / Fourmilière : même hauteur, centres alignés */
+#centre .fz-mem-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:12px 0 4px;}
+#centre .fz-mem-actions > :is(a.fz-addfriends,label.fz-cols-tf){margin:0!important;height:32px;box-sizing:border-box;line-height:1;vertical-align:top;}

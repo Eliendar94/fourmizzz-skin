@@ -33,7 +33,7 @@ html body #centre .fz-page-hero-info .fz-hero-sub{font-size:10.5px!important;}
 }
 /* v1.64 : Messagerie, date d'envoi un peu plus grande au doigt, sans marge gauche qui déborde */
 @media screen and (max-width:61em){#centre #messagerie tr.contenu_conversation .date_envoi{font-size:12px!important;line-height:18px!important;margin-left:8px!important;padding:1px 7px;}}
-/* v1.65 : Reine sur téléphone — description des unités repliée derrière un bouton « Description + »,
+/* v1.65 : Reine sur téléphone — description des unités repliée derrière un bouton « Info+ »,
    bouton de destination (TdC / Dôme / Loge) déplacé en bas de la colonne pour ne plus chevaucher le texte */
 #centre .fz-desc-btn{display:none;}
 @media screen and (max-width:61em){
@@ -45,4 +45,9 @@ html body #centre .ligneAmelioration h2 ~ button.fz-desc-btn{display:flex!import
 html body #centre .ligneAmelioration .fz-desc-btn span{font-family:inherit!important;}
 html body #centre .ligneAmelioration .fz-desc-btn b{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;background:var(--fz-accent);color:#04121f;font-size:14px;line-height:1;border-radius:2px;}
 html body #centre tr.ligneAmelioration:has(.fz-desc-btn) td.fz-ponte-cell div.cliquable3[title="Changer la Destination"]{top:auto!important;bottom:12px;}
+}
+/* v1.65 : Membres sur téléphone, « Ajouter les membres… » et la case Technologie / Fourmilière empilés à la même largeur */
+@media screen and (max-width:61em){
+#centre .fz-mem-actions{flex-direction:column;align-items:stretch;width:fit-content;max-width:100%;margin:12px auto 4px;}
+#centre .fz-mem-actions > :is(a.fz-addfriends,label.fz-cols-tf){justify-content:flex-start;height:36px;}
 }
