@@ -1,0 +1,69 @@
+/* v1.68 : page « Ma Fourmilière » en mégastructure spatiale (scène construite par src/js/46-fourmiliere-megastructure.js).
+   Scène = div du jeu (taille fixée en JS) > étage 1200×896 réduit par zoom (décor < drones < zones) + panneau HUD.
+   Le décor, le canvas, l'image à <map> et les bulles du jeu restent dans la page, seulement masqués. */
+.fz-fourmi{background:#03050c;box-shadow:0 0 calc(24px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 22%,transparent);outline:1px solid color-mix(in srgb,var(--fz-accent) 40%,transparent);text-align:left;margin:4px auto;}
+.fz-fourmi > #fourmiliere,.fz-fourmi > img[usemap="#vueFourmiliere"],.fz-fourmi > table.boite_amelioration{display:none!important;}
+.fz-fourmi > .fz-fourmi-etage{position:absolute;left:0;top:0;width:1200px;height:896px;}
+.fz-fourmi-etage > *{position:absolute;left:0;top:0;width:1200px;height:896px;}
+.fz-fourmi-decor{background:#03050c 0 0/1200px 896px no-repeat;pointer-events:none;}
+.fz-fourmi-anim{pointer-events:none;filter:drop-shadow(0 0 calc(5px*var(--fz-glow)) rgba(140,220,255,.6));}
+.fz-fourmi-zones polygon{fill:transparent;stroke:transparent;stroke-width:1.6;stroke-linejoin:round;cursor:pointer;transition:fill .2s,stroke .2s;}
+.fz-fourmi-zones polygon.fz-on{fill:color-mix(in srgb,var(--fz-zone) 14%,transparent);stroke:var(--fz-zone);stroke-dasharray:6 4;animation:fz-fourmi-scan 1.2s linear infinite;filter:drop-shadow(0 0 calc(8px*var(--fz-glow)) var(--fz-zone));}
+@keyframes fz-fourmi-scan{to{stroke-dashoffset:-20;}}
+/* panneau HUD du module survolé (hors zoom : texte à taille normale) ; il ne capte pas la souris */
+.fz-fourmi-panneau{position:absolute;z-index:10;display:none;pointer-events:none;box-sizing:border-box;padding:8px 10px 10px;background:linear-gradient(135deg,rgba(14,30,52,.94),rgba(8,14,28,.96));border:1px solid color-mix(in srgb,var(--fz-zone,var(--fz-accent)) 60%,transparent);box-shadow:0 0 calc(18px*var(--fz-glow)) color-mix(in srgb,var(--fz-zone,var(--fz-accent)) 30%,transparent);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));color:var(--fz-text);font-size:12px;line-height:1.35;}
+.fz-fourmi-panneau.fz-on{display:block;}
+.fz-fp-titre{font:700 13px "Orbitron","Segoe UI",sans-serif;letter-spacing:.14em;text-transform:uppercase;text-align:center;color:#f2f8ff;text-shadow:0 0 calc(8px*var(--fz-glow)) var(--fz-zone);padding:2px 0 6px;margin-bottom:6px;border-bottom:1px solid color-mix(in srgb,var(--fz-zone) 55%,transparent);}
+.fz-fp-item{display:flex;gap:8px;align-items:center;padding:4px 0;}
+.fz-fp-item + .fz-fp-item{border-top:1px solid rgba(140,180,220,.15);}
+.fz-fp-item > img,.fz-fp-item > i{flex:0 0 64px;width:64px;height:42px;object-fit:cover;border:1px solid color-mix(in srgb,var(--fz-zone) 45%,transparent);background:rgba(255,255,255,.04);}
+.fz-fp-item b{color:#f2f8ff;}
+.fz-fp-niv{color:var(--fz-zone);font-weight:700;margin-left:2px;}
+.fz-fp-item small{display:block;color:#8fe3a8;font-size:11px;margin-top:2px;}
+.fz-fp-note{margin:4px 0;color:#9fb0c3;font-style:italic;}
+.fz-fp-mouv + .fz-fp-mouv{margin-top:6px;}
+.fz-fp-mt{display:flex;justify-content:space-between;gap:8px;border-left:3px solid var(--fz-zone);padding-left:6px;}
+.fz-fp-mt b{color:var(--fz-zone);}
+.fz-fp-mouv table,.fz-fp-armee{width:100%;border-collapse:collapse;margin-top:3px;font-size:11px;}
+.fz-fp-mouv td{padding:1px 4px;color:#c9d6e4;}
+.fz-fp-mouv td:last-child{text-align:right;}
+.fz-fp-armee th{font-weight:600;color:#9fb0c3;text-align:right;padding:1px 4px;border-bottom:1px solid rgba(140,180,220,.25);}
+.fz-fp-armee th:first-child,.fz-fp-armee td:first-child{text-align:left;}
+.fz-fp-armee td{text-align:right;padding:1px 4px;}
+.fz-fp-armee tr.fz-fp-tot td{border-top:1px solid rgba(140,180,220,.25);font-weight:700;color:#f2f8ff;}
+.fz-fp-ligne{display:flex;justify-content:space-between;padding:2px 0;border-top:1px solid rgba(140,180,220,.12);margin-top:2px;}
+.fz-fp-ligne b{color:#f2f8ff;}
+/* panneaux épinglés (clic) : cliquables, croix de fermeture, lien vers la page ; sur petit écran, empilés sous la scène */
+.fz-fourmi-panneau.fz-pin{pointer-events:auto;overflow:auto;z-index:11;}
+.fz-fourmi-panneau.fz-flash{animation:fz-fourmi-flash .6s ease-out;}
+@keyframes fz-fourmi-flash{from{box-shadow:0 0 calc(40px*var(--fz-glow)) var(--fz-zone);}}
+.fz-fp-titre{position:relative;padding-left:22px;padding-right:22px;}
+.fz-fp-x,.fz-fp-page{position:absolute;top:-2px;width:20px;height:20px;line-height:18px;padding:0;border:1px solid color-mix(in srgb,var(--fz-zone) 55%,transparent);background:rgba(6,12,24,.8);color:#f2f8ff!important;font:700 15px/18px "Segoe UI",sans-serif;text-align:center;text-decoration:none!important;cursor:pointer;}
+.fz-fp-x{right:0;color:#ff7a85!important;}
+.fz-fp-page{left:0;}
+.fz-fp-x:hover,.fz-fp-page:hover{background:color-mix(in srgb,var(--fz-zone) 30%,#06101c);}
+.fz-fourmi-dock{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:8px;margin:8px auto 0;max-width:100%;text-align:left;}
+.fz-fourmi-dock:empty{display:none;}
+.fz-fourmi-dock > .fz-fourmi-panneau{position:relative;width:340px;max-width:100%;}
+.fz-fp-sous{margin:8px 0 3px;font:600 10px "Orbitron","Segoe UI",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--fz-zone);}
+.fz-fp-total{border-top:1px solid color-mix(in srgb,var(--fz-zone) 50%,transparent)!important;font-weight:700;}
+.fz-fp-suiv span,.fz-fp-suiv b{color:#9fb0c3!important;font-weight:400;}
+.fz-fp-entrepot{display:flex;align-items:center;gap:10px;margin-top:4px;}
+.fz-fp-entrepot > div{flex:1;}
+.fz-fp-anneau{flex:0 0 64px;}
+.fz-fourmi-panneau .fz-pos{color:#4ade80;}
+.fz-fourmi-panneau .fz-neg{color:#ff5a6a;}
+.fz-fp-armee tr:not(.fz-fp-tot) td{color:inherit;}
+/* v1.68 : entrepôt rempli à plus de 90 % : module rouge clignotant, ligne « Plein dans » en rouge */
+.fz-fourmi-zones polygon.fz-alerte{--fz-zone:#ff4d5e;stroke:#ff4d5e;fill:rgba(255,77,94,.10);animation:fz-fourmi-alerte 1.4s ease-in-out infinite;}
+.fz-fourmi-zones polygon.fz-alerte.fz-on{animation:fz-fourmi-scan 1.2s linear infinite,fz-fourmi-alerte 1.4s ease-in-out infinite;}
+@keyframes fz-fourmi-alerte{50%{fill:rgba(255,77,94,.24);filter:drop-shadow(0 0 calc(10px*var(--fz-glow)) #ff4d5e);}}
+.fz-fp-alerte,.fz-fp-alerte b{color:#ff5a6a!important;}
+.fz-fp-note.fz-fp-alerte{font-style:normal;font-size:11px;}
+.fz-fourmi-etage > .fz-fourmi-planete{pointer-events:none;opacity:.8;}
+/* v1.68 (ajustements) : pointillés des zones plus fins (1,6 px, tirets 6/4) ; icônes néon devant les valeurs ;
+   panneaux épinglés déplaçables par leur barre de titre, posés sur la page une fois déplacés */
+.fz-fp-ico{flex:0 0 auto;vertical-align:-3px;margin-right:5px;}
+.fz-fp-ligne > span{display:flex;align-items:center;}
+.fz-fourmi-panneau.fz-pin .fz-fp-titre{cursor:move;touch-action:none;user-select:none;-webkit-user-select:none;}
+.fz-fourmi-panneau.fz-libre{position:absolute;z-index:1000;margin:0;}
