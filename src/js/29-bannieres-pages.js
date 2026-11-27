@@ -19,7 +19,13 @@
       n = nx;
     }
     if (moved.length) {
-      moved.forEach(el => { const line = document.createElement('div'); line.className = 'fz-hero-line' + (el.tagName === 'SMALL' ? ' fz-hero-sub' : ''); el.before(line); line.appendChild(el); info.appendChild(line); });
+      // v1.67 : la date de fin (« Terminé lundi à 05h26 », <small>) se met à la suite de sa ligne « … se termine dans … - Annuler », sans retour à la ligne
+      let last = null;
+      moved.forEach(el => {
+        if (el.tagName === 'SMALL' && last && !last.querySelector('.fz-hero-fin')) { el.classList.add('fz-hero-fin'); last.appendChild(el); return; }
+        const line = document.createElement('div'); line.className = 'fz-hero-line' + (el.tagName === 'SMALL' ? ' fz-hero-sub' : ''); el.before(line); line.appendChild(el); info.appendChild(line);
+        last = el.tagName === 'STRONG' ? line : null;
+      });
       d.querySelector('.fz-page-hero-head').appendChild(info); d.classList.add('fz-has-info');
     }
   }

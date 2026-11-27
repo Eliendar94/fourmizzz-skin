@@ -9,6 +9,8 @@
 #centre .fz-page-hero-info .fz-hero-line strong{font-weight:700;color:#eafaff!important;}
 #centre .fz-page-hero-info .fz-hero-line strong span[id^="batiment_"],#centre .fz-page-hero-info .fz-hero-line strong span[id^="recherche_"]{color:var(--fz-accent)!important;}
 #centre .fz-page-hero-info .fz-hero-sub{font-size:11px;opacity:.8;}
+/* v1.67 : date de fin à la suite de la ligne « se termine dans … » */
+#centre .fz-page-hero-info .fz-hero-line .fz-hero-fin{margin-left:.6em;font-size:11px;opacity:.8;}
 #centre .fz-page-hero .fz-page-hero-title{position:relative;z-index:1;padding:4px 0 6px;font-family:"Orbitron","Segoe UI",sans-serif;font-size:30px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#eafaff;text-shadow:0 0 calc(12px*var(--fz-glow)) var(--fz-accent),0 0 2px var(--fz-accent),0 2px 6px rgba(0,0,0,.9);border-bottom:2px solid color-mix(in srgb,var(--fz-accent) 70%,transparent);}
 #centre .fz-page-hero .fz-hero-c{position:absolute;width:18px;height:18px;border:2px solid var(--fz-accent);pointer-events:none;z-index:2;filter:drop-shadow(0 0 calc(4px*var(--fz-glow)) var(--fz-accent));}
 #centre .fz-page-hero .fz-hero-tl{top:5px;left:5px;border-right:0;border-bottom:0;}
