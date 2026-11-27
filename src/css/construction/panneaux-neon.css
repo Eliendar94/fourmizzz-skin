@@ -19,3 +19,6 @@ html body #centre tr.ligneAmelioration:has(.photo_recherche):hover > td{border-c
 html body #centre tr.ligneAmelioration:is(.fz-u-ouv,.fz-u-mil){transition:box-shadow .2s,border-color .2s!important;}
 html body #centre tr.ligneAmelioration.fz-u-ouv:hover{border-color:#ffb020!important;box-shadow:0 0 0 1px rgba(255,176,32,.85),0 0 calc(18px*var(--fz-glow)) rgba(255,176,32,.55),0 0 calc(40px*var(--fz-glow)) rgba(255,176,32,.25),inset 0 0 calc(24px*var(--fz-glow)) rgba(255,176,32,.14)!important;}
 html body #centre tr.ligneAmelioration.fz-u-mil:hover{border-color:#ff4d5e!important;box-shadow:0 0 0 1px rgba(255,77,94,.85),0 0 calc(18px*var(--fz-glow)) rgba(255,77,94,.55),0 0 calc(40px*var(--fz-glow)) rgba(255,77,94,.25),inset 0 0 calc(24px*var(--fz-glow)) rgba(255,77,94,.14)!important;}
+/* v1.65 : nom des bâtiments en vert (comme le bouton Construire), nom des recherches en violet (comme le bouton Rechercher) */
+html body #centre tr.ligneAmelioration:has(.photo_batiment) h2{color:#4ade80!important;text-shadow:0 0 calc(8px*var(--fz-glow)) rgba(74,222,128,.7)!important;}
+html body #centre tr.ligneAmelioration:has(.photo_recherche) h2{color:#b57cff!important;text-shadow:0 0 calc(8px*var(--fz-glow)) rgba(181,124,255,.7)!important;}
