@@ -109,6 +109,12 @@ par image). Le dépôt GitHub fait référence ; `--ref` détecte toute dérive.
 Thème unique depuis la v1.66 : **Futuriste** (`PRESETS`, `src/js/01-themes-config.js`, accent `#39d0ff`). Le panneau 🎨 ne règle plus
 que l'intensité des néons (`glow`) et l'image de fond (`bgImg`) ; seuls ces deux réglages sont enregistrés et relus.
 
+## Chargement sans flash
+
+Depuis la v1.69, le contenu de la page reste transparent (`html.fz-voile`, `src/css/commun/voile-chargement.css`) jusqu'à la fin
+de `onReady()` (+ 250 ms au plus pour les polices), puis fondu de 0,12 s ; levée forcée au bout de 2,5 s. Toute nouvelle
+transformation faite au chargement doit rester dans `onReady()` pour être cachée par le voile.
+
 ## Compatibilité
 
 Le skin cohabite avec des scripts tiers (fmz-moderne et son shadow DOM, cixy, OptiFlood, « Profil joueur », plan de ponte…) :

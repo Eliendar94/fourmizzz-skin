@@ -1,0 +1,7 @@
+/* v1.69 : voile de chargement. Le CSS du skin est posé dès « document-start », mais une partie du rendu
+   (bannières, boutons, icônes, mégastructure…) est construite en JS une fois la page lue (DOMContentLoaded) ;
+   le navigateur peut afficher la page avant. On garde donc le contenu transparent (fond du thème visible)
+   jusqu'à la fin de onReady(), puis fondu court. Pas de clic possible tant que la page est invisible.
+   opacity (et non visibility/display) : la mise en page et le focus restent normaux pour le jeu et les scripts tiers. */
+html.fz-voile body{opacity:0!important;pointer-events:none!important;}
+html.fz-apparition body{transition:opacity .12s ease-out!important;}

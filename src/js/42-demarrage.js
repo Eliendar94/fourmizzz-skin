@@ -40,4 +40,12 @@
     new MutationObserver(fzCompat).observe(document.body, { childList: true });
     setInterval(fzCompat, 2000);
   };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', onReady); else onReady();
+  // v1.69 : le voile tombe une fois le skin construit ; on laisse aux polices (Orbitron, Exo 2) 250 ms au plus
+  // pour arriver (en cache après la première page), puis on attend l'image suivante pour qu'elle soit peinte d'un coup.
+  const demarrer = () => {
+    try { onReady(); } finally {
+      const fin = () => requestAnimationFrame(() => requestAnimationFrame(leverVoile));
+      Promise.race([document.fonts ? document.fonts.ready : null, new Promise((r) => setTimeout(r, 250))]).then(fin, fin);
+    }
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', demarrer); else demarrer();

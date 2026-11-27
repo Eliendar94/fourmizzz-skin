@@ -4,9 +4,22 @@
   style.id = 'fz-skin';
   const apply = () => {
     const futur = cfg.enabled && PRESETS[cfg.preset] && PRESETS[cfg.preset].futur;
-    style.textContent = !cfg.enabled ? '' : (futur ? FUTUR_IMPORT : '') + vars(cfg) + SKIN_CSS + (futur ? FUTUR_CSS : '') + (cfg.stationImg ? STATION_CSS + CUSTOM_IMG_CSS : '') + (cfg.buildBtn ? BUILD_BTN_CSS : '') + PONTE_TABLE_CSS + RING_CSS + MSG_TAG_CSS + MEMBERS_CSS + CHAT_CSS + PSEUDO_CSS + ALLY_NAME_CSS + forumCss(cfg) + (cfg.neonIcons ? msgIconCss(cfg) : '') + armyHeadCss(cfg.accent) + RES_LAYOUT_CSS + (cfg.neonIcons ? extraIconCss(cfg) : '') + (cfg.neonIcons ? neonIconCss(cfg.accent) + compteIconCss(cfg.accent) + menuIconCss(cfg.accent) + cplusIconCss(cfg) : '') + ACCUEIL_CSS + MOBILE_CSS;
+    style.textContent = !cfg.enabled ? '' : (futur ? FUTUR_IMPORT : '') + VOILE_CSS + vars(cfg) + SKIN_CSS + (futur ? FUTUR_CSS : '') + (cfg.stationImg ? STATION_CSS + CUSTOM_IMG_CSS : '') + (cfg.buildBtn ? BUILD_BTN_CSS : '') + PONTE_TABLE_CSS + RING_CSS + MSG_TAG_CSS + MEMBERS_CSS + CHAT_CSS + PSEUDO_CSS + ALLY_NAME_CSS + forumCss(cfg) + (cfg.neonIcons ? msgIconCss(cfg) : '') + armyHeadCss(cfg.accent) + RES_LAYOUT_CSS + (cfg.neonIcons ? extraIconCss(cfg) : '') + (cfg.neonIcons ? neonIconCss(cfg.accent) + compteIconCss(cfg.accent) + menuIconCss(cfg.accent) + cplusIconCss(cfg) : '') + ACCUEIL_CSS + MOBILE_CSS;
     document.documentElement.classList.toggle('fz-has-bg', !!(futur && cfg.bgImg));
   };
   apply();
   (document.head || document.documentElement).appendChild(style);
+
+  // v1.69 : voile de chargement (voir commun/voile-chargement.css). Levé par leverVoile() à la fin de onReady(),
+  // et au plus tard après 2,5 s quoi qu'il arrive (page lente, erreur) : la page ne peut pas rester invisible.
+  let voileLeve = !cfg.enabled || document.readyState !== 'loading';
+  const leverVoile = () => {
+    if (voileLeve) return;
+    voileLeve = true;
+    const root = document.documentElement;
+    root.classList.add('fz-apparition');
+    root.classList.remove('fz-voile');
+    setTimeout(() => { root.classList.remove('fz-apparition'); if (!root.classList.length) root.removeAttribute('class'); }, 200);
+  };
+  if (!voileLeve) { document.documentElement.classList.add('fz-voile'); setTimeout(leverVoile, 2500); }
 
