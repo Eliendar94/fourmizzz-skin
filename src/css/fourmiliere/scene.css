@@ -42,9 +42,9 @@
 .fz-fp-x{right:0;color:#ff7a85!important;}
 .fz-fp-page{left:0;}
 .fz-fp-x:hover,.fz-fp-page:hover{background:color-mix(in srgb,var(--fz-zone) 30%,#06101c);}
-.fz-fourmi-dock{display:flex;flex-direction:column;gap:8px;margin:8px auto 0;max-width:100%;text-align:left;}
+.fz-fourmi-dock{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:8px;margin:8px auto 0;max-width:100%;text-align:left;}
 .fz-fourmi-dock:empty{display:none;}
-.fz-fourmi-dock > .fz-fourmi-panneau{position:relative;width:auto;}
+.fz-fourmi-dock > .fz-fourmi-panneau{position:relative;width:340px;max-width:100%;}
 .fz-fp-sous{margin:8px 0 3px;font:600 10px "Orbitron","Segoe UI",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--fz-zone);}
 .fz-fp-total{border-top:1px solid color-mix(in srgb,var(--fz-zone) 50%,transparent)!important;font-weight:700;}
 .fz-fp-suiv span,.fz-fp-suiv b{color:#9fb0c3!important;font-weight:400;}

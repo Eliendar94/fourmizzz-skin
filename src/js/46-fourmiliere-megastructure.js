@@ -355,8 +355,9 @@
     const etroit = () => W * k < 600; // petit écran : les panneaux épinglés s'empilent sous la scène
     const epingles = []; // zones épinglées, dans l'ordre d'ouverture
     const chevauche = (a, b) => a.l < b.l + b.w + 6 && b.l < a.l + a.w + 6 && a.t < b.t + b.h + 6 && b.t < a.t + a.h + 6;
-    // place un panneau près de sa zone, sans recouvrir les panneaux déjà épinglés (sinon : premier emplacement libre)
-    const placer = (z, el, autres) => {
+    // place un panneau près de sa zone, sans recouvrir les panneaux déjà épinglés (sinon : premier emplacement libre ;
+    // s'il n'y en a plus, strict → null et le panneau va sous la scène)
+    const placer = (z, el, autres, strict) => {
       const sw = W * k, sh = H * k, pw = Math.min(340, sw - 16);
       el.style.width = pw + 'px'; el.style.maxHeight = (sh - 16) + 'px';
       const ph = Math.min(el.offsetHeight, sh - 16);
@@ -364,18 +365,21 @@
       const borne = (l, t) => ({ l: Math.max(8, Math.min(sw - pw - 8, l)), t: Math.max(8, Math.min(sh - ph - 8, t)), w: pw, h: ph });
       const cands = [borne(x1 + 12, cy), borne(x0 - 12 - pw, cy), borne(cx, y1 + 12), borne(cx, y0 - 12 - ph)];
       for (let t = 8; t <= sh - ph - 8; t += 24) for (let l = 8; l <= sw - pw - 8; l += 24) cands.push(borne(l, t));
-      const r = cands.find(c => !autres.some(o => chevauche(c, o))) || cands[0];
+      const r = cands.find(c => !autres.some(o => chevauche(c, o))) || (strict ? null : cands[0]);
+      if (!r) return null;
       el.style.left = Math.round(r.l) + 'px'; el.style.top = Math.round(r.t) + 'px';
       return r;
     };
     const rect = (el) => ({ l: el.offsetLeft, t: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight });
     const replacer = () => {
       const faits = [];
+      dock.style.maxWidth = Math.floor(W * k) + 'px';
       epingles.forEach(z => {
-        const el = z.panneau, dedans = !etroit();
-        if (dedans && el.parentNode !== scene) scene.appendChild(el); else if (!dedans && el.parentNode !== dock) dock.appendChild(el);
-        el.classList.toggle('fz-dock', !dedans);
-        if (dedans) faits.push(placer(z, el, faits)); else { el.style.left = el.style.top = el.style.width = el.style.maxHeight = ''; }
+        const el = z.panneau;
+        let r = null;
+        if (!etroit()) { if (el.parentNode !== scene) scene.appendChild(el); el.classList.remove('fz-dock'); r = placer(z, el, faits, true); }
+        if (r) faits.push(r);
+        else { if (el.parentNode !== dock) dock.appendChild(el); el.classList.add('fz-dock'); el.style.left = el.style.top = el.style.width = el.style.maxHeight = ''; }
       });
     };
     const rafraichir = (z) => {
