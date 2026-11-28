@@ -125,4 +125,6 @@
       // 5. troupes engagées
       [...d.childNodes].filter(n => n.nodeType === 3 && /^\s*Troupes en /i.test(n.textContent)).forEach(n => rcTroupes(n, chasse));
     });
+    colorFloods(); // v1.72
+    bilanCombats();
   }
