@@ -163,6 +163,18 @@
         r.nivArme = +(((stat(/Dégats en Attaque/i) || { textContent: '' }).textContent.match(/Arme\s*\((\d+)\)/i) || [])[1] || 0);
         return r;
       }),
+      /* v1.70 : avec le Compte +, la page Reine affiche l'armée totale du joueur, unités en déplacement comprises
+         (span « cout_armeeN » après le nom de l'unité, vide quand il n'y en a aucune) ; les ouvrières n'y sont pas comptées */
+      reine: () => lirePage('Reine.php', 600e3).then(d => {
+        const r = { unites: [] };
+        d.querySelectorAll('#centre tr.ligneAmelioration').forEach(tr => {
+          const h = tr.querySelector('h2'); if (!h) return;
+          const nom = h.textContent.replace(/\s+/g, ' ').trim(); if (/^ouvri/i.test(nom)) return;
+          const q = h.nextElementSibling; if (!q || !/^span$/i.test(q.tagName)) return;
+          r.unites.push({ nom, n: num(q.textContent) });
+        });
+        return r;
+      }),
       // convois (commerce.php) : ouvrières, terrain de chasse, bonus de l'étable à pucerons (même calcul que la page Convois)
       convois: () => lirePage('commerce.php', 600e3).then(cm => {
         const v = (id) => { const e = cm.getElementById(id); return e ? Math.floor(parseFloat(e.textContent)) || 0 : 0; };
@@ -171,6 +183,8 @@
         return { tot, tdc: Math.min(tot, tdc), dispo: Math.max(0, tot - Math.min(tot, tdc)), cap: 10 * (1 + 0.05 * bonus), bonus };
       }),
     };
+    // v1.70 : Compte + actif = sa boîte porte les lignes de suivi (ponte, construction, chasse, attaque, convoi…)
+    const comptePlus = !!document.querySelector('#boiteComptePlus tr[id^="ligne_"]');
     const charger = (nom) => enCours[nom] || (enCours[nom] = CHARGEURS[nom]().then(x => { D[nom] = x; }, () => { D[nom] = {}; }));
     // mouvements : lignes chasse / attaque / convoi de la boîte Compte + (texte, compte à rebours du jeu, détail de l'infobulle)
     const MOUV = [['chasse', 'Chasses', '#4ade80'], ['attaque', 'Attaques', '#ff4d5e'], ['convoi', 'Convois', '#5aa8ff']];
@@ -415,9 +429,12 @@
       dome: () => [11, 12].map(batiment).filter(Boolean).map(ligne).join(''),
       recherche: () => [8, 13].map(batiment).filter(Boolean).map(ligne).join('') + ['Génétique', 'Poison', 'Acide'].map(n => ligne(rech(n))).join(''),
       troupes: () => {
-        const a = D.armee; if (!a) return '<p class="fz-fp-note">Lecture de l\'armée…</p>';
-        const us = (a.unites || []).filter(u => u.n > 0);
-        let h = '<div class="fz-fp-sous">Armée totale</div>';
+        const a = D.armee; if (!a || (comptePlus && attente(['reine']))) return '<p class="fz-fp-note">Lecture de l\'armée…</p>';
+        // v1.70 : Compte + → quantités de la page Reine (armée totale, en déplacement comprise) ; sinon détail de la page Armée
+        const rn = comptePlus && D.reine && D.reine.unites && D.reine.unites.length ? D.reine.unites : null;
+        const us = (rn || a.unites || []).filter(u => u.n > 0);
+        let h = rn ? '<div class="fz-fp-sous">Armée totale</div><p class="fz-fp-note">Page Reine : unités en déplacement comprises.</p>'
+          : `<div class="fz-fp-sous">Unités présentes</div><p class="fz-fp-note">Page Armée : ${comptePlus ? 'page Reine illisible' : 'sans Compte +'}, les unités en déplacement ne sont pas comptées.</p>`;
         h += us.length ? '<table class="fz-fp-armee">' + us.map(u => { const hit = UNIT_COLORS.find(([re]) => re.test(u.nom)); return `<tr style="color:${hit ? hit[1] : 'inherit'}"><td>${esc(u.nom)}</td><td>${fmt(u.n)}</td></tr>`; }).join('')
           + `<tr class="fz-fp-tot"><td>Total</td><td>${fmt(us.reduce((s, u) => s + u.n, 0))}</td></tr></table>` : '<p class="fz-fp-note">Aucune unité.</p>';
         if (a.vie) {
@@ -447,7 +464,7 @@
         return h;
       },
     };
-    const BESOINS = { ponte: ['labo'], militaire: ['labo'], recherche: ['labo'], nourriture: ['constr', 'ress'], materiaux: ['constr', 'ress'], champignonniere: ['ress', 'constr'], troupes: ['armee'], port: ['labo', 'convois'] };
+    const BESOINS = { ponte: ['labo'], militaire: ['labo'], recherche: ['labo'], nourriture: ['constr', 'ress'], materiaux: ['constr', 'ress'], champignonniere: ['ress', 'constr'], troupes: comptePlus ? ['armee', 'reine'] : ['armee'], port: ['labo', 'convois'] };
     const html = (z, epingle) => `<div class="fz-fp-titre">${esc(z.titre)}${epingle ? `<a class="fz-fp-page" href="${z.page}" title="Ouvrir la page">›</a><button type="button" class="fz-fp-x" title="Fermer">×</button>` : ''}</div><div class="fz-fp-corps">${RENDU[z.id]()}</div>`;
 
     const dock = document.createElement('div'); dock.className = 'fz-fourmi-dock'; scene.after(dock);

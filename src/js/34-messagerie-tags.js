@@ -5,8 +5,20 @@
     [/^\s*butin\b/i, 'Flood', '#ff9f1c', ['▲', '#5dff7a']],    // flood envoyé
     [/^\s*chasse\b|chasseuses? ont conquis/i, 'Chasse', '#5dff7a'],
     [/^\s*(attaque|invasion)\b/i, 'Combat', '#ff5470'],
+    /* v1.70 : sens du convoi, comme les vignettes Flood (« livré à » = ressources envoyées, « reçu de » = reçues) */
+    [/^\s*convoi\s+livr/i, 'Convoi', '#6cc8ff', ['▼', '#ff4d4d']],
+    [/^\s*convoi\s+re[çc]u/i, 'Convoi', '#6cc8ff', ['▲', '#5dff7a']],
     [/^\s*convoi/i, 'Convoi', '#6cc8ff'],
   ];
+  /* v1.70 : messages entre joueurs. « Message groupé » quand la conversation est rangée par le jeu dans « Alliance »
+     (tr[data-type], message collectif) ou que la colonne des participants cite au moins deux autres joueurs
+     (« GameOver [C6P], Willow [C6P] », « Moi » non compté) ; sinon « Message » (conversation à deux). */
+  const msgGroupe = (a) => {
+    const tr = a.closest('tr'); if (!tr) return false;
+    if (tr.dataset.type === 'Alliance') return true;
+    const td = tr.querySelector('td.td_participants'), l = td && td.querySelector('a:not(.intitule_message)');
+    return !!l && l.textContent.split(',').map(x => x.trim()).filter(x => x && !/^moi$/i.test(x)).length > 1;
+  };
   function tagMessages() {
     document.querySelectorAll('#messagerie a.intitule_message').forEach(a => {
       // une seule vignette par message (la vignette « Nouveau » peut se trouver entre la vignette et le titre)
@@ -14,7 +26,7 @@
       const title = a.textContent.trim();
       if (!title) return;
       const hit = MSG_TAGS.find(([re]) => re.test(title));
-      const [, label, color, arrow] = hit || [null, 'Discussion', '#b77cff']; // messages privés et collectifs
+      const [, label, color, arrow] = hit || [null, msgGroupe(a) ? 'Message groupé' : 'Message', '#b77cff']; // messages entre joueurs
       const tag = document.createElement('span');
       tag.className = 'fz-tag';
       tag.textContent = label;

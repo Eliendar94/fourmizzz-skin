@@ -63,3 +63,5 @@ html body #centre tr.ligneAmelioration.fz-desc-open:is(:has(.photo_batiment),:ha
 html body #centre tr.ligneAmelioration:is(:has(.photo_batiment),:has(.photo_recherche)):not(.fz-desc-open) .fz-desc-txt + br{display:none;}
 html body #centre tr.ligneAmelioration:is(:has(.photo_batiment),:has(.photo_recherche)) .fz-desc-btn{margin-bottom:4px!important;}
 }
+/* v1.70 : boutons Construire / Rechercher à taille fixe, plus étroits sur téléphone (150 px comme avant la v1.70) */
+@media screen and (max-width:41em){#centre .fz-build-wrap.fz-btn-fixe{width:150px;}}

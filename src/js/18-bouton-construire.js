@@ -26,7 +26,7 @@
       const src = row.querySelector('.icone_construction, .icone_recherche, .bouton_gris');
       if (!cost) return;
       const wrap = document.createElement('div');
-      wrap.className = 'fz-build-wrap';
+      wrap.className = 'fz-build-wrap fz-btn-fixe'; // v1.70 : taille fixe, quelle que soit la largeur de la case
       if (!src) {
         // pas de bouton dans le jeu (prérequis non atteints) : bouton grisé pour garder l'alignement
         const off = document.createElement('span');
