@@ -36,10 +36,13 @@
   // lit un rapport (div.contenuJoueur.fz-rc) et renvoie ses chiffres
   function rcLire(d) {
     const L = rcLignes(d), txt = L.join('\n');
-    const r = { chasse: d.classList.contains('fz-rc-chasse'), armee: [], tues: 0, perdus: 0, evol: [], victoire: RC_VICTOIRE.test(txt), defaite: RC_DEFAITE.test(txt), cm2: 0, nourriture: 0 };
+    const r = { chasse: d.classList.contains('fz-rc-chasse'), armee: [], ennemis: 0, tues: 0, perdus: 0, evol: [], victoire: RC_VICTOIRE.test(txt), defaite: RC_DEFAITE.test(txt), cm2: 0, nourriture: 0 };
     const defense = /attaque votre/i.test(L[0] || ''); // on est attaqué : nos troupes sont celles « en défense »
     const mien = L.find(l => (defense ? /^Troupes en d[ée]fense\s*:/i : /^Troupes en attaque\s*:/i).test(l));
     if (mien) r.armee = rcArmee(mien.replace(/^[^:]*:\s*/, ''));
+    // v1.72 : armée adverse (joueur ou insectes), pour le % d'unités tuées
+    const autre = L.find(l => (defense ? /^Troupes en attaque\s*:/i : /^Troupes en d[ée]fense\s*:/i).test(l));
+    if (autre) r.ennemis = rcArmee(autre.replace(/^[^:]*:\s*/, '')).reduce((s, [n]) => s + n, 0);
     L.forEach(l => {
       let m;
       if ((m = l.match(/\btuez\s+([\d\s]*\d)/i))) r.tues += rcNb(m[1]);
@@ -52,10 +55,10 @@
   }
 
   function rcBilan(rs) {
-    const b = { etapes: rs.length, victoires: 0, defaites: 0, tues: 0, perdus: 0, engages: 0, cm2: 0, nourriture: 0, chasse: rs.some(r => r.chasse), base: [0, 0, 0], gain: [0, 0, 0], evolues: 0, inconnu: false };
+    const b = { etapes: rs.length, victoires: 0, defaites: 0, tues: 0, perdus: 0, engages: 0, ennemis: 0, cm2: 0, nourriture: 0, chasse: rs.some(r => r.chasse), base: [0, 0, 0], gain: [0, 0, 0], evolues: 0, inconnu: false };
     rs.forEach(r => {
       if (r.victoire) b.victoires++; else if (r.defaite) b.defaites++;
-      b.tues += r.tues; b.perdus += r.perdus; b.cm2 += r.cm2; b.nourriture += r.nourriture;
+      b.tues += r.tues; b.ennemis += r.ennemis; b.perdus += r.perdus; b.cm2 += r.cm2; b.nourriture += r.nourriture;
       r.armee.forEach(([n, nom]) => { b.engages += n; const s = rcStats(nom); if (s) s.forEach((v, i) => { b.base[i] += n * v; }); else b.inconnu = true; });
       r.evol.forEach(([n, de, vers]) => {
         b.evolues += n;
@@ -70,8 +73,8 @@
     const ligne = (lib, val, cls) => `<div class="fz-bilan-l"><span class="fz-bilan-lib">${lib}</span><span class="fz-bilan-val ${cls || ''}">${val}</span></div>`;
     let h = `<div class="fz-bilan-titre">Bilan${b.etapes > 1 ? ' des ' + b.etapes + ' ' + (b.chasse ? 'chasses' : 'combats') : b.chasse ? ' de la chasse' : ' du combat'}</div><div class="fz-bilan-grille">`;
     if (b.etapes > 1) h += ligne('Résultat', `<span class="fz-bilan-plus">${b.victoires} victoire${b.victoires > 1 ? 's' : ''}</span> / <span class="fz-bilan-moins">${b.defaites} défaite${b.defaites > 1 ? 's' : ''}</span>`);
-    h += ligne('Unités tuées', rcFmt(b.tues), 'fz-bilan-plus');
-    h += ligne('Unités perdues', rcFmt(b.perdus) + (b.engages ? ` <small>(${rcPct(b.perdus / b.engages * 100)} de ${rcFmt(b.engages)} engagées)</small>` : ''), 'fz-bilan-moins');
+    h += ligne('Unités tuées', rcFmt(b.tues) + (b.ennemis ? ` <small>(${rcPct(b.tues / b.ennemis * 100)} des ${rcFmt(b.ennemis)} ennemies engagées)</small>` : ''), 'fz-bilan-plus');
+    h += ligne('Unités perdues', rcFmt(b.perdus) + (b.engages ? ` <small>(${rcPct(b.perdus / b.engages * 100)} des ${rcFmt(b.engages)} unités engagées)</small>` : ''), 'fz-bilan-moins');
     h += ligne('Ratio tuées / perdues', b.perdus ? (b.tues / b.perdus).toLocaleString('fr-FR', { maximumFractionDigits: 2 }) : '∞');
     if (b.cm2) h += ligne('Terrain gagné', '+' + rcFmt(b.cm2) + ' cm²', 'fz-bilan-plus');
     if (b.chasse) {
