@@ -75,14 +75,14 @@
 
   function colorCombatReports() {
     // évolutions : dans tout message de rapport (combat ou chasse)
-    document.querySelectorAll('#messagerie div.contenuJoueur:not(.fz-rc-evol)').forEach(d => {
+    document.querySelectorAll(':is(#messagerie,#fz-sim) div.contenuJoueur:not(.fz-rc-evol)').forEach(d => {
       d.classList.add('fz-rc-evol');
       const w = document.createTreeWalker(d, NodeFilter.SHOW_TEXT), nodes = [];
       let n;
       while ((n = w.nextNode())) if (/devenues?\s/i.test(n.textContent) && !n.parentNode.closest('.fz-rc-unite')) nodes.push(n);
       nodes.forEach(rcEvolution);
     });
-    document.querySelectorAll('#messagerie div.contenuJoueur:not(.fz-rc)').forEach(d => {
+    document.querySelectorAll(':is(#messagerie,#fz-sim) div.contenuJoueur:not(.fz-rc)').forEach(d => {
       if (!/Troupes en attaque/i.test(d.textContent) || !/inflige/i.test(d.textContent)) return; // pas un rapport de combat
       d.classList.add('fz-rc');
       /* v1.71 : rapport de chasse (pas de titre, « Vos chasseuses ont conquis … ») : liseré vert des chasses,

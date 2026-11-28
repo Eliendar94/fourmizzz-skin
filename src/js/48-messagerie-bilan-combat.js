@@ -114,7 +114,7 @@
   }
 
   function bilanCombats() {
-    document.querySelectorAll('#messagerie tr.contenu_conversation').forEach(tr => {
+    document.querySelectorAll('#messagerie tr.contenu_conversation, #fz-sim').forEach(tr => {
       const rapports = [...tr.querySelectorAll('div.contenuJoueur.fz-rc')]; // (floods : le titre donne déjà le total)
       let box = tr.querySelector('.fz-bilan');
       if (!rapports.length) { if (box) box.remove(); return; }
@@ -126,8 +126,8 @@
         box.className = 'fz-bilan';
         // sous le dernier rapport de la conversation
         const derniere = rapports[rapports.length - 1];
-        derniere.closest('td').appendChild(box);
-      } else if (!rapports[rapports.length - 1].closest('td').contains(box)) rapports[rapports.length - 1].closest('td').appendChild(box);
+        derniere.closest('#fz-sim, td').appendChild(box);
+      } else if (!rapports[rapports.length - 1].closest('#fz-sim, td').contains(box)) rapports[rapports.length - 1].closest('#fz-sim, td').appendChild(box);
       box.dataset.cle = cle;
       box.innerHTML = html;
     });
@@ -165,4 +165,23 @@
       if (!sens) return;
       rcColorCm2(a, sens);
     });
+  }
+
+  // ---------- Simulateur de combat (Compte +) : mêmes couleurs et même bilan que dans la Messagerie ----------
+  /* v1.72 : après une simulation, simulateur.php affiche « Message que recevrait l'attaquant: » (<h2>) suivi du texte du
+     rapport en nœuds libres dans le <form>, jusqu'à <div class="Bas">. On regroupe ces nœuds (sans les modifier) dans
+     <div id="fz-sim"><div class="contenuJoueur">…</div></div> pour les traiter comme un rapport de la Messagerie.
+     Le bouton « Lancer l'Attaque ! » et le formulaire ne sont pas touchés. */
+  function simulateurCombat() {
+    if (!/\/simulateur\.php/i.test(location.pathname) || document.getElementById('fz-sim')) return;
+    const h2 = [...document.querySelectorAll('#centre h2')].find(h => /Message que recevrait/i.test(h.textContent));
+    if (!h2) return;
+    const boite = document.createElement('div'); boite.id = 'fz-sim';
+    const corps = document.createElement('div'); corps.className = 'contenuJoueur';
+    boite.appendChild(corps);
+    let n = h2.nextSibling;
+    while (n && !(n.nodeType === 1 && (n.matches('div.Bas, h2, table, fieldset, form')))) { const s = n.nextSibling; corps.appendChild(n); n = s; }
+    if (!/Troupes en/i.test(corps.textContent)) { while (corps.firstChild) h2.parentNode.insertBefore(corps.firstChild, n); return; } // pas de rapport : on remet tout
+    h2.parentNode.insertBefore(boite, n);
+    colorCombatReports();
   }
