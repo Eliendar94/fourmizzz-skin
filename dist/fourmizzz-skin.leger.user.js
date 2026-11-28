@@ -1318,7 +1318,6 @@ const fin = () => requestAnimationFrame(() => requestAnimationFrame(leverVoile))
 Promise.race([document.fonts ? document.fonts.ready : null, new Promise((r) => setTimeout(r, 250))]).then(fin, fin);
 }
 };
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', demarrer); else demarrer();
 function mobileLeftBoxesButton() {
 const mq = window.matchMedia('screen and (max-width: 61em)');
 const root = document.documentElement;
@@ -2151,4 +2150,5 @@ if (!sens) return;
 rcColorCm2(a, sens);
 });
 }
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', demarrer); else demarrer();
 })();

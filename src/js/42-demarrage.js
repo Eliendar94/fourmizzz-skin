@@ -48,4 +48,4 @@
       Promise.race([document.fonts ? document.fonts.ready : null, new Promise((r) => setTimeout(r, 250))]).then(fin, fin);
     }
   };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', demarrer); else demarrer();
+  // v1.72 : le lancement est dans 99-lancement.js, après tous les fragments (voir ce fichier)
