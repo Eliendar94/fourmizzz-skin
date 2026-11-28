@@ -1,0 +1,17 @@
+/* v1.71 : rapports de combat ouverts dans la Messagerie (classes posées par colorCombatReports) */
+#messagerie div.fz-rc{border-left:3px solid color-mix(in srgb,var(--fz-rc,var(--fz-accent)) 70%,transparent);padding-left:10px;line-height:1.55;}
+#messagerie div.fz-rc-zone-tdc{--fz-rc:#ff4d5e;}
+#messagerie div.fz-rc-zone-dome{--fz-rc:#ffb020;}
+#messagerie div.fz-rc-zone-loge{--fz-rc:#4ade80;}
+#messagerie .fz-rc-lieu{font-family:"Orbitron","Segoe UI",sans-serif;text-transform:uppercase;letter-spacing:.06em;font-size:.92em;padding:0 6px;border:1px solid currentColor;border-radius:2px;background:color-mix(in srgb,currentColor 12%,transparent);text-shadow:0 0 calc(6px*var(--fz-glow)) currentColor;white-space:nowrap;}
+#messagerie .fz-rc-tdc{color:#ff4d5e!important;}
+#messagerie .fz-rc-dome{color:#ffb020!important;}
+#messagerie .fz-rc-loge{color:#4ade80!important;}
+#messagerie .fz-rc-troupes{color:color-mix(in srgb,var(--fz-text) 70%,transparent);}
+#messagerie .fz-rc-unite{font-weight:600;text-shadow:0 0 calc(4px*var(--fz-glow)) color-mix(in srgb,currentColor 60%,transparent);}
+#messagerie .fz-rc-bonus{color:#4ade80!important;text-shadow:0 0 calc(5px*var(--fz-glow)) color-mix(in srgb,#4ade80 60%,transparent);}
+#messagerie strong.fz-rc-tues{color:#ff4d5e!important;text-shadow:0 0 calc(5px*var(--fz-glow)) color-mix(in srgb,#ff4d5e 60%,transparent);}
+#messagerie strong.fz-rc-fin{display:inline-block;margin-top:2px;font-family:"Orbitron","Segoe UI",sans-serif;letter-spacing:.04em;}
+#messagerie strong.fz-rc-victoire{color:#4ade80!important;text-shadow:0 0 calc(8px*var(--fz-glow)) color-mix(in srgb,#4ade80 70%,transparent);}
+#messagerie strong.fz-rc-defaite{color:#ff4d5e!important;text-shadow:0 0 calc(8px*var(--fz-glow)) color-mix(in srgb,#ff4d5e 70%,transparent);}
+#messagerie .fz-rc-nb,#messagerie strong.fz-rc-degats,#messagerie strong.fz-rc-tues{white-space:nowrap;}
