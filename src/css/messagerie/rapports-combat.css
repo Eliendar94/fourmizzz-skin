@@ -15,3 +15,7 @@
 #messagerie strong.fz-rc-victoire{color:#4ade80!important;text-shadow:0 0 calc(8px*var(--fz-glow)) color-mix(in srgb,#4ade80 70%,transparent);}
 #messagerie strong.fz-rc-defaite{color:#ff4d5e!important;text-shadow:0 0 calc(8px*var(--fz-glow)) color-mix(in srgb,#ff4d5e 70%,transparent);}
 #messagerie .fz-rc-nb,#messagerie strong.fz-rc-degats,#messagerie strong.fz-rc-tues{white-space:nowrap;}
+/* v1.71 : rapports de chasse (liseré vert, comme la vignette Chasse) et insectes en gras */
+#messagerie div.fz-rc-chasse{--fz-rc:#5dff7a;}
+#messagerie .fz-rc-ennemi{font-weight:700;color:var(--fz-text);}
+#messagerie .fz-rc-ennemi,#messagerie .fz-rc-nb{white-space:nowrap;}
