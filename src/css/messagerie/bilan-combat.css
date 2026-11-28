@@ -34,3 +34,7 @@
 #centre #fz-sim table.fz-bilan-armee th{color:color-mix(in srgb,var(--fz-text) 70%,transparent)!important;}
 #centre #fz-sim table.fz-bilan-armee tr:first-child th{color:var(--fz-accent)!important;}
 #centre #fz-sim table.fz-bilan-armee tr:last-child th{color:var(--fz-text)!important;}
+/* v1.72 : grands nombres abrégés (10.000M, 1.000G, 1.000T) : le nombre d'origine reste dans la page, masqué */
+.fz-abr > .fz-orig{display:none;}
+.fz-abr::after{content:attr(data-abr);}
+.fz-abr{cursor:help;white-space:nowrap;}

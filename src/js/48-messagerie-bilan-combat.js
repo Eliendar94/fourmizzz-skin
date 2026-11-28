@@ -29,7 +29,40 @@
   const rcUnite = (nom) => RC_STATS.find(([re]) => re.test(nom));
   const rcStats = (nom) => { const hit = rcUnite(nom); return hit ? hit[1] : null; };
   const rcNb = (s) => parseInt(String(s).replace(/[^\d]/g, ''), 10) || 0;
-  const rcFmt = (n) => Math.round(n).toLocaleString('fr-FR');
+  /* v1.72 : grands nombres abrégés à partir de 8 chiffres (demande de l'utilisateur) :
+     10 000 000 → 10.000M, 1 000 000 000 → 1.000G, 1 000 000 000 000 → 1.000T (arrondi à 3 décimales).
+     Les % sont toujours calculés sur les valeurs exactes. */
+  const rcAbr = (n) => { const a = Math.abs(n); return a >= 1e12 ? (n / 1e12).toFixed(3) + 'T' : a >= 1e9 ? (n / 1e9).toFixed(3) + 'G' : a >= 1e7 ? (n / 1e6).toFixed(3) + 'M' : null; };
+  const rcFmt = (n) => rcAbr(Math.round(n)) || Math.round(n).toLocaleString('fr-FR');
+  /* dans le texte du jeu : le nombre d'origine reste dans la page (masqué, lisible par les autres scripts et par le bilan),
+     l'abréviation est affichée par CSS (::after) et le nombre complet en infobulle */
+  const RC_GRAND = /\d{1,3}(?:[ \u00a0\u202f]\d{3}){2,}|\d{8,}/g;
+  function rcAbreger(root) {
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), nodes = [];
+    let n;
+    while ((n = w.nextNode())) if (!n.parentNode.closest('.fz-abr, .fz-bilan') && /\d[ \u00a0\u202f]?\d{3}[ \u00a0\u202f]?\d{3}/.test(n.textContent)) nodes.push(n);
+    nodes.forEach(node => {
+      const t = node.textContent; let last = 0, frag = null, m;
+      RC_GRAND.lastIndex = 0;
+      while ((m = RC_GRAND.exec(t))) {
+        const abr = rcAbr(rcNb(m[0]));
+        if (!abr) continue;
+        frag = frag || document.createDocumentFragment();
+        frag.appendChild(document.createTextNode(t.slice(last, m.index)));
+        const s = document.createElement('span');
+        s.className = 'fz-abr'; s.dataset.abr = abr; s.title = m[0];
+        s.appendChild(rcSpan('fz-orig', m[0]));
+        frag.appendChild(s); last = m.index + m[0].length;
+      }
+      if (!frag) return;
+      frag.appendChild(document.createTextNode(t.slice(last)));
+      node.replaceWith(frag);
+    });
+  }
+  function rcAbregerTout() {
+    document.querySelectorAll(':is(#messagerie,#fz-sim) div.contenuJoueur:is(.fz-rc,.fz-flood):not(.fz-abr-ok)').forEach(d => { d.classList.add('fz-abr-ok'); rcAbreger(d); });
+    document.querySelectorAll('#messagerie a.intitule_message:not(.fz-abr-ok)').forEach(a => { a.classList.add('fz-abr-ok'); rcAbreger(a); });
+  }
   const rcPct = (n) => n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '\u202f%';
   // texte d'un rapport ligne par ligne (une ligne par <br>), sans passer par le rendu
   const rcLignes = (d) => d.innerHTML.split(/<br\s*\/?>/i).map(h => h.replace(/<[^>]*>/g, '')
