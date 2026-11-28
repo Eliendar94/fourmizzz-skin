@@ -11,3 +11,17 @@
 #messagerie .fz-bilan-plus{color:#4ade80!important;text-shadow:0 0 calc(5px*var(--fz-glow)) color-mix(in srgb,#4ade80 55%,transparent);}
 #messagerie .fz-bilan-moins{color:#ff4d5e!important;text-shadow:0 0 calc(5px*var(--fz-glow)) color-mix(in srgb,#ff4d5e 55%,transparent);}
 #messagerie .fz-flood-cm2{font-weight:700;white-space:nowrap;}
+#messagerie table.fz-bilan-armee{width:100%;margin-top:8px;border-collapse:collapse;font-variant-numeric:tabular-nums;}
+#messagerie table.fz-bilan-armee th,#messagerie table.fz-bilan-armee td{padding:3px 6px;text-align:right;border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 12%,transparent);background:transparent!important;}
+#messagerie table.fz-bilan-armee th{font-weight:400;color:color-mix(in srgb,var(--fz-text) 70%,transparent)!important;border-left:0!important;border-right:0!important;}
+#messagerie table.fz-bilan-armee tr:first-child th{font-family:"Orbitron","Segoe UI",sans-serif;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--fz-accent)!important;}
+#messagerie table.fz-bilan-armee th:first-child{text-align:left;}
+#messagerie table.fz-bilan-armee tr:last-child th,#messagerie table.fz-bilan-armee tr:last-child td{border-bottom:0;font-weight:700;}
+#messagerie table.fz-bilan-armee tr:last-child th{color:var(--fz-text)!important;}
+#messagerie table.fz-bilan-armee tr:last-child{border-top:1px solid color-mix(in srgb,var(--fz-accent) 45%,transparent);}
+#messagerie table.fz-bilan-armee td{font-weight:700;}
+#messagerie table.fz-bilan-armee{table-layout:fixed;}
+#messagerie table.fz-bilan-armee th:first-child{width:34%;}
+@media screen and (max-width:41em){#messagerie table.fz-bilan-armee th,#messagerie table.fz-bilan-armee td{padding:3px 1px;font-size:11px;}#messagerie table.fz-bilan-armee tr:first-child th{font-size:9px;letter-spacing:0;}#messagerie table.fz-bilan-armee th:first-child{width:22%;}#messagerie table.fz-bilan-armee th small{display:none;}}
+#messagerie .fz-bilan-nul{color:var(--fz-text);}
+#messagerie .fz-bilan-note{margin-top:4px;font-size:.85em;opacity:.7;}

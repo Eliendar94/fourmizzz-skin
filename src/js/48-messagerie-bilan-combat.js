@@ -6,26 +6,31 @@
      Les bonus de recherche multiplient toutes les unités de la même façon : les caractéristiques de base suffisent
      pour le pourcentage. Lecture seule du texte des rapports (aucune requête). */
   // caractéristiques de base [Vie, Attaque, Défense], relevées sur la page Reine (S5, 28/11) ; la plus précise d'abord
+  /* v1.72 : la somme des Attaques de base de l'armée engagée retombe exactement sur le « Vous infligez N » du rapport
+     (combat du 28/11 : 2 349 890), ce qui valide ces valeurs. */
   const RC_STATS = [
-    [/jeunes? soldates? naines?/i, [8, 3, 2]],
-    [/naines? d.?[ée]lites?/i, [13, 7, 6]],
-    [/soldates? naines?/i, [10, 5, 4]],
-    [/soldates? d.?[ée]lites?/i, [27, 24, 23]],
-    [/jeunes? soldates?/i, [16, 10, 9]],
-    [/concierges? d.?[ée]lites?/i, null], // inconnues : hors du calcul d'XP
-    [/concierges?/i, [30, 1, 25]],
-    [/artilleuses? d.?[ée]lites?/i, [12, 35, 18]],
-    [/artilleuses?/i, [10, 30, 15]],
-    [/tanks? d.?[ée]lites?/i, null],
-    [/tanks?/i, [35, 55, 1]],
-    [/tueuses? d.?[ée]lites?/i, [55, 55, 55]],
-    [/tueuses?/i, [50, 50, 50]],
-    [/soldates?/i, [20, 15, 14]],
+    [/jeunes? soldates? naines?/i, [8, 3, 2], 'JSN'],
+    [/naines? d.?[ée]lites?/i, [13, 7, 6], 'NE'],
+    [/soldates? naines?/i, [10, 5, 4], 'SN'],
+    [/soldates? d.?[ée]lites?/i, [27, 24, 23], 'SE'],
+    [/jeunes? soldates?/i, [16, 10, 9], 'JS'],
+    [/concierges? d.?[ée]lites?/i, null, 'CE'], // inconnues : hors du calcul
+    [/concierges?/i, [30, 1, 25], 'C'],
+    [/artilleuses? d.?[ée]lites?/i, [12, 35, 18], 'AE'],
+    [/artilleuses?/i, [10, 30, 15], 'A'],
+    [/tanks? d.?[ée]lites?/i, null, 'TkE'],
+    [/tanks?/i, [35, 55, 1], 'Tk'],
+    [/tueuses? d.?[ée]lites?/i, [55, 55, 55], 'TE'],
+    [/tueuses?/i, [50, 50, 50], 'T'],
+    [/soldates?/i, [20, 15, 14], 'S'],
   ];
-  const rcStats = (nom) => { const hit = RC_STATS.find(([re]) => re.test(nom)); return hit ? hit[1] : null; };
+  // ordre dans lequel les unités meurent (d'après l'utilisateur) : JSN, SN, NE, JS, S, … jusqu'aux Tueuses d'élite
+  const RC_ORDRE = ['JSN', 'SN', 'NE', 'JS', 'S', 'C', 'CE', 'A', 'AE', 'SE', 'Tk', 'TkE', 'T', 'TE'];
+  const rcUnite = (nom) => RC_STATS.find(([re]) => re.test(nom));
+  const rcStats = (nom) => { const hit = rcUnite(nom); return hit ? hit[1] : null; };
   const rcNb = (s) => parseInt(String(s).replace(/[^\d]/g, ''), 10) || 0;
   const rcFmt = (n) => Math.round(n).toLocaleString('fr-FR');
-  const rcPct = (n) => n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
+  const rcPct = (n) => n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '\u202f%';
   // texte d'un rapport ligne par ligne (une ligne par <br>), sans passer par le rendu
   const rcLignes = (d) => d.innerHTML.split(/<br\s*\/?>/i).map(h => h.replace(/<[^>]*>/g, '')
     .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#0?39;|&rsquo;/g, '’')
@@ -55,11 +60,21 @@
   }
 
   function rcBilan(rs) {
-    const b = { etapes: rs.length, victoires: 0, defaites: 0, tues: 0, perdus: 0, engages: 0, ennemis: 0, cm2: 0, nourriture: 0, chasse: rs.some(r => r.chasse), base: [0, 0, 0], gain: [0, 0, 0], evolues: 0, inconnu: false };
+    const b = { etapes: rs.length, victoires: 0, defaites: 0, tues: 0, perdus: 0, engages: 0, ennemis: 0, cm2: 0, nourriture: 0, chasse: rs.some(r => r.chasse), base: [0, 0, 0], gain: [0, 0, 0], perte: [0, 0, 0], evolues: 0, inconnu: false };
     rs.forEach(r => {
       if (r.victoire) b.victoires++; else if (r.defaite) b.defaites++;
       b.tues += r.tues; b.ennemis += r.ennemis; b.perdus += r.perdus; b.cm2 += r.cm2; b.nourriture += r.nourriture;
       r.armee.forEach(([n, nom]) => { b.engages += n; const s = rcStats(nom); if (s) s.forEach((v, i) => { b.base[i] += n * v; }); else b.inconnu = true; });
+      /* v1.72 : les pertes retirent les unités dans l'ordre RC_ORDRE (les JSN d'abord) : caractéristiques perdues */
+      let reste = r.perdus;
+      r.armee.map(([n, nom]) => [n, nom, RC_ORDRE.indexOf((rcUnite(nom) || [])[2])])
+        .sort((x, y) => (x[2] < 0 ? 99 : x[2]) - (y[2] < 0 ? 99 : y[2]))
+        .forEach(([n, nom]) => {
+          const k = Math.min(n, reste); reste -= k;
+          if (!k) return;
+          const st = rcStats(nom);
+          if (st) st.forEach((v, i) => { b.perte[i] += k * v; }); else b.inconnu = true;
+        });
       r.evol.forEach(([n, de, vers]) => {
         b.evolues += n;
         const s1 = rcStats(de), s2 = rcStats(vers);
@@ -81,11 +96,21 @@
       if (b.nourriture) h += ligne('Nourriture (carcasses)', rcFmt(b.nourriture));
       if (b.cm2) h += ligne('Rendement', b.perdus ? rcFmt(b.cm2 / b.perdus) + ' cm² par unité perdue' : 'aucune perte');
     }
-    if (b.evolues) {
-      const xp = ['Vie', 'Attaque', 'Défense'].map((lib, i) => `<span class="fz-bilan-xp">${lib} <b class="fz-bilan-plus">+${rcPct(b.base[i] ? b.gain[i] / b.base[i] * 100 : 0)}</b></span>`).join('');
-      h += ligne('XP (' + rcFmt(b.evolues) + ' évolutions)', xp + (b.inconnu ? ' <small title="Concierges et Tanks d’élite : caractéristiques inconnues">≈</small>' : ''));
+    /* v1.72 : évolution de l'armée (base = armée engagée au départ) : pertes, XP des évolutions, bilan.
+       Bouclier (Vie), Arme (Attaque et Défense), Dôme et Loge multiplient toutes les unités du même facteur :
+       les pourcentages sont les mêmes avec ou sans les bonus. */
+    h += '</div>';
+    if (b.base[0] && (b.perdus || b.evolues)) {
+      const pc = (x, i) => b.base[i] ? x / b.base[i] * 100 : 0;
+      const cell = (v) => `<td class="fz-bilan-${v < 0 ? 'moins' : v > 0 ? 'plus' : 'nul'}">${v > 0 ? '+' : v < 0 ? '−' : ''}${rcPct(Math.abs(v))}</td>`;
+      const rang = (lib, f) => `<tr><th>${lib}</th>${[0, 1, 2].map(i => cell(f(i))).join('')}</tr>`;
+      h += `<table class="fz-bilan-armee"><tr><th></th><th>Vie</th><th>Attaque</th><th>Défense</th></tr>`
+        + rang('Pertes', i => -pc(b.perte[i], i))
+        + rang('XP' + (b.evolues ? ' <small>(' + rcFmt(b.evolues) + ' évolutions)</small>' : ''), i => pc(b.gain[i], i))
+        + rang('Bilan', i => pc(b.gain[i] - b.perte[i], i))
+        + `</table>` + (b.inconnu ? '<div class="fz-bilan-note">≈ Concierges et Tanks d’élite : caractéristiques inconnues, hors calcul.</div>' : '');
     }
-    return h + '</div>';
+    return h;
   }
 
   function bilanCombats() {
