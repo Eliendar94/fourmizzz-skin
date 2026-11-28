@@ -2103,20 +2103,32 @@ box.dataset.cle = cle;
 box.innerHTML = html;
 });
 }
+const FLOOD_GAIN = /conquis\s+[\d\s\u00a0\u202f]*\d\s*cm²\s+lors de leur derni[èe]re bataille/i;
+const FLOOD_PERTE = /vous a pris\s+[\d\s\u00a0\u202f]*\d\s*cm²/i;
+const floodSens = (d) => FLOOD_GAIN.test(d.textContent) ? 1 : FLOOD_PERTE.test(d.textContent) ? -1 : 0;
+function rcColorCm2(el, sens) {
+const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+let n;
+while ((n = w.nextNode())) {
+const m = n.textContent.match(/[\d\s\u00a0\u202f]*\d\s*cm²/);
+if (!m) continue;
+const i = m.index + (m[0].length - m[0].trimStart().length);
+const x = n.splitText(i); x.splitText(m[0].trimStart().length);
+x.replaceWith(rcSpan('fz-flood-cm2 fz-bilan-' + sens, m[0].trimStart()));
+return;
+}
+}
 function colorFloods() {
+document.querySelectorAll('#messagerie div.contenuJoueur:not(.fz-flood-b)').forEach(d => {
+d.classList.add('fz-flood-b');
+const sens = floodSens(d);
+if (sens) { d.classList.add('fz-flood'); rcColorCm2(d, sens > 0 ? 'plus' : 'moins'); }
+});
 document.querySelectorAll('#messagerie a.intitule_message:not(.fz-flood-ok)').forEach(a => {
 const sens = /^\s*butin\b/i.test(a.textContent) ? 'plus' : /^\s*vol\b/i.test(a.textContent) ? 'moins' : '';
 a.classList.add('fz-flood-ok');
 if (!sens) return;
-const w = document.createTreeWalker(a, NodeFilter.SHOW_TEXT);
-let n;
-while ((n = w.nextNode())) {
-const m = n.textContent.match(/[\d\s  ]*\d\s*cm²/);
-if (!m) continue;
-const x = n.splitText(m.index); x.splitText(m[0].length);
-x.replaceWith(rcSpan('fz-flood-cm2 fz-bilan-' + sens, m[0]));
-break;
-}
+rcColorCm2(a, sens);
 });
 }
 })();
