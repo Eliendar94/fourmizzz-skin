@@ -1,0 +1,40 @@
+/* v1.72 : encart « Bilan » sous les rapports de combat / chasse, cm² des floods */
+:is(#messagerie,#fz-sim) .fz-bilan{margin:10px 0 6px;padding:8px 12px 10px;background:linear-gradient(135deg,rgba(14,30,52,.85),rgba(8,14,28,.92));border:1px solid color-mix(in srgb,var(--fz-accent) 45%,transparent);border-left:3px solid var(--fz-accent);clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);box-shadow:inset 0 0 calc(18px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 8%,transparent);color:var(--fz-text);max-width:min(640px,100%);box-sizing:border-box;}
+:is(#messagerie,#fz-sim) .fz-bilan-titre{font-family:"Orbitron","Segoe UI",sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;color:var(--fz-accent);text-shadow:0 0 calc(6px*var(--fz-glow)) color-mix(in srgb,var(--fz-accent) 70%,transparent);margin-bottom:6px;}
+:is(#messagerie,#fz-sim) .fz-bilan-l{display:flex;flex-wrap:wrap;gap:2px 12px;justify-content:space-between;padding:3px 0;border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 12%,transparent);}
+:is(#messagerie,#fz-sim) .fz-bilan-l:last-child{border-bottom:0;}
+:is(#messagerie,#fz-sim) .fz-bilan-lib{color:color-mix(in srgb,var(--fz-text) 70%,transparent);}
+:is(#messagerie,#fz-sim) .fz-bilan-val{font-weight:700;font-variant-numeric:tabular-nums;text-align:right;}
+:is(#messagerie,#fz-sim) .fz-bilan-val small{font-weight:400;opacity:.75;}
+:is(#messagerie,#fz-sim) .fz-bilan-xp{display:inline-block;margin-left:12px;font-weight:400;white-space:nowrap;}
+:is(#messagerie,#fz-sim) .fz-bilan-xp:first-child{margin-left:0;}
+:is(#messagerie,#fz-sim) .fz-bilan-plus{color:#4ade80!important;text-shadow:0 0 calc(5px*var(--fz-glow)) color-mix(in srgb,#4ade80 55%,transparent);}
+:is(#messagerie,#fz-sim) .fz-bilan-moins{color:#ff4d5e!important;text-shadow:0 0 calc(5px*var(--fz-glow)) color-mix(in srgb,#ff4d5e 55%,transparent);}
+:is(#messagerie,#fz-sim) .fz-flood-cm2{font-weight:700;white-space:nowrap;}
+:is(#messagerie,#fz-sim) table.fz-bilan-armee{width:100%;margin-top:8px;border-collapse:collapse;font-variant-numeric:tabular-nums;}
+:is(#messagerie,#fz-sim) table.fz-bilan-armee th,:is(#messagerie,#fz-sim) table.fz-bilan-armee td{padding:3px 6px;text-align:right;border-bottom:1px solid color-mix(in srgb,var(--fz-accent) 12%,transparent);background:transparent!important;}
+:is(#messagerie,#fz-sim) table.fz-bilan-armee th{font-weight:400;color:color-mix(in srgb,var(--fz-text) 70%,transparent)!important;border-left:0!important;border-right:0!important;}
+:is(#messagerie,#fz-sim) table.fz-bilan-armee tr:first-child th{font-family:"Orbitron","Segoe UI",sans-serif;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--fz-accent)!important;}
+:is(#messagerie,#fz-sim) table.fz-bilan-armee th:first-child{text-align:left;}
+:is(#messagerie,#fz-sim) table.fz-bilan-armee tr:last-child th,:is(#messagerie,#fz-sim) table.fz-bilan-armee tr:last-child td{border-bottom:0;font-weight:700;}
+:is(#messagerie,#fz-sim) table.fz-bilan-armee tr:last-child th{color:var(--fz-text)!important;}
+:is(#messagerie,#fz-sim) table.fz-bilan-armee tr:last-child{border-top:1px solid color-mix(in srgb,var(--fz-accent) 45%,transparent);}
+:is(#messagerie,#fz-sim) table.fz-bilan-armee td{font-weight:700;}
+:is(#messagerie,#fz-sim) table.fz-bilan-armee{table-layout:fixed;}
+:is(#messagerie,#fz-sim) table.fz-bilan-armee th:first-child{width:34%;}
+@media screen and (max-width:41em){:is(#messagerie,#fz-sim) table.fz-bilan-armee th,:is(#messagerie,#fz-sim) table.fz-bilan-armee td{padding:3px 1px;font-size:11px;}:is(#messagerie,#fz-sim) table.fz-bilan-armee tr:first-child th{font-size:9px;letter-spacing:0;}:is(#messagerie,#fz-sim) table.fz-bilan-armee th:first-child{width:22%;}:is(#messagerie,#fz-sim) table.fz-bilan-armee th small{display:none;}}
+:is(#messagerie,#fz-sim) .fz-bilan-nul{color:var(--fz-text);}
+:is(#messagerie,#fz-sim) .fz-bilan-note{margin-top:4px;font-size:.85em;opacity:.7;}
+/* v1.72 : rapport du simulateur de combat (Compte +) */
+#fz-sim{margin:6px 0 10px;}
+#fz-sim > .contenuJoueur{text-align:left;}
+/* le simulateur impose sa couleur aux cellules de ses tableaux : on la reprend ici avec un sélecteur plus fort */
+#centre #fz-sim table.fz-bilan-armee td.fz-bilan-plus{color:#4ade80!important;}
+#centre #fz-sim table.fz-bilan-armee td.fz-bilan-moins{color:#ff4d5e!important;}
+#centre #fz-sim table.fz-bilan-armee th{color:color-mix(in srgb,var(--fz-text) 70%,transparent)!important;}
+#centre #fz-sim table.fz-bilan-armee tr:first-child th{color:var(--fz-accent)!important;}
+#centre #fz-sim table.fz-bilan-armee tr:last-child th{color:var(--fz-text)!important;}
+/* v1.72 : grands nombres abrégés (10.000M, 1.000G, 1.000T) : le nombre d'origine reste dans la page, masqué */
+.fz-abr > .fz-orig{display:none;}
+.fz-abr::after{content:attr(data-abr);}
+.fz-abr{cursor:help;white-space:nowrap;}

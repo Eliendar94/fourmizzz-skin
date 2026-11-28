@@ -35,7 +35,9 @@
     if (cfg.enabled) { wrapChat(); if (document.querySelector('.chatAlliance, #forum')) { lightenChat(); setInterval(lightenChat, 1500); } }
     // le tableau des membres est construit après le chargement par un script tiers : on le surveille
     if (cfg.enabled && /alliance/i.test(location.pathname)) { fixMembers(); setInterval(fixMembers, 1000); styleForum(); setInterval(styleForum, 1000); }
-    if (cfg.enabled && document.getElementById('messagerie')) { tagMessages(); setInterval(tagMessages, 1500); colorCombatReports(); new MutationObserver(colorCombatReports).observe(document.getElementById('messagerie'), { childList: true, subtree: true }); } /* v1.71 : rapports de combat colorés dès leur ouverture */ // la liste change sans recharger la page
+    if (cfg.enabled && document.getElementById('messagerie')) { tagMessages(); setInterval(tagMessages, 1500); colorCombatReports(); new MutationObserver(colorCombatReports).observe(document.getElementById('messagerie'), { childList: true, subtree: true }); }
+    // (v1.71 : rapports de combat colorés dès leur ouverture ; la liste change sans recharger la page)
+    if (cfg.enabled) simulateurCombat(); // v1.72 : rapport du simulateur de combat (Compte +)
     if (cfg.enabled && /fourmiliere\.php/i.test(location.pathname)) fourmiliereMegastructure(); // v1.68 : mégastructure spatiale
     new MutationObserver(fzCompat).observe(document.body, { childList: true });
     setInterval(fzCompat, 2000);
@@ -48,4 +50,4 @@
       Promise.race([document.fonts ? document.fonts.ready : null, new Promise((r) => setTimeout(r, 250))]).then(fin, fin);
     }
   };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', demarrer); else demarrer();
+  // v1.72 : le lancement est dans 99-lancement.js, après tous les fragments (voir ce fichier)
